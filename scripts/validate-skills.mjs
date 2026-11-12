@@ -13,7 +13,7 @@ const dirs = (await readdir(join(root, "skills"), { withFileTypes: true })).filt
 for (const d of dirs) {
   const file = join(root, "skills", d, "SKILL.md");
   let t;
-  try { t = await readFile(file, "utf8"); } catch { fail(d, "missing SKILL.md"); continue; }
+  try { t = (await readFile(file, "utf8")).replace(/\r\n/g, "\n"); } catch { fail(d, "missing SKILL.md"); continue; }
   const fm = t.match(/^---\n([\s\S]*?)\n---\n/);
   if (!fm) { fail(d, "missing frontmatter"); continue; }
   const name = (fm[1].match(/^name:\s*(.+)$/m) || [])[1]?.trim();
