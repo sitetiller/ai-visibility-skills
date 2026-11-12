@@ -1,0 +1,164 @@
+#!/usr/bin/env node
+// SiteTiller CLI: SEO and AI visibility checks. Read-only except `version snapshot` (writes ./.sitetiller/).
+import { readFile, writeFile } from "node:fs/promises";
+import { createReadStream } from "node:fs";
+import { createInterface } from "node:readline";
+import { robotsReport, parseRobots, decide, BOTS } from "../lib/robots.mjs";
+import { pageReport } from "../lib/page.mjs";
+import { sitemapReport } from "../lib/sitemap.mjs";
+import { llmsReport, buildLlms } from "../lib/llms.mjs";
+import { linkReport, pagesReport } from "../lib/links.mjs";
+import { gscRows, parseCsv, toCsv } from "../lib/csv.mjs";
+import { ctrCurve, lowCtr, brandSplit, cannibalization, decay } from "../lib/gsc-analysis.mjs";
+import { didTotals, didDaily } from "../lib/measure.mjs";
+import { analyzeLogs } from "../lib/logs.mjs";
+import { snapshot, list as listVersions, diff, drift, rollbackPlan } from "../lib/versions.mjs";
+import { gscQuery, gscInspect, bingQueries, bingPages, compareEngines, ga4AiSessions } from "../lib/engines.mjs";
+
+const VERSION = "0.1.0";
+const HELP = `sitetiller ${VERSION}: SEO and AI visibility checks
+
+Site checks (public pages only):
+  crawlers <url> [--agents A,B]      Which search/AI crawlers robots.txt allows, by purpose
+  robots-test <robots.txt> <path...> [--agents A,B]   Test a local robots.txt draft
+  page <url>                         What a crawler sees: status chain, title, meta, robots, canonical, schema
+  sitemap <url> [--sample 20]        Find and validate the sitemap, test a spread of listed URLs
+  llms <url>                         Validate /llms.txt against llmstxt.org and test its links
+  pages <url> [--pages 20]           Titles, descriptions, H1, schema, noindex across sitemap pages
+  links <url> [--pages 50]           Orphan and weakly linked pages (sitemap vs internal links)
+
+Search Console / Bing / GA4 (your credentials, read-only):
+  gsc <site> --start YYYY-MM-DD --end YYYY-MM-DD [--dims query,page] [--out file.csv]
+  inspect <site> <url>               URL Inspection API result
+  bing <siteUrl> [--pages] [--start --end]
+  engines <site> <bingSiteUrl> --start --end   Google vs Bing by query: only-in-one, position gaps
+  ga4-ai <propertyId> --start --end  Sessions from AI assistants by landing page
+
+Exports and logs (local files):
+  ctr <Queries.csv|Pages.csv>        Your own CTR curve and under-clicked rows
+  brand <Queries.csv> --terms a,b    Branded vs non-branded split + Search Console regex
+  cannibal <query-page.csv>          Queries split across several of your URLs
+  decay <before.csv> <after.csv>     Pages losing clicks, with likely reason
+  logs <access.log...> [--no-verify] AI and search bot hits, verified against published IP ranges
+  measure --changed-before N --changed-after N [--control-before N --control-after N]
+  measure --daily file.csv           (columns: group,period,clicks with group=changed|control, period=before|after)
+
+Versions of pages you own (stored in ./.sitetiller/):
+  version snapshot <url> [--label x] | list <url> | diff <url> [a b] | drift <url> | rollback <url> [--to n]
+
+Other:
+  llms-build --name X --summary Y --pages pages.csv   (columns: section,url,title,note)
+
+Add --json to any command for machine-readable output. Docs: https://github.com/sitetiller/seo-skills`;
+
+function args(argv) {
+  const pos = []; const opt = {};
+  for (let i = 0; i < argv.length; i++) {
+    const a = argv[i];
+    if (a.startsWith("--")) { const k = a.slice(2); const n = argv[i + 1]; if (n === undefined || n.startsWith("--")) opt[k] = true; else { opt[k] = n; i++; } }
+    else pos.push(a);
+  }
+  return { pos, opt };
+}
+const list = (v) => (typeof v === "string" ? v.split(",").map((s) => s.trim()).filter(Boolean) : undefined);
+const pct = (x, d = 1) => (x == null ? "-" : `${(x * 100).toFixed(d)}%`);
+const n0 = (x) => (x == null ? "-" : Math.round(x).toLocaleString("en-US"));
+function table(head, rows) {
+  const w = head.map((h, i) => Math.max(String(h).length, ...rows.map((r) => String(r[i] ?? "").length)));
+  const line = (r) => "| " + r.map((c, i) => String(c ?? "").padEnd(w[i])).join(" | ") + " |";
+  return [line(head), "|" + w.map((x) => "-".repeat(x + 2)).join("|") + "|", ...rows.map(line)].join("\n");
+}
+async function readLines(files) {
+  const out = [];
+  for (const f of files) { const rl = createInterface({ input: createReadStream(f), crlfDelay: Infinity }); for await (const l of rl) out.push(l); }
+  return out;
+}
+
+const PRINT = {
+  crawlers: (r) => [`robots.txt: ${r.url} (HTTP ${r.status})  path: ${r.path}`, "",
+    table(["Crawler", "Owner", "Purpose", "Result", "Rule"], r.bots.map((b) => [b.agent, b.owner, b.purpose, b.allowed ? "allowed" : "BLOCKED", b.rule ? `${b.rule} (line ${b.line}, group ${b.group})` : "no matching rule"])),
+    ...(r.notes.length ? ["", ...r.notes] : []), "", "Note: firewall/CDN bot rules are not visible here; check them separately."].join("\n"),
+  page: (r) => [`${r.requested} -> ${r.finalUrl} (HTTP ${r.status})`, r.chain.length > 1 ? "Redirects: " + r.chain.map((c) => `${c.status} ${c.url}`).join(" -> ") : "",
+    table(["Field", "Value"], [["Title", `${r.title} (${(r.title || "").length})`], ["Description", `${r.description} (${(r.description || "").length})`], ["H1", (r.h1 || []).join(" | ")], ["Canonical", r.canonical], ["Robots meta", (r.robotsMeta || []).join(", ") || "-"], ["X-Robots-Tag", r.xRobots || "-"], ["Noindex", r.noindex ? "YES" : "no"], ["robots.txt (Googlebot)", r.robotsTxtGooglebot ? (r.robotsTxtGooglebot.allowed ? "allowed" : `BLOCKED by ${r.robotsTxtGooglebot.rule}`) : "-"], ["Schema types", (r.schemaTypes || []).join(", ") || "-"], ["Words / tables / question headings", `${r.words} / ${r.tables} / ${r.questionHeadings}`]])].filter(Boolean).join("\n"),
+  sitemap: (r) => r.found ? [`Sitemap: ${r.sitemapUrl} (${r.kind}, ${n0(r.urlCount)} URLs, in robots.txt: ${r.inRobots ? "yes" : "no"})`, "", ...(r.issues.length ? ["Issues:", ...r.issues.map((i) => "- " + i), ""] : ["No issues found.", ""]),
+    table(["Sample URL", "Status", "Noindex", "Redirects to"], r.sample.map((s) => [s.url, s.status, s.noindex ? "YES" : "", s.redirectedTo]))].join("\n") : ["No sitemap found. Tried:", ...r.tried.map((t) => `- ${t.url} (${t.status}, ${t.kind})`)].join("\n"),
+  llms: (r) => r.found ? [`${r.url} (${r.contentType}, ${r.bytes} bytes)`, "", table(["Check", "Result"], r.checks.map((c) => [c.label, c.ok ? "pass" : "FIX"])), "", table(["Link", "Status"], r.links.map((l) => [l.url, l.status || "no answer"]))].join("\n") : `${r.url}: ${r.note}`,
+  logs: (r) => [`${r.parsed} of ${r.lines} lines parsed.`, "", table(["Bot", "Owner", "Purpose", "Hits", "Verified", "Spoofed", "Unverifiable", "IPs", "Top path"], r.bots.map((b) => [b.name, b.owner, b.purpose, b.hits, b.verified, b.spoofed, b.unverifiable, b.ips, b.paths[0]?.path || ""])),
+    "", "Visits referred by AI assistants:", r.aiReferrals.length ? table(["Source", "Visits", "Top landing page"], r.aiReferrals.map((x) => [x.source, x.visits, x.paths[0]?.path || ""])) : "(none)",
+    "", "Unverifiable = the owner publishes no IP list (Anthropic, Apple, Amazon, Meta and others); the user agent alone can be faked."].join("\n"),
+};
+
+async function main() {
+  const { pos, opt } = args(process.argv.slice(2));
+  const cmd = pos.shift();
+  if (!cmd || cmd === "help" || opt.help) { console.log(HELP); return; }
+  if (cmd === "--version" || opt.version) { console.log(VERSION); return; }
+  let out;
+  switch (cmd) {
+    case "crawlers": out = await robotsReport(pos[0], { agents: list(opt.agents) }); break;
+    case "robots-test": {
+      const txt = await readFile(pos[0], "utf8"); const g = parseRobots(txt).groups;
+      const agents = list(opt.agents) || BOTS.map((b) => b.agent);
+      out = { tests: pos.slice(1).flatMap((p) => agents.map((a) => ({ path: p.replace(/^https?:\/\/[^/]+/i, "") || "/", agent: a, ...decide(g, a, p.replace(/^https?:\/\/[^/]+/i, "") || "/") }))) };
+      if (!opt.json) { console.log(table(["Path", "Agent", "Result", "Rule"], out.tests.map((t) => [t.path, t.agent, t.allowed ? "allowed" : "BLOCKED", t.rule ? `${t.rule} (line ${t.line})` : "no matching rule"]))); return; }
+      break;
+    }
+    case "page": out = await pageReport(pos[0]); if (opt.json) delete out.text; break;
+    case "sitemap": out = await sitemapReport(pos[0], { sample: Number(opt.sample) || 20 }); break;
+    case "llms": out = await llmsReport(pos[0]); break;
+    case "pages": out = await pagesReport(pos[0], { pages: Number(opt.pages) || 20 }); break;
+    case "links": out = await linkReport(pos[0], { pages: Number(opt.pages) || 50 }); break;
+    case "gsc": {
+      out = await gscQuery(pos[0], { start: opt.start, end: opt.end, dimensions: list(opt.dims) || ["query"], keyFile: opt.key });
+      if (opt.out) { await writeFile(opt.out, toCsv(out)); console.error(`Wrote ${out.length} rows to ${opt.out}`); return; }
+      break;
+    }
+    case "inspect": out = await gscInspect(pos[0], pos[1], { keyFile: opt.key }); break;
+    case "bing": out = opt.pages ? await bingPages(pos[0], { start: opt.start, end: opt.end }) : await bingQueries(pos[0], { start: opt.start, end: opt.end }); break;
+    case "engines": {
+      const g = await gscQuery(pos[0], { start: opt.start, end: opt.end, dimensions: ["query"], keyFile: opt.key });
+      const b = await bingQueries(pos[1], { start: opt.start, end: opt.end });
+      out = compareEngines(g, b); if (!opt.json) { const t = out.totals; console.log(`Google: ${n0(t.googleClicks)} clicks / ${n0(t.googleImpressions)} impressions. Bing: ${n0(t.bingClicks)} / ${n0(t.bingImpressions)}.\n\nOnly in Bing (top 15):\n` + table(["Query", "Bing impr.", "Bing pos."], out.onlyBing.slice(0, 15).map((r) => [r.key, r.bingImpressions, r.bingPosition?.toFixed(1)])) + "\n\nOnly in Google (top 15):\n" + table(["Query", "Google impr.", "Google pos."], out.onlyGoogle.slice(0, 15).map((r) => [r.key, r.googleImpressions, r.googlePosition?.toFixed(1)]))); return; }
+      break;
+    }
+    case "ga4-ai": out = await ga4AiSessions(pos[0], { start: opt.start, end: opt.end, keyFile: opt.key }); break;
+    case "ctr": {
+      const rows = gscRows(await readFile(pos[0], "utf8")); const curve = ctrCurve(rows);
+      out = { curve, lowCtr: lowCtr(rows, { curve, minImp: Number(opt["min-imp"]) || 100 }).slice(0, 50) };
+      if (!opt.json) { console.log("Your CTR by position (median):\n" + table(["Position", "CTR", "Rows"], Object.entries(curve).map(([p, c]) => [p, pct(c.ctr, 2), c.rows])) + "\n\nUnder-clicked:\n" + table(["Row", "Pos", "Impr.", "CTR", "Your median", "Missed clicks"], out.lowCtr.slice(0, 25).map((r) => [r.key, r.position?.toFixed(1), n0(r.impressions), pct(r.ctr, 2), pct(r.expectedCtr, 2), "+" + n0(r.missedClicks)]))); return; }
+      break;
+    }
+    case "brand": out = brandSplit(gscRows(await readFile(pos[0], "utf8")), list(opt.terms) || []); break;
+    case "cannibal": out = cannibalization(gscRows(await readFile(pos[0], "utf8")), { minImp: Number(opt["min-imp"]) || 50 }); break;
+    case "decay": out = decay(gscRows(await readFile(pos[0], "utf8")), gscRows(await readFile(pos[1], "utf8")), { minClicks: Number(opt["min-clicks"]) || 20, drop: (Number(opt.drop) || 30) / 100 }); break;
+    case "logs": out = await analyzeLogs(await readLines(pos), { verify: !opt["no-verify"] }); break;
+    case "measure": {
+      if (opt.daily) {
+        const rows = parseCsv(await readFile(opt.daily, "utf8")); const hd = rows[0].map((h) => h.toLowerCase());
+        const g = {}; for (const r of rows.slice(1)) { const k = `${r[hd.indexOf("group")]}-${r[hd.indexOf("period")]}`; (g[k] = g[k] || []).push(Number(r[hd.indexOf("clicks")])); }
+        out = didDaily({ changedBefore: g["changed-before"], changedAfter: g["changed-after"], controlBefore: g["control-before"], controlAfter: g["control-after"] });
+      } else out = didTotals({ changedBefore: Number(opt["changed-before"]), changedAfter: Number(opt["changed-after"]), controlBefore: Number(opt["control-before"]), controlAfter: Number(opt["control-after"]) });
+      break;
+    }
+    case "version": {
+      const sub = pos.shift(); const url = pos[0];
+      if (sub === "snapshot") out = await snapshot(url, { label: opt.label || "" });
+      else if (sub === "list") out = (await listVersions(url)).map((v) => ({ n: v.n, at: v.at, label: v.label, title: v.fingerprint.title, words: v.fingerprint.words }));
+      else if (sub === "diff") { const v = await listVersions(url); const a = v.find((x) => x.n === Number(pos[1])) || v[v.length - 2]; const b = v.find((x) => x.n === Number(pos[2])) || v[v.length - 1]; out = a && b ? { from: a.n, to: b.n, changes: diff(a.fingerprint, b.fingerprint) } : { note: "Need two versions." }; }
+      else if (sub === "drift") out = await drift(url);
+      else if (sub === "rollback") { out = await rollbackPlan(url, { to: opt.to }); if (opt.json) delete out.text; }
+      else throw new Error("version needs: snapshot | list | diff | drift | rollback");
+      break;
+    }
+    case "llms-build": {
+      const rows = parseCsv(await readFile(opt.pages, "utf8")); const hd = rows[0].map((h) => h.toLowerCase().trim());
+      const pages = rows.slice(1).map((r) => Object.fromEntries(hd.map((h, i) => [h, r[i]])));
+      process.stdout.write(buildLlms({ name: opt.name, summary: opt.summary || "", pages })); return;
+    }
+    default: console.error(`Unknown command: ${cmd}\n`); console.log(HELP); process.exitCode = 2; return;
+  }
+  if (!opt.json && PRINT[cmd]) console.log(PRINT[cmd](out));
+  else console.log(JSON.stringify(out, null, 2));
+}
+
+main().catch((e) => { console.error(`Error: ${e.message}`); process.exitCode = 1; });

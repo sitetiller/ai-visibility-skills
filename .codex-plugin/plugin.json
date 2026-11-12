@@ -1,0 +1,10 @@
+{
+  "name": "sitetiller-seo",
+  "description": "SEO and AI visibility skills with real data: Search Console + Bing together, AI crawler and log checks, citability, version-by-version measurement and rollback.",
+  "version": "0.1.0",
+  "author": { "name": "SiteTiller", "url": "https://sitetiller.com" },
+  "homepage": "https://github.com/sitetiller/seo-skills",
+  "repository": "https://github.com/sitetiller/seo-skills",
+  "license": "MIT",
+  "skills": "./skills/"
+}

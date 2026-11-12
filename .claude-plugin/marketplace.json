@@ -1,0 +1,12 @@
+{
+  "name": "sitetiller",
+  "owner": { "name": "SiteTiller", "url": "https://sitetiller.com" },
+  "metadata": {
+    "description": "SEO and AI visibility skills with real data connectors and tests",
+    "version": "0.1.0",
+    "repository": "https://github.com/sitetiller/seo-skills"
+  },
+  "plugins": [
+    { "name": "sitetiller-seo", "description": "SEO and AI visibility skills: Search Console + Bing, AI crawlers and logs, citability, measurement and rollback.", "source": "./" }
+  ]
+}
