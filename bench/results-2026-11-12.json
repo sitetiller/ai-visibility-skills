@@ -7,15 +7,15 @@
       "stars": null,
       "license": "MIT",
       "pushed": "2026-11-12",
-      "skills": 27,
+      "skills": 35,
       "testFiles": 5,
       "testCases": 108,
-      "scripts": 25,
+      "scripts": 27,
       "truncated": false
     },
     {
       "repo": "coreyhaines31/marketingskills",
-      "stars": 59949,
+      "stars": 59950,
       "license": "MIT",
       "pushed": "2026-11-11",
       "skills": 53,
@@ -25,7 +25,7 @@
     },
     {
       "repo": "AgriciDaniel/claude-seo",
-      "stars": 28612,
+      "stars": 28615,
       "license": "MIT",
       "pushed": "2026-11-11",
       "skills": 35,
@@ -45,7 +45,7 @@
     },
     {
       "repo": "Ryze-AI-Adgent/open-seo-mcp-skills",
-      "stars": 9418,
+      "stars": 9419,
       "license": "MIT",
       "pushed": "2026-10-27",
       "skills": 8,
