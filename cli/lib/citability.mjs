@@ -3,7 +3,9 @@
 // Signals follow published guidance: Microsoft's AI Performance post asks for clear headings, tables, FAQ sections,
 // claims supported with examples, data and sources; Google's helpful-content guidance asks for original information.
 
-const sentences = (t) => (t.match(/[^.!?]+[.!?]+/g) || [t]).map((s) => s.trim()).filter(Boolean);
+// A sentence ends at . ! or ? followed by whitespace and a capital letter, digit or quote, or at the end of text.
+// Dots inside tokens (llms.txt, e.g., 3.5, example.com) do not end a sentence.
+const sentences = (t) => String(t).split(/(?<=[.!?])\s+(?=["'(\[]?[A-Z0-9])/).map((s) => s.trim()).filter(Boolean);
 
 /** html -> [{heading, level, words, firstSentence, firstSentenceWords, numbers, hasList, hasTable, links, question}] */
 export function sections(html) {

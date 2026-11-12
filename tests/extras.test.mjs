@@ -63,3 +63,7 @@ const CH = `<body><nav>menu</nav><h1>Invoice software</h1><p>Intro text that is 
 test("cite: sections split by headings, nav removed", () => { const s = sections(CH); assert.deepEqual(s.map((x) => x.heading), ["Invoice software", "How much does it cost?", "Why it matters"]); });
 test("cite: question heading, numbers, table detected", () => { const s = sections(CH)[1]; assert.equal(s.question, true); assert.ok(s.numbers >= 3); assert.equal(s.hasTable, true); assert.equal(s.firstSentenceWords, 6); });
 test("cite: summary shares", () => { const c = citability(CH).summary; assert.equal(c.sectionCount, 3); assert.equal(c.questionHeadings, 1); assert.ok(c.specificShare > 0.3 && c.specificShare < 0.4); });
+test("cite: dots inside tokens do not split sentences", () => {
+  const s = sections("<body><h2>Setup</h2><p>Put llms.txt at the root, e.g. example.com/llms.txt and version 3.5 works. Then test it.</p></body>")[0];
+  assert.equal(s.firstSentence, "Put llms.txt at the root, e.g. example.com/llms.txt and version 3.5 works.");
+});

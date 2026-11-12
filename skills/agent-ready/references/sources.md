@@ -1,0 +1,22 @@
+# Sources (checked 2026-11-12)
+
+| Claim | Source | Strength |
+|---|---|---|
+| Googlebot renders JavaScript in a headless Chromium after crawling, pages go to a render queue ("a few seconds, but it can take longer"); server-side or pre-rendering recommended because "not all bots can run JavaScript"; links are discovered only as `<a>` elements with an `href`; other bots may not execute JavaScript | https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics | Primary (Google) |
+| Pages must be indexed and snippet-eligible to be supporting links in AI Overviews and AI Mode; recommended steps include allowing crawling in robots.txt and by any CDN or host, internal links, good page experience, important content in text form, structured data consistent with visible text; no special markup or AI text files needed | https://developers.google.com/search/docs/appearance/ai-features | Primary (Google) |
+| Structured data "isn't required for generative AI search, and there's no special schema.org markup you need to add"; llms.txt ignored by Google Search | https://developers.google.com/search/docs/fundamentals/ai-optimization-guide | Primary (Google) |
+| Cloudflare controls from 2026-09-15: Search ("to build a search index"), Training ("to train or fine-tune a model"), Agent ("user-directed agents visiting a page on behalf of a human", examples chat fetch bots and browser-use agents); options Allow, Block on pages with ads, Block (Training also Disallow AI Training; Agent has no Disallow option because no established directive exists); defaults for migrated and new domains as described in the skill; set per domain under Security settings | https://blog.cloudflare.com/accountable-mixed-use-ai-crawlers/ | Primary (Cloudflare) |
+| ChatGPT-User robots.txt may not apply; Perplexity-User generally ignores robots.txt; Anthropic Claude-User fetches for user queries | See `skills/ai-crawlers/references/sources.md` (OpenAI, Perplexity, Anthropic pages) | Primary (vendors) |
+| Measured: major AI crawlers (OpenAI's OAI-SearchBot, ChatGPT-User, GPTBot; Anthropic ClaudeBot; Perplexity; Meta-ExternalAgent; Bytespider) did not render JavaScript, while Gemini used Googlebot infrastructure and rendered, and Applebot rendered. Method: server logs from nextjs.org and the Vercel network, analysed with MERJ, with two job-board sites used for validation; volumes for "the past month" (for example GPTBot 569M fetches); no exact dates given. Limits stated by the authors: data from one network, Microsoft Copilot not measured, conclusions inferred from behaviour rather than vendor documentation, and non-rendering crawlers can still read content present in the initial HTML. Published 2024-12-17 | https://vercel.com/blog/the-rise-of-the-ai-crawler | Measured with method, dated, one vantage point. Not a current vendor statement |
+| WebMCP: draft specification of the Web Machine Learning Community Group, a Draft Community Group Report dated 2026-11-12, "not a W3C Standard nor is it on the W3C Standards Track"; editors affiliated with Microsoft and Google; describes a JavaScript API on `document.modelContext` for registering tools agents can invoke. Only the first 100,000 of 160,007 characters were read | https://webmachinelearning.github.io/webmcp/ | Primary for status and API shape at the date read. Emerging |
+| IndexNow notifies participating search engines of additions, updates and removals | https://blogs.bing.com/webmaster/February-2026/Introducing-AI-Performance-in-Bing-Webmaster-Tools-Public-Preview | Primary (Microsoft) |
+| `page` and `crawlers` fields and the fact the CLI fetches raw HTML without running JavaScript | `cli/lib/page.mjs`, `cli/lib/http.mjs`, real runs on 2026-11-12 | Tool source |
+
+## Not verified, so not stated as fact
+- Chrome shipping WebMCP in an early preview or flag: only secondary articles say so; Chrome's Lighthouse WebMCP page returned 404 and the Lighthouse llms.txt page does not mention WebMCP.
+- `navigator.modelContext` versus `document.modelContext`: sources disagree; the skill reports both and says the surface is changing.
+- Whether any crawler documented by OpenAI, Anthropic or Perplexity renders JavaScript today: no vendor page found that says either way.
+- Lighthouse "agentic browsing" audits beyond llms.txt: described only by third-party posts; not relied on.
+- A vendor-documented list of which agents obey which CDN control.
+
+Re-check the Cloudflare and Google pages before changing the skill; settings and wording change.
