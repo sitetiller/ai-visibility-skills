@@ -17,6 +17,7 @@ import { gscQuery, gscInspect, bingQueries, bingPages, compareEngines, ga4AiSess
 import { indexNow, cwv, strikingDistance, pseoGate } from "../lib/extras.mjs";
 import { lintSchema } from "../lib/schema-lint.mjs";
 import { citability } from "../lib/citability.mjs";
+import { track } from "../lib/tracker.mjs";
 import { get } from "../lib/http.mjs";
 import { readdir } from "node:fs/promises";
 import { join, extname } from "node:path";
@@ -45,6 +46,10 @@ Search Console / Bing / GA4 (your credentials, read-only):
   cwv <url> [--origin] [--form PHONE|DESKTOP]   Core Web Vitals p75 from CrUX (CRUX_API_KEY)
   indexnow <url...> [--file urls.txt]   Submit changed URLs to IndexNow (INDEXNOW_KEY, key file on site)
   gate <folder>                      pSEO quality gate on .html/.md drafts: thin, duplicates, sources, AI tells
+
+AI answers (your own API keys; each call is billed by the provider):
+  track --prompts prompts.txt --brand "Acme,acme.com" --domain acme.com [--competitors "X,Y"] [--engines openai,anthropic,perplexity] [--runs 1] [--yes]
+                                     Ask assistants with web search; log mentions, citations, cited domains (.sitetiller/track/)
 
 Exports and logs (local files):
   ctr <Queries.csv|Pages.csv>        Your own CTR curve and under-clicked rows
@@ -151,6 +156,15 @@ async function main() {
       }
       out = pseoGate(pages, { minWords: Number(opt["min-words"]) || 600 });
       if (!opt.json) { console.log(out.passed ? `Gate passed for ${out.pages} page(s).` : table(["Page", "Rule", "Detail"], out.errors.map((e) => [e.id, e.rule, e.detail]))); if (!out.passed) process.exitCode = 1; return; }
+      break;
+    }
+    case "track": {
+      const prompts = (await readFile(opt.prompts, "utf8")).split(/\r?\n/).map((x) => x.trim()).filter((x) => x && !x.startsWith("#"));
+      const engines = list(opt.engines) || ["openai", "anthropic", "perplexity"];
+      const runs = Number(opt.runs) || 1;
+      const calls = prompts.length * engines.length * runs;
+      if (!opt.yes) { console.log(`This will make up to ${calls} API calls (${prompts.length} prompts x ${engines.length} engines x ${runs} runs), billed to your API accounts. Re-run with --yes to proceed.`); return; }
+      out = await track(prompts, { engines, runs, brand: list(opt.brand) || [], domain: opt.domain || "", competitors: list(opt.competitors) || [] });
       break;
     }
     case "ga4-ai": out = await ga4AiSessions(pos[0], { start: opt.start, end: opt.end, keyFile: opt.key }); break;
