@@ -18,6 +18,7 @@ import { indexNow, cwv, strikingDistance, pseoGate } from "../lib/extras.mjs";
 import { lintSchema } from "../lib/schema-lint.mjs";
 import { citability } from "../lib/citability.mjs";
 import { track } from "../lib/tracker.mjs";
+import { wpCreate, wpUpdate, wpUnpublish, readLedger } from "../lib/wordpress.mjs";
 import { get } from "../lib/http.mjs";
 import { readdir } from "node:fs/promises";
 import { join, extname } from "node:path";
@@ -165,6 +166,16 @@ async function main() {
       const calls = prompts.length * engines.length * runs;
       if (!opt.yes) { console.log(`This will make up to ${calls} API calls (${prompts.length} prompts x ${engines.length} engines x ${runs} runs), billed to your API accounts. Re-run with --yes to proceed.`); return; }
       out = await track(prompts, { engines, runs, brand: list(opt.brand) || [], domain: opt.domain || "", competitors: list(opt.competitors) || [] });
+      break;
+    }
+    case "wp": {
+      const sub = pos.shift(); const site = pos[0]; const type = opt.type || "posts";
+      const content = opt["content-file"] ? await readFile(opt["content-file"], "utf8") : undefined;
+      if (sub === "create") out = await wpCreate(site, { type, title: opt.title, content, excerpt: opt.excerpt, slug: opt.slug, status: opt.status || "draft" });
+      else if (sub === "update") out = await wpUpdate(site, { type, id: opt.id, title: opt.title, content, excerpt: opt.excerpt, slug: opt.slug, status: opt.status });
+      else if (sub === "unpublish") out = await wpUnpublish(site, { type, id: opt.id });
+      else if (sub === "owned") out = await readLedger();
+      else throw new Error("wp needs: create | update | unpublish | owned");
       break;
     }
     case "ga4-ai": out = await ga4AiSessions(pos[0], { start: opt.start, end: opt.end, keyFile: opt.key }); break;
