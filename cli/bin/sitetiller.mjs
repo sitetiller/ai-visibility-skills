@@ -16,6 +16,7 @@ import { snapshot, list as listVersions, diff, drift, rollbackPlan } from "../li
 import { gscQuery, gscInspect, bingQueries, bingPages, compareEngines, ga4AiSessions } from "../lib/engines.mjs";
 import { indexNow, cwv, strikingDistance, pseoGate } from "../lib/extras.mjs";
 import { lintSchema } from "../lib/schema-lint.mjs";
+import { citability } from "../lib/citability.mjs";
 import { get } from "../lib/http.mjs";
 import { readdir } from "node:fs/promises";
 import { join, extname } from "node:path";
@@ -39,6 +40,7 @@ Search Console / Bing / GA4 (your credentials, read-only):
   engines <site> <bingSiteUrl> --start --end   Google vs Bing by query: only-in-one, position gaps
   ga4-ai <propertyId> --start --end  Sessions from AI assistants by landing page
 
+  cite <url>                         Section-by-section quotability signals (answer first, numbers, tables, sources)
   schema <url>                       JSON-LD lint: Google-required properties, removed features, duplicates
   cwv <url> [--origin] [--form PHONE|DESKTOP]   Core Web Vitals p75 from CrUX (CRUX_API_KEY)
   indexnow <url...> [--file urls.txt]   Submit changed URLs to IndexNow (INDEXNOW_KEY, key file on site)
@@ -132,6 +134,7 @@ async function main() {
       out = compareEngines(g, b); if (!opt.json) { const t = out.totals; console.log(`Google: ${n0(t.googleClicks)} clicks / ${n0(t.googleImpressions)} impressions. Bing: ${n0(t.bingClicks)} / ${n0(t.bingImpressions)}.\n\nOnly in Bing (top 15):\n` + table(["Query", "Bing impr.", "Bing pos."], out.onlyBing.slice(0, 15).map((r) => [r.key, r.bingImpressions, r.bingPosition?.toFixed(1)])) + "\n\nOnly in Google (top 15):\n" + table(["Query", "Google impr.", "Google pos."], out.onlyGoogle.slice(0, 15).map((r) => [r.key, r.googleImpressions, r.googlePosition?.toFixed(1)]))); return; }
       break;
     }
+    case "cite": { const r = await get(pos[0].startsWith("http") ? pos[0] : "https://" + pos[0], { ms: 10000, maxBytes: 3_000_000 }); out = { url: r.url, status: r.status, ...citability(r.text) }; break; }
     case "schema": { const r = await get(pos[0].startsWith("http") ? pos[0] : "https://" + pos[0], { ms: 10000, maxBytes: 3_000_000 }); out = { url: r.url, status: r.status, ...lintSchema(r.text) }; break; }
     case "cwv": out = await cwv(pos[0], { origin: !!opt.origin, formFactor: (opt.form || "PHONE").toUpperCase() }); break;
     case "indexnow": { const urls = opt.file ? (await readFile(opt.file, "utf8")).split(/\r?\n/).map((x) => x.trim()).filter(Boolean) : pos; out = await indexNow(urls); break; }

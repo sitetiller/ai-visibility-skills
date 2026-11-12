@@ -54,3 +54,12 @@ test("schema: duplicate Organization blocks warned", () => assert.ok(lintSchema(
 test("schema: invalid JSON reported", () => assert.ok(lintSchema('<script type="application/ld+json">{bad</script>').findings.some((f) => f.level === "error" && /Invalid/.test(f.message))));
 test("schema: Event requires location", () => assert.ok(lintSchema(ld({ "@type": "Event", name: "E", startDate: "2026-12-01" })).findings.some((f) => /location/.test(f.message))));
 test("schema: LocalBusiness subtype requires address", () => assert.ok(lintSchema(ld({ "@type": "Dentist", name: "D" })).findings.some((f) => /address/.test(f.message))));
+
+// ---------- citability ----------
+import { sections, citability } from "../cli/lib/citability.mjs";
+const CH = `<body><nav>menu</nav><h1>Invoice software</h1><p>Intro text that is long enough to count as a section with twenty five words in it for the threshold used by the citability summary function here ok.</p>
+<h2>How much does it cost?</h2><p>Plans start at $12 per month. The free plan covers 2 users and unlimited invoices, which suits most freelancers who send fewer than 40 invoices a month.</p><table><tr><td>Solo</td></tr></table>
+<h2>Why it matters</h2><p>In today's world, many businesses find that managing finances can be challenging and time consuming, and there are lots of different things to consider when choosing tools for the job ahead of them.</p></body>`;
+test("cite: sections split by headings, nav removed", () => { const s = sections(CH); assert.deepEqual(s.map((x) => x.heading), ["Invoice software", "How much does it cost?", "Why it matters"]); });
+test("cite: question heading, numbers, table detected", () => { const s = sections(CH)[1]; assert.equal(s.question, true); assert.ok(s.numbers >= 3); assert.equal(s.hasTable, true); assert.equal(s.firstSentenceWords, 6); });
+test("cite: summary shares", () => { const c = citability(CH).summary; assert.equal(c.sectionCount, 3); assert.equal(c.questionHeadings, 1); assert.ok(c.specificShare > 0.3 && c.specificShare < 0.4); });
