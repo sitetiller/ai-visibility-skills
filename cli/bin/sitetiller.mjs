@@ -14,6 +14,11 @@ import { didTotals, didDaily } from "../lib/measure.mjs";
 import { analyzeLogs } from "../lib/logs.mjs";
 import { snapshot, list as listVersions, diff, drift, rollbackPlan } from "../lib/versions.mjs";
 import { gscQuery, gscInspect, bingQueries, bingPages, compareEngines, ga4AiSessions } from "../lib/engines.mjs";
+import { indexNow, cwv, strikingDistance, pseoGate } from "../lib/extras.mjs";
+import { lintSchema } from "../lib/schema-lint.mjs";
+import { get } from "../lib/http.mjs";
+import { readdir } from "node:fs/promises";
+import { join, extname } from "node:path";
 
 const VERSION = "0.1.0";
 const HELP = `sitetiller ${VERSION}: SEO and AI visibility checks
@@ -34,8 +39,14 @@ Search Console / Bing / GA4 (your credentials, read-only):
   engines <site> <bingSiteUrl> --start --end   Google vs Bing by query: only-in-one, position gaps
   ga4-ai <propertyId> --start --end  Sessions from AI assistants by landing page
 
+  schema <url>                       JSON-LD lint: Google-required properties, removed features, duplicates
+  cwv <url> [--origin] [--form PHONE|DESKTOP]   Core Web Vitals p75 from CrUX (CRUX_API_KEY)
+  indexnow <url...> [--file urls.txt]   Submit changed URLs to IndexNow (INDEXNOW_KEY, key file on site)
+  gate <folder>                      pSEO quality gate on .html/.md drafts: thin, duplicates, sources, AI tells
+
 Exports and logs (local files):
   ctr <Queries.csv|Pages.csv>        Your own CTR curve and under-clicked rows
+  striking <Queries.csv> [--min-imp 100]   Positions 4-20 with real impressions, ranked
   brand <Queries.csv> --terms a,b    Branded vs non-branded split + Search Console regex
   cannibal <query-page.csv>          Queries split across several of your URLs
   decay <before.csv> <after.csv>     Pages losing clicks, with likely reason
@@ -119,6 +130,24 @@ async function main() {
       const g = await gscQuery(pos[0], { start: opt.start, end: opt.end, dimensions: ["query"], keyFile: opt.key });
       const b = await bingQueries(pos[1], { start: opt.start, end: opt.end });
       out = compareEngines(g, b); if (!opt.json) { const t = out.totals; console.log(`Google: ${n0(t.googleClicks)} clicks / ${n0(t.googleImpressions)} impressions. Bing: ${n0(t.bingClicks)} / ${n0(t.bingImpressions)}.\n\nOnly in Bing (top 15):\n` + table(["Query", "Bing impr.", "Bing pos."], out.onlyBing.slice(0, 15).map((r) => [r.key, r.bingImpressions, r.bingPosition?.toFixed(1)])) + "\n\nOnly in Google (top 15):\n" + table(["Query", "Google impr.", "Google pos."], out.onlyGoogle.slice(0, 15).map((r) => [r.key, r.googleImpressions, r.googlePosition?.toFixed(1)]))); return; }
+      break;
+    }
+    case "schema": { const r = await get(pos[0].startsWith("http") ? pos[0] : "https://" + pos[0], { ms: 10000, maxBytes: 3_000_000 }); out = { url: r.url, status: r.status, ...lintSchema(r.text) }; break; }
+    case "cwv": out = await cwv(pos[0], { origin: !!opt.origin, formFactor: (opt.form || "PHONE").toUpperCase() }); break;
+    case "indexnow": { const urls = opt.file ? (await readFile(opt.file, "utf8")).split(/\r?\n/).map((x) => x.trim()).filter(Boolean) : pos; out = await indexNow(urls); break; }
+    case "striking": out = strikingDistance(gscRows(await readFile(pos[0], "utf8")), { minImp: Number(opt["min-imp"]) || 100 }).slice(0, 100); break;
+    case "gate": {
+      const files = (await readdir(pos[0])).filter((f) => [".html", ".md"].includes(extname(f)));
+      const pages = [];
+      for (const f of files) {
+        const body = await readFile(join(pos[0], f), "utf8");
+        const title = (body.match(/<title[^>]*>([\s\S]*?)<\/title>/i) || body.match(/^#\s+(.+)$/m) || [])[1]?.trim();
+        const description = (body.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']*)["']/i) || body.match(/^description:\s*"?(.+?)"?\s*$/m) || [])[1];
+        const sources = new Set([...body.matchAll(/https?:\/\/[^\s"')<>\]]+/g)].map((m) => m[0])).size;
+        pages.push({ id: f, title, description, body, sources });
+      }
+      out = pseoGate(pages, { minWords: Number(opt["min-words"]) || 600 });
+      if (!opt.json) { console.log(out.passed ? `Gate passed for ${out.pages} page(s).` : table(["Page", "Rule", "Detail"], out.errors.map((e) => [e.id, e.rule, e.detail]))); if (!out.passed) process.exitCode = 1; return; }
       break;
     }
     case "ga4-ai": out = await ga4AiSessions(pos[0], { start: opt.start, end: opt.end, keyFile: opt.key }); break;
