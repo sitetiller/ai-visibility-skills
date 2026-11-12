@@ -24,8 +24,9 @@ export function analyzeHtml(html, { url = "", headers = new Headers(), host = ""
   const robotsMeta = [...metaBy("robots"), ...metaBy("googlebot")];
   const xRobots = headers.get?.("x-robots-tag") || "";
   const canon = (head.match(/<link[^>]+rel\s*=\s*["']canonical["'][^>]*>/gi) || []).map((m) => attr(m, "href"));
+  const hreflang = (head.match(/<link[^>]+rel\s*=\s*["']alternate["'][^>]*>/gi) || []).filter((m) => /hreflang/i.test(m)).map((m) => ({ lang: attr(m, "hreflang"), href: attr(m, "href") }));
   const body = (html.match(/<body[\s\S]*$/i) || [html])[0];
-  const h1 = [...body.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)].map((m) => dec(m[1].replace(/<[^>]+>/g, " ")));
+  const h1 =[...body.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)].map((m) => dec(m[1].replace(/<[^>]+>/g, " ")));
   const headings = [...body.matchAll(/<h([2-4])\b[^>]*>([\s\S]*?)<\/h\1>/gi)].map((m) => ({ level: Number(m[1]), text: dec(m[2].replace(/<[^>]+>/g, " ")) }));
   const schemaBlocks = [];
   const schemaTypes = new Set();
@@ -51,7 +52,7 @@ export function analyzeHtml(html, { url = "", headers = new Headers(), host = ""
     title: titles[0] || "", titleCount: titles.length,
     description: desc[0] || "", descriptionCount: desc.length,
     robotsMeta, xRobots, noindex,
-    canonical: canon[0] || "", canonicalCount: canon.length,
+    canonical: canon[0] || "", canonicalCount: canon.length, hreflang,
     h1, headings, questionHeadings: headings.filter((h) => /\?\s*$/.test(h.text)).length,
     schemaTypes: [...schemaTypes], schemaBlocks,
     ogTitle: metaBy("og:title")[0] || "", ogDescription: metaBy("og:description")[0] || "",

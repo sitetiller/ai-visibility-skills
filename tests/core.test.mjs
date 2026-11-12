@@ -176,3 +176,4 @@ test("gsc property: bare domain becomes sc-domain", () => { assert.equal(gscProp
 test("spread: evenly spaced sample", () => assert.deepEqual(spread([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5), [1, 3, 5, 7, 9]));
 test("locs: decodes &amp;", () => assert.deepEqual(locs("<url><loc> https://a/x?a=1&amp;b=2 </loc></url>"), ["https://a/x?a=1&b=2"]));
 test("target: adds https and rejects private hosts", () => { assert.equal(target("example.com/a?b").origin, "https://example.com"); assert.throws(() => target("localhost")); assert.throws(() => target("printer.local")); });
+test("page: hreflang alternates extracted", () => { const r = analyzeHtml('<head><link rel="alternate" hreflang="de" href="https://a/de/"><link rel="alternate" hreflang="x-default" href="https://a/"><link rel="alternate" type="application/rss+xml" href="/feed"></head>'); assert.deepEqual(r.hreflang, [{ lang: "de", href: "https://a/de/" }, { lang: "x-default", href: "https://a/" }]); });
