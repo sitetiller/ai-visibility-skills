@@ -35,7 +35,7 @@ import { agentReport } from "../lib/agent.mjs";
 import { readdir } from "node:fs/promises";
 import { join, extname } from "node:path";
 
-const VERSION = "1.0.0";
+const VERSION = "1.0.1";
 const HELP = `sitetiller ${VERSION}: SEO and AI visibility checks
 
 Site checks (public pages only):
