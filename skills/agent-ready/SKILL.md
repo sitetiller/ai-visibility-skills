@@ -3,7 +3,7 @@ name: agent-ready
 description: "Check whether AI assistants and agents can actually read and use a site: crawler access (robots.txt and CDN controls such as Cloudflare's Search, Training and Agent settings), whether the content is in the server's HTML or only appears after JavaScript runs, clean HTML structure and real links, stable URLs, schema, and the optional llms.txt. Marks emerging standards such as WebMCP as emerging. Use when the user asks 'is my site agent-ready', 'can AI agents read my site', 'my content loads with JavaScript, will ChatGPT see it', 'is my site readable by AI', 'agentic browsing', or 'WebMCP'. Every claim is sourced or labelled as unverified."
 license: MIT
 metadata:
-  version: 0.1.0
+  version: 1.0.0
 ---
 
 # Agent-ready: can machines read and use this site?
@@ -49,6 +49,12 @@ Goal: find what stops an AI crawler, a user-directed AI fetcher or a browsing ag
 2. The three highest-impact fixes in order: access first, content in HTML second, structure third.
 3. What you could not check (CDN rules without dashboard access, agents that run JavaScript, behaviour of any vendor's fetcher not documented).
 4. Emerging items listed separately and labelled emerging.
+
+## One-command check
+```bash
+npx sitetiller agent https://example.com/pricing --json
+```
+Output: `access[]` (search and user-triggered AI agents allowed by robots.txt; optional Content-Signal preferences; optional /llms.txt), `checks[]` from the server HTML (150+ words without JavaScript, empty app-shell root, one H1 and an outline, `<main>` and `<nav>`, `<html lang>`, labelled form fields with honeypots ignored, named buttons, no empty links, no clickable divs, image alt attributes, valid structured data, not noindex), `passed` and `of` (optional checks excluded). Fix failures in that order: an empty server HTML or a blocked agent makes the rest moot.
 
 ## Guardrails
 - Do not claim a specific AI crawler renders or does not render JavaScript today without a dated test on the user's site or a vendor page. Say "measured in 2024 by Vercel and MERJ" and give the limits.

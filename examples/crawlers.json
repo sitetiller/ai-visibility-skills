@@ -1,0 +1,138 @@
+{
+  "host": "sitetiller.com",
+  "path": "/",
+  "url": "https://sitetiller.com/robots.txt",
+  "status": 200,
+  "found": true,
+  "sitemaps": [
+    "https://sitetiller.com/sitemap.xml"
+  ],
+  "problems": [],
+  "contentSignals": [],
+  "bots": [
+    {
+      "agent": "Googlebot",
+      "owner": "Google",
+      "purpose": "search",
+      "allowed": true,
+      "group": "*",
+      "rule": "Allow: /",
+      "line": 2
+    },
+    {
+      "agent": "Bingbot",
+      "owner": "Microsoft",
+      "purpose": "search",
+      "note": "Bing's index also grounds Copilot answers",
+      "allowed": true,
+      "group": "*",
+      "rule": "Allow: /",
+      "line": 2
+    },
+    {
+      "agent": "OAI-SearchBot",
+      "owner": "OpenAI",
+      "purpose": "search",
+      "note": "ChatGPT search",
+      "allowed": true,
+      "group": "*",
+      "rule": "Allow: /",
+      "line": 2
+    },
+    {
+      "agent": "Claude-SearchBot",
+      "owner": "Anthropic",
+      "purpose": "search",
+      "allowed": true,
+      "group": "*",
+      "rule": "Allow: /",
+      "line": 2
+    },
+    {
+      "agent": "PerplexityBot",
+      "owner": "Perplexity",
+      "purpose": "search",
+      "allowed": true,
+      "group": "*",
+      "rule": "Allow: /",
+      "line": 2
+    },
+    {
+      "agent": "ChatGPT-User",
+      "owner": "OpenAI",
+      "purpose": "user",
+      "note": "OpenAI: robots.txt rules may not apply to user-initiated fetches",
+      "allowed": true,
+      "group": "*",
+      "rule": "Allow: /",
+      "line": 2
+    },
+    {
+      "agent": "Claude-User",
+      "owner": "Anthropic",
+      "purpose": "user",
+      "allowed": true,
+      "group": "*",
+      "rule": "Allow: /",
+      "line": 2
+    },
+    {
+      "agent": "Perplexity-User",
+      "owner": "Perplexity",
+      "purpose": "user",
+      "note": "Perplexity: generally ignores robots.txt",
+      "allowed": true,
+      "group": "*",
+      "rule": "Allow: /",
+      "line": 2
+    },
+    {
+      "agent": "GPTBot",
+      "owner": "OpenAI",
+      "purpose": "training",
+      "allowed": true,
+      "group": "*",
+      "rule": "Allow: /",
+      "line": 2
+    },
+    {
+      "agent": "ClaudeBot",
+      "owner": "Anthropic",
+      "purpose": "training",
+      "allowed": true,
+      "group": "*",
+      "rule": "Allow: /",
+      "line": 2
+    },
+    {
+      "agent": "Google-Extended",
+      "owner": "Google",
+      "purpose": "training",
+      "note": "Control token, not a crawler; does not affect Google Search",
+      "allowed": true,
+      "group": "*",
+      "rule": "Allow: /",
+      "line": 2
+    },
+    {
+      "agent": "Applebot-Extended",
+      "owner": "Apple",
+      "purpose": "training",
+      "note": "Control token, not a crawler",
+      "allowed": true,
+      "group": "*",
+      "rule": "Allow: /",
+      "line": 2
+    },
+    {
+      "agent": "CCBot",
+      "owner": "Common Crawl",
+      "purpose": "training",
+      "allowed": true,
+      "group": "*",
+      "rule": "Allow: /",
+      "line": 2
+    }
+  ],
+  "notes": []
+}

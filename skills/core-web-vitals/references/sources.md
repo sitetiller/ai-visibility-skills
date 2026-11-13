@@ -24,3 +24,9 @@
 - The date PSI will stop returning field data: Google gives none. The skill says so.
 - What the CrUX API returns exactly when no data exists (the page read does not describe a 404 response); the skill relies on the tool's `available: false` and note.
 - Any ranking effect size of Core Web Vitals: Google states none.
+
+## Added in v1.0 (checked 2026-11-13)
+
+| Claim | Source |
+|---|---|
+| PageSpeed Insights API v5 runPagespeed: url, strategy, repeated category, key; lighthouseResult categories and audits | https://developers.google.com/speed/docs/insights/v5/get-started ; https://developers.google.com/speed/docs/insights/rest/v5/pagespeedapi/runpagespeed |

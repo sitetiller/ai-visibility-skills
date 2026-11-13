@@ -1,0 +1,86 @@
+{
+  "url": "https://sitetiller.com/",
+  "status": 200,
+  "words": 2318,
+  "scripts": 2,
+  "appShell": false,
+  "checks": [
+    {
+      "check": "Main text is in the server HTML (150+ words)",
+      "pass": true,
+      "detail": "2318 words without running JavaScript"
+    },
+    {
+      "check": "One H1 and a heading outline",
+      "pass": true,
+      "detail": "1 H1, 25 H2-H4"
+    },
+    {
+      "check": "Landmarks: <main> and <nav>",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "<html lang> set",
+      "pass": true,
+      "detail": "en"
+    },
+    {
+      "check": "Form fields have labels",
+      "pass": true,
+      "detail": "3/3"
+    },
+    {
+      "check": "Buttons have accessible names",
+      "pass": true,
+      "detail": "4/4"
+    },
+    {
+      "check": "No empty links",
+      "pass": true,
+      "detail": "0 empty"
+    },
+    {
+      "check": "Clickable things are links or buttons (no onclick divs)",
+      "pass": true,
+      "detail": "0 onclick div/span"
+    },
+    {
+      "check": "Images have alt attributes",
+      "pass": true,
+      "detail": "0 missing"
+    },
+    {
+      "check": "Structured data present and valid",
+      "pass": true,
+      "detail": "Organization, SoftwareApplication, Offer, FAQPage, Question, Answer"
+    },
+    {
+      "check": "Not noindex",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "passed": 12,
+  "of": 12,
+  "access": [
+    {
+      "check": "AI search and user-triggered agents allowed by robots.txt",
+      "pass": true,
+      "detail": "all allowed"
+    },
+    {
+      "check": "Content-Signal preferences stated (optional)",
+      "pass": false,
+      "detail": "none",
+      "optional": true
+    },
+    {
+      "check": "/llms.txt present (optional)",
+      "pass": true,
+      "detail": "HTTP 200",
+      "optional": true
+    }
+  ],
+  "note": "Checks are proxies: semantic HTML and accessible names help any client that reads the page without a screen. Firewall or CDN bot rules can still block agents and are not visible here."
+}

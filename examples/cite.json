@@ -1,0 +1,123 @@
+{
+  "url": "https://sitetiller.com/ai/chatgpt-crawlers-oai-searchbot-gptbot-chatgpt-user",
+  "status": 200,
+  "sections": [
+    {
+      "heading": "(intro)",
+      "level": 0,
+      "words": 61,
+      "firstSentence": "Short answer OAI-SearchBot decides whether you can appear in ChatGPT search answers.",
+      "firstSentenceWords": 12,
+      "numbers": 0,
+      "hasList": false,
+      "hasTable": false,
+      "links": 0,
+      "question": false
+    },
+    {
+      "heading": "The four bots side by side",
+      "level": 2,
+      "words": 144,
+      "firstSentence": "OAI-SearchBot GPTBot ChatGPT-User OAI-AdsBot Job Surfaces sites in ChatGPT search Crawls content that may train foundation models User actions in ChatGPT and custom GPTs Checks pages submitted as ads Crawls on its own?",
+      "firstSentenceWords": 33,
+      "numbers": 0,
+      "hasList": false,
+      "hasTable": true,
+      "links": 0,
+      "question": false
+    },
+    {
+      "heading": "Out of ChatGPT entirely (as far as robots.txt reaches)",
+      "level": 3,
+      "words": 27,
+      "firstSentence": "User-agent: OAI-SearchBot User-agent: GPTBot User-agent: ChatGPT-User Disallow: / ChatGPT-User may still fetch pages a user asks about, so the last line is a request, not a lock.",
+      "firstSentenceWords": 27,
+      "numbers": 0,
+      "hasList": false,
+      "hasTable": false,
+      "links": 0,
+      "question": false
+    },
+    {
+      "heading": "Open a docs section to search, keep the rest closed",
+      "level": 3,
+      "words": 44,
+      "firstSentence": "User-agent: OAI-SearchBot Allow: /docs/ Disallow: / The longer matching rule wins, so /docs/ pages are allowed and everything else is not.",
+      "firstSentenceWords": 21,
+      "numbers": 0,
+      "hasList": false,
+      "hasTable": false,
+      "links": 0,
+      "question": false
+    },
+    {
+      "heading": "Finding OpenAI's bots in your logs",
+      "level": 2,
+      "words": 159,
+      "firstSentence": "Each bot names itself in the user-agent string, with a version number that OpenAI says may change.",
+      "firstSentenceWords": 17,
+      "numbers": 9,
+      "hasList": false,
+      "hasTable": false,
+      "links": 0,
+      "question": false
+    },
+    {
+      "heading": "What none of these settings control",
+      "level": 2,
+      "words": 94,
+      "firstSentence": "Whether you are cited.",
+      "firstSentenceWords": 4,
+      "numbers": 1,
+      "hasList": true,
+      "hasTable": false,
+      "links": 0,
+      "question": false
+    },
+    {
+      "heading": "Questions people ask",
+      "level": 2,
+      "words": 147,
+      "firstSentence": "If I block GPTBot, will ChatGPT still cite my site?",
+      "firstSentenceWords": 10,
+      "numbers": 1,
+      "hasList": false,
+      "hasTable": false,
+      "links": 0,
+      "question": false
+    },
+    {
+      "heading": "Related",
+      "level": 2,
+      "words": 37,
+      "firstSentence": "AI crawler checker 13 crawlers, grouped by what they do llms.txt checker Validate the format and test every link Cloudflare and AI crawlers Search, Training and Agent controls explained Bing AI Performance report Citatio",
+      "firstSentenceWords": 37,
+      "numbers": 1,
+      "hasList": true,
+      "hasTable": false,
+      "links": 0,
+      "question": false
+    },
+    {
+      "heading": "Sources",
+      "level": 2,
+      "words": 32,
+      "firstSentence": "OpenAI: Overview of OpenAI crawlers , accessed 2026-11-12.",
+      "firstSentenceWords": 8,
+      "numbers": 12,
+      "hasList": true,
+      "hasTable": false,
+      "links": 4,
+      "question": false
+    }
+  ],
+  "summary": {
+    "sectionCount": 9,
+    "questionHeadings": 0,
+    "answerFirstShare": 0.7777777777777778,
+    "specificShare": 0.5555555555555556,
+    "structuredShare": 0.4444444444444444,
+    "sourcedShare": 0.1111111111111111,
+    "longSections": []
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "url": "https://sitetiller.com/ai/chatgpt-crawlers-oai-searchbot-gptbot-chatgpt-user",
+  "status": 200,
+  "images": 2,
+  "issueCounts": {},
+  "ogImage": "https://sitetiller.com/assets/og/ai-chatgpt-crawlers-oai-searchbot-gptbot-chatgpt-user.png",
+  "pageIssues": [],
+  "list": [
+    {
+      "index": 0,
+      "src": "https://sitetiller.com/assets/logo-mark.svg",
+      "alt": "",
+      "format": "svg",
+      "lazy": false,
+      "width": "30",
+      "height": "30",
+      "firstContentImage": true,
+      "issues": []
+    },
+    {
+      "index": 1,
+      "src": "https://sitetiller.com/assets/logo-mark.svg",
+      "alt": "",
+      "format": "svg",
+      "lazy": false,
+      "width": "30",
+      "height": "30",
+      "firstContentImage": true,
+      "issues": []
+    }
+  ]
+}

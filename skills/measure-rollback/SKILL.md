@@ -3,7 +3,7 @@ name: measure-rollback
 description: "Version every change to pages you own, measure each version against untouched control pages, and roll back the ones that lose. Snapshots what search engines see (title, description, headings, schema, text hash), diffs versions, detects drift, estimates the effect with difference-in-differences and a bootstrap interval, and produces a rollback plan. Use when the user asks 'did my title change work', 'measure this SEO change', 'A/B test SEO', 'roll back', 'what changed on this page', 'track page versions', or before and after editing a page."
 license: MIT
 metadata:
-  version: 0.1.0
+  version: 1.0.0
 ---
 
 # Version, measure, roll back
@@ -58,6 +58,9 @@ SEO changes are usually judged by eye on a site-wide chart. This skill keeps a v
 1. What changed (diff), when, and the measurement window.
 2. Lift with the 95% interval and the verdict.
 3. Keep or roll back, and the rollback plan if needed.
+
+## Drift severity
+`version drift` rates every difference between the live page and the last snapshot (`critical`, `high`, `medium`, `low`) and sorts worst first. A critical or high drift on a page under measurement invalidates the comparison window: note the date, fix or roll back, and restart the window.
 
 ## Guardrails
 - Change and roll back only pages the user owns and named. Never edit other pages "while you are there".

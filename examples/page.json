@@ -1,0 +1,270 @@
+{
+  "requested": "https://sitetiller.com/ai/chatgpt-crawlers-oai-searchbot-gptbot-chatgpt-user",
+  "finalUrl": "https://sitetiller.com/ai/chatgpt-crawlers-oai-searchbot-gptbot-chatgpt-user",
+  "status": 200,
+  "chain": [
+    {
+      "url": "https://sitetiller.com/ai/chatgpt-crawlers-oai-searchbot-gptbot-chatgpt-user",
+      "status": 200
+    }
+  ],
+  "contentType": "text/html",
+  "robotsTxtGooglebot": {
+    "allowed": true,
+    "group": "*",
+    "rule": "Allow: /",
+    "line": 2
+  },
+  "title": "GPTBot vs OAI-SearchBot vs ChatGPT-User: What Each Does",
+  "titleCount": 1,
+  "description": "OpenAI runs four bots with different jobs. What each one does, what blocking it changes in ChatGPT search, how to spot them in your logs and verify their IPs.",
+  "descriptionCount": 1,
+  "robotsMeta": [],
+  "xRobots": "",
+  "noindex": false,
+  "canonical": "https://sitetiller.com/ai/chatgpt-crawlers-oai-searchbot-gptbot-chatgpt-user",
+  "canonicalCount": 1,
+  "hreflang": [],
+  "h1": [
+    "OpenAI's crawlers: GPTBot, OAI-SearchBot, ChatGPT-User and OAI-AdsBot"
+  ],
+  "headings": [
+    {
+      "level": 2,
+      "text": "The four bots side by side"
+    },
+    {
+      "level": 2,
+      "text": "What \"opted out of search\" actually removes"
+    },
+    {
+      "level": 2,
+      "text": "robots.txt for the three common choices"
+    },
+    {
+      "level": 3,
+      "text": "In ChatGPT search, out of training"
+    },
+    {
+      "level": 3,
+      "text": "Out of ChatGPT entirely (as far as robots.txt reaches)"
+    },
+    {
+      "level": 3,
+      "text": "Open a docs section to search, keep the rest closed"
+    },
+    {
+      "level": 2,
+      "text": "Finding OpenAI's bots in your logs"
+    },
+    {
+      "level": 2,
+      "text": "What none of these settings control"
+    },
+    {
+      "level": 2,
+      "text": "Questions people ask"
+    },
+    {
+      "level": 2,
+      "text": "See this for your whole site"
+    },
+    {
+      "level": 2,
+      "text": "Related"
+    },
+    {
+      "level": 2,
+      "text": "Sources"
+    },
+    {
+      "level": 2,
+      "text": "On this page"
+    },
+    {
+      "level": 4,
+      "text": "Product"
+    },
+    {
+      "level": 4,
+      "text": "Free"
+    },
+    {
+      "level": 4,
+      "text": "Company"
+    }
+  ],
+  "questionHeadings": 0,
+  "schemaTypes": [
+    "BreadcrumbList",
+    "ListItem",
+    "Article",
+    "Organization",
+    "ImageObject",
+    "FAQPage",
+    "Question",
+    "Answer"
+  ],
+  "schemaBlocks": [
+    {
+      "types": [
+        "BreadcrumbList",
+        "ListItem",
+        "ListItem",
+        "ListItem"
+      ],
+      "valid": true,
+      "error": null
+    },
+    {
+      "types": [
+        "Article",
+        "Organization",
+        "Organization",
+        "ImageObject"
+      ],
+      "valid": true,
+      "error": null
+    },
+    {
+      "types": [
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer",
+        "Question",
+        "Answer"
+      ],
+      "valid": true,
+      "error": null
+    }
+  ],
+  "ogTitle": "GPTBot vs OAI-SearchBot vs ChatGPT-User: What Each Does",
+  "ogDescription": "OpenAI runs four bots with different jobs. What each one does, what blocking it changes in ChatGPT search, how to spot them in your logs and verify their IPs.",
+  "lang": "en",
+  "words": 875,
+  "tables": 1,
+  "images": 2,
+  "imagesWithoutAlt": 2,
+  "links": [
+    {
+      "href": "https://sitetiller.com/",
+      "internal": true,
+      "anchor": "Site Tiller"
+    },
+    {
+      "href": "https://sitetiller.com/check",
+      "internal": true,
+      "anchor": "Free check"
+    },
+    {
+      "href": "https://sitetiller.com/",
+      "internal": true,
+      "anchor": "Home"
+    },
+    {
+      "href": "https://sitetiller.com/ai/",
+      "internal": true,
+      "anchor": "AI search"
+    },
+    {
+      "href": "https://sitetiller.com/tools/ai-crawler-checker",
+      "internal": true,
+      "anchor": "AI crawler checker"
+    },
+    {
+      "href": "https://sitetiller.com/tools/ai-crawler-checker",
+      "internal": true,
+      "anchor": "checker"
+    },
+    {
+      "href": "https://sitetiller.com/ai/cloudflare-blocks-ai-crawlers",
+      "internal": true,
+      "anchor": "Cloudflare and AI crawlers"
+    },
+    {
+      "href": "https://sitetiller.com/check",
+      "internal": true,
+      "anchor": "Run the free check"
+    },
+    {
+      "href": "https://sitetiller.com/tools/ai-crawler-checker",
+      "internal": true,
+      "anchor": "AI crawler checker 13 crawlers, grouped by what they do"
+    },
+    {
+      "href": "https://sitetiller.com/tools/llms-txt-checker",
+      "internal": true,
+      "anchor": "llms.txt checker Validate the format and test every link"
+    },
+    {
+      "href": "https://sitetiller.com/ai/cloudflare-blocks-ai-crawlers",
+      "internal": true,
+      "anchor": "Cloudflare and AI crawlers Search, Training and Agent controls explained"
+    },
+    {
+      "href": "https://sitetiller.com/ai/bing-ai-performance-report",
+      "internal": true,
+      "anchor": "Bing AI Performance report Citations, grounding queries, topics"
+    },
+    {
+      "href": "https://developers.openai.com/api/docs/bots",
+      "internal": false,
+      "anchor": "OpenAI: Overview of OpenAI crawlers"
+    },
+    {
+      "href": "https://openai.com/searchbot.json",
+      "internal": false,
+      "anchor": "OpenAI: OAI-SearchBot IP ranges (searchbot.json)"
+    },
+    {
+      "href": "https://openai.com/gptbot.json",
+      "internal": false,
+      "anchor": "OpenAI: GPTBot IP ranges (gptbot.json)"
+    },
+    {
+      "href": "https://openai.com/chatgpt-user.json",
+      "internal": false,
+      "anchor": "OpenAI: ChatGPT-User IP ranges (chatgpt-user.json)"
+    },
+    {
+      "href": "https://sitetiller.com/",
+      "internal": true,
+      "anchor": "Site Tiller"
+    },
+    {
+      "href": "https://sitetiller.com/check",
+      "internal": true,
+      "anchor": "Visibility check"
+    },
+    {
+      "href": "https://sitetiller.com/tools/",
+      "internal": true,
+      "anchor": "Free tools"
+    },
+    {
+      "href": "https://github.com/sitetiller",
+      "internal": false,
+      "anchor": "Open source (coming)"
+    },
+    {
+      "href": "mailto:hello@sitetiller.com",
+      "internal": false,
+      "anchor": "Contact"
+    },
+    {
+      "href": "https://sitetiller.com/privacy",
+      "internal": true,
+      "anchor": "Privacy"
+    },
+    {
+      "href": "https://sitetiller.com/terms",
+      "internal": true,
+      "anchor": "Terms"
+    }
+  ],
+  "internalLinks": 17
+}

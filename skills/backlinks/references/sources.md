@@ -10,3 +10,10 @@
 | Bing `GetUrlLinks(siteUrl, link, page)` returns `Details[]` (`Url`, `AnchorText`) and `TotalPages` | https://learn.microsoft.com/en-us/dotnet/api/microsoft.bing.webmaster.api.interfaces.iwebmasterapi.geturllinks |
 
 The "about half" concentration note, the anchor categories and the review word list are this tool's heuristics, not Google thresholds.
+
+## Added in v1.0 (checked 2026-11-13)
+
+| Claim | Source |
+|---|---|
+| DataForSEO Backlinks Summary live endpoint, Basic auth, result fields | https://docs.dataforseo.com/v3/backlinks/summary/live/ |
+| Ahrefs API v3 Domain Rating endpoint, Bearer key, target and date | https://docs.ahrefs.com/docs/api/site-explorer/operations/get-domain-rating |

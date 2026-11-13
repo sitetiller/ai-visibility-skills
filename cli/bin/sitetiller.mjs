@@ -28,10 +28,14 @@ import { contentQuality } from "../lib/quality.mjs";
 import { generateSchema } from "../lib/schema-gen.mjs";
 import { cruxHistory } from "../lib/perf.mjs";
 import { gscLinksCsv, anchorMix, concentration, bingLinkCounts, bingUrlLinks } from "../lib/backlinks.mjs";
+import { lighthouseBatch } from "../lib/lighthouse.mjs";
+import { napReport } from "../lib/nap.mjs";
+import { providerStatus, dataforseoSummary, ahrefsDomainRating } from "../lib/providers.mjs";
+import { agentReport } from "../lib/agent.mjs";
 import { readdir } from "node:fs/promises";
 import { join, extname } from "node:path";
 
-const VERSION = "0.2.0";
+const VERSION = "1.0.0";
 const HELP = `sitetiller ${VERSION}: SEO and AI visibility checks
 
 Site checks (public pages only):
@@ -46,6 +50,9 @@ Site checks (public pages only):
   images <url> [--sizes 20]          Image alt, dimensions, lazy LCP image, formats, srcset, file names (+ byte sizes)
   quality <url>                      Readability, author/date/sources/first-hand signals, filler phrases (checklist)
   schema-gen <type> [--name ... --url ...]   JSON-LD for organization|website|article|product|software|localbusiness|breadcrumb|event|person, linted
+  agent <url>                        Agent readiness: crawler access, Content-Signal, server text, landmarks, accessible names, llms.txt
+  lighthouse <url...> [--file urls.txt] [--strategy mobile|desktop]   Lab scores for many pages via PageSpeed Insights, one at a time
+  nap <url...> --name X --phone Y [--address Z]   Name/address/phone consistency across your pages and listings you name
 
 Search Console / Bing / GA4 (your credentials, read-only):
   gsc <site> --start YYYY-MM-DD --end YYYY-MM-DD [--dims query,page] [--out file.csv]
@@ -65,6 +72,9 @@ Search Console / Bing / GA4 (your credentials, read-only):
 AI answers (your own API keys; each call is billed by the provider):
   track --prompts prompts.txt --brand "Acme,acme.com" --domain acme.com [--competitors "X,Y"] [--engines openai,anthropic,perplexity] [--runs 1] [--yes]
                                      Ask assistants with web search; log mentions, citations, cited domains (.sitetiller/track/)
+
+Optional paid providers (your own keys; each call is billed by the provider):
+  provider status | provider dataforseo <domain> --yes | provider ahrefs <domain> --yes
 
 Exports and logs (local files):
   ctr <Queries.csv|Pages.csv>        Your own CTR curve and under-clicked rows
@@ -116,6 +126,7 @@ async function readLines(files) {
 const PRINT = {
   crawlers: (r) => [`robots.txt: ${r.url} (HTTP ${r.status})  path: ${r.path}`, "",
     table(["Crawler", "Owner", "Purpose", "Result", "Rule"], r.bots.map((b) => [b.agent, b.owner, b.purpose, b.allowed ? "allowed" : "BLOCKED", b.rule ? `${b.rule} (line ${b.line}, group ${b.group})` : "no matching rule"])),
+    ...(r.contentSignals?.length ? ["", "Content-Signal: " + r.contentSignals.map((c) => `${Object.entries(c.signals).map(([k, v]) => `${k}=${v}`).join(", ")} (line ${c.line}, ${c.agents.join(", ")})`).join("; ")] : []),
     ...(r.notes.length ? ["", ...r.notes] : []), "", "Note: firewall/CDN bot rules are not visible here; check them separately."].join("\n"),
   page: (r) => [`${r.requested} -> ${r.finalUrl} (HTTP ${r.status})`, r.chain.length > 1 ? "Redirects: " + r.chain.map((c) => `${c.status} ${c.url}`).join(" -> ") : "",
     table(["Field", "Value"], [["Title", `${r.title} (${(r.title || "").length})`], ["Description", `${r.description} (${(r.description || "").length})`], ["H1", (r.h1 || []).join(" | ")], ["Canonical", r.canonical], ["Robots meta", (r.robotsMeta || []).join(", ") || "-"], ["X-Robots-Tag", r.xRobots || "-"], ["Noindex", r.noindex ? "YES" : "no"], ["robots.txt (Googlebot)", r.robotsTxtGooglebot ? (r.robotsTxtGooglebot.allowed ? "allowed" : `BLOCKED by ${r.robotsTxtGooglebot.rule}`) : "-"], ["Schema types", (r.schemaTypes || []).join(", ") || "-"], ["Words / tables / question headings", `${r.words} / ${r.tables} / ${r.questionHeadings}`]])].filter(Boolean).join("\n"),
@@ -166,6 +177,18 @@ async function main() {
     case "images": { const r = await fetchPage(pos[0]); out = { url: r.url, status: r.status, ...imageAudit(r.text, { url: r.url }) }; if (opt.sizes) out.sizes = await imageSizes(out.list, { n: Number(opt.sizes) || 20 }); break; }
     case "quality": { const r = await fetchPage(pos[0]); out = { status: r.status, ...contentQuality(r.text, { url: r.url }) }; break; }
     case "schema-gen": { const { json, ...data } = opt; out = generateSchema(pos[0], data); if (!opt.json) { console.log(out.html + "\n\n" + (out.lint.findings.length ? table(["Level", "Type", "Message"], out.lint.findings.map((f) => [f.level, f.type, f.message])) : "Lint: no findings.") + (out.notes.length ? "\n\n" + out.notes.join("\n") : "")); return; } break; }
+    case "agent": out = await agentReport(pos[0]); break;
+    case "lighthouse": { const urls = opt.file ? (await readFile(opt.file, "utf8")).split(/\r?\n/).map((x) => x.trim()).filter(Boolean) : pos; out = await lighthouseBatch(urls, { strategy: opt.strategy === "desktop" ? "desktop" : "mobile", delayMs: opt.delay != null ? Number(opt.delay) : 2000 }); break; }
+    case "nap": out = await napReport(pos, { name: opt.name, address: opt.address, phone: opt.phone }); break;
+    case "provider": {
+      const sub = pos.shift();
+      if (sub === "status" || !sub) { out = providerStatus(); break; }
+      if (!opt.yes) { console.log(`This calls ${sub}'s paid API once with your key and is billed by them. Re-run with --yes to proceed.`); return; }
+      if (sub === "dataforseo") out = await dataforseoSummary(pos[0]);
+      else if (sub === "ahrefs") out = await ahrefsDomainRating(pos[0], { date: opt.date });
+      else throw new Error("provider needs: status | dataforseo | ahrefs");
+      break;
+    }
     case "crux-history": out = await cruxHistory(pos[0], { origin: !!opt.origin, formFactor: (opt.form || "PHONE").toUpperCase(), periods: opt.periods }); break;
     case "backlinks": {
       if (opt.bing) { out = opt.page ? await bingUrlLinks(opt.bing, opt.page) : { pages: await bingLinkCounts(opt.bing) }; if (opt.page) out.anchors = anchorMix(out.links.map((l) => l.anchor), { brand: list(opt.brand) || [] }); break; }

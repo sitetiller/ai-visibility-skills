@@ -3,7 +3,7 @@
   "owner": { "name": "SiteTiller", "url": "https://sitetiller.com" },
   "metadata": {
     "description": "SEO and AI visibility skills with real data connectors and tests",
-    "version": "0.2.0",
+    "version": "1.0.0",
     "repository": "https://github.com/sitetiller/seo-skills"
   },
   "plugins": [

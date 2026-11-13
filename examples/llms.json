@@ -1,0 +1,74 @@
+{
+  "url": "https://sitetiller.com/llms.txt",
+  "status": 200,
+  "found": true,
+  "contentType": "text/plain",
+  "bytes": 2222,
+  "checks": [
+    {
+      "id": "h1",
+      "ok": true,
+      "label": "Starts with an H1 (# Name), the only required part"
+    },
+    {
+      "id": "summary",
+      "ok": true,
+      "label": "Blockquote summary under the H1"
+    },
+    {
+      "id": "sections",
+      "ok": true,
+      "label": "Links grouped under H2 sections"
+    },
+    {
+      "id": "links",
+      "ok": true,
+      "label": "Links in [name](url): notes format"
+    },
+    {
+      "id": "size",
+      "ok": true,
+      "label": "Short enough to read in one pass (<100 KB)"
+    },
+    {
+      "id": "ctype",
+      "ok": true,
+      "label": "Served as text/plain or text/markdown (got: text/plain)"
+    }
+  ],
+  "sections": [
+    "Platforms",
+    "Pricing (USD, planned from February 8, 2027)",
+    "What it does not do",
+    "Free tools and guides",
+    "Links"
+  ],
+  "links": [
+    {
+      "name": "Free tools",
+      "url": "https://sitetiller.com/tools/",
+      "note": "AI crawler, noindex, sitemap, llms.txt, title/meta checkers; CTR calculator; Search Console low-CTR finder",
+      "status": 200
+    },
+    {
+      "name": "OpenAI's crawlers explained",
+      "url": "https://sitetiller.com/ai/chatgpt-crawlers-oai-searchbot-gptbot-chatgpt-user",
+      "note": "",
+      "status": 200
+    },
+    {
+      "name": "Cloudflare AI crawler controls",
+      "url": "https://sitetiller.com/ai/cloudflare-blocks-ai-crawlers",
+      "note": "",
+      "status": 200
+    },
+    {
+      "name": "Bing AI Performance report",
+      "url": "https://sitetiller.com/ai/bing-ai-performance-report",
+      "note": "",
+      "status": 200
+    }
+  ],
+  "optional": false,
+  "linkCount": 4
+}

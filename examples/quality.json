@@ -1,0 +1,68 @@
+{
+  "status": 200,
+  "url": "https://sitetiller.com/ai/chatgpt-crawlers-oai-searchbot-gptbot-chatgpt-user",
+  "readability": {
+    "sentences": 70,
+    "words": 771,
+    "fleschReadingEase": 65.3,
+    "avgSentenceWords": 11,
+    "longSentenceShare": 0.01,
+    "longParagraphs": 0
+  },
+  "signals": {
+    "author": true,
+    "datePublished": true,
+    "dateModified": true,
+    "externalSources": 2,
+    "firstHand": 0,
+    "figures": 6,
+    "aboutOrContact": false
+  },
+  "filler": [],
+  "vagueClaims": [],
+  "checklist": [
+    {
+      "check": "Author is named",
+      "pass": true
+    },
+    {
+      "check": "Publish date is shown",
+      "pass": true
+    },
+    {
+      "check": "Update date is shown",
+      "pass": true
+    },
+    {
+      "check": "Cites at least 2 outside sources",
+      "pass": true
+    },
+    {
+      "check": "Shows first-hand work (tested, measured, our data)",
+      "pass": false
+    },
+    {
+      "check": "Has figures, tables, code or media",
+      "pass": true
+    },
+    {
+      "check": "Links to about or contact",
+      "pass": false
+    },
+    {
+      "check": "No filler phrases",
+      "pass": true
+    },
+    {
+      "check": "No unsourced 'studies show' claims",
+      "pass": true
+    },
+    {
+      "check": "Readable (Flesch >= 40, few 30+ word sentences)",
+      "pass": true
+    }
+  ],
+  "passed": 8,
+  "of": 10,
+  "note": "Signals support a judgement about helpfulness and trust; they are not Google ranking factors. Read the page before acting."
+}

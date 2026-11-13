@@ -55,13 +55,28 @@ export function diff(a, b) {
   return changes;
 }
 
-/** Compare the live page with the latest stored version. */
+/** How much a change matters for search: critical (page can drop out), high (what ranks or shows changes), medium, low. */
+export function severity(c) {
+  if (c.field === "noindex") return c.to ? "critical" : "high";
+  if (c.field === "status") return Number(c.to) >= 400 ? "critical" : "high";
+  if (c.field === "finalUrl" || c.field === "canonical") return "high";
+  if (c.field === "title" || c.field === "h1") return "medium";
+  if (c.field === "schemaTypes") return (c.from || []).some((t) => !(c.to || []).includes(t)) ? "medium" : "low";
+  if (c.field === "description" || c.field === "headings") return "medium";
+  if (c.field === "words") return Math.abs((c.to || 0) - (c.from || 0)) > Math.max(100, 0.3 * (c.from || 0)) ? "medium" : "low";
+  return "low";
+}
+const RANK = { critical: 0, high: 1, medium: 2, low: 3 };
+export const rated = (changes) => changes.map((c) => ({ ...c, severity: severity(c) })).sort((a, b) => RANK[a.severity] - RANK[b.severity]);
+
+/** Compare the live page with the latest stored version; each change carries a severity. */
 export async function drift(url, { root = process.cwd() } = {}) {
   const versions = await list(url, { root });
   if (!versions.length) return { url, versions: 0, drift: null, note: "No stored version yet. Run snapshot first." };
   const live = fingerprint(await pageReport(url));
   const last = versions[versions.length - 1];
-  return { url, versions: versions.length, lastAt: last.at, drift: diff(last.fingerprint, live) };
+  const d = rated(diff(last.fingerprint, live));
+  return { url, versions: versions.length, lastAt: last.at, worst: d[0]?.severity || "none", drift: d };
 }
 
 /**

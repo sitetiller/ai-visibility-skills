@@ -1,0 +1,16 @@
+{
+  "url": "https://sitetiller.com/ai/chatgpt-crawlers-oai-searchbot-gptbot-chatgpt-user",
+  "status": 200,
+  "types": {
+    "BreadcrumbList": 1,
+    "Article": 1,
+    "FAQPage": 1
+  },
+  "findings": [
+    {
+      "level": "info",
+      "type": "FAQPage",
+      "message": "Google stopped showing FAQ rich results on 2026-05-07 (changelog on the FAQ structured data page)."
+    }
+  ]
+}

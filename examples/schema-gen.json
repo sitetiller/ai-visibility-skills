@@ -1,0 +1,31 @@
+{
+  "type": "SoftwareApplication",
+  "jsonld": {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SiteTiller",
+    "url": "https://sitetiller.com/",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": 0,
+      "priceCurrency": "USD"
+    }
+  },
+  "html": "<script type=\"application/ld+json\">{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"SoftwareApplication\",\n  \"name\": \"SiteTiller\",\n  \"url\": \"https://sitetiller.com/\",\n  \"applicationCategory\": \"BusinessApplication\",\n  \"operatingSystem\": \"Web\",\n  \"offers\": {\n    \"@type\": \"Offer\",\n    \"price\": 0,\n    \"priceCurrency\": \"USD\"\n  }\n}</script>",
+  "lint": {
+    "types": {
+      "SoftwareApplication": 1
+    },
+    "findings": [
+      {
+        "level": "error",
+        "type": "SoftwareApplication",
+        "message": "Missing required aggregateRating or review for Google's rich result",
+        "doc": "https://developers.google.com/search/docs/appearance/structured-data/software-app"
+      }
+    ]
+  },
+  "notes": []
+}

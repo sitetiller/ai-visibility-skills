@@ -24,6 +24,7 @@ export function parseRobots(txt) {
   const groups = [];
   const sitemaps = [];
   const problems = [];
+  const contentSignals = [];
   let cur = null;
   let lastAgent = false;
   String(txt).split(/\r?\n/).forEach((raw, i) => {
@@ -44,9 +45,17 @@ export function parseRobots(txt) {
       if (!cur) { problems.push({ line: i + 1, text: `"${m[1]}" before any User-agent line is ignored` }); return; }
       cur.rules.push({ type: key, path: val, line: i + 1 });
     } else if (key === "sitemap") sitemaps.push(val);
+    else if (key === "content-signal") {
+      // Cloudflare Content Signals Policy: comma-separated key=yes|no (search, ai-input, ai-train). A preference, not access control.
+      const signals = {};
+      for (const part of val.split(",")) { const [k, v] = part.split("=").map((s) => (s || "").trim().toLowerCase()); if (k) signals[k] = v; }
+      const bad = Object.entries(signals).filter(([, v]) => v !== "yes" && v !== "no").map(([k]) => k);
+      if (bad.length) problems.push({ line: i + 1, text: `Content-Signal values should be yes or no: ${bad.join(", ")}` });
+      contentSignals.push({ line: i + 1, agents: cur ? [...cur.agents] : ["(before any User-agent)"], signals });
+    }
     else if (!["crawl-delay", "host", "clean-param", "content-signal"].includes(key)) problems.push({ line: i + 1, text: `Unknown field "${m[1]}" (ignored by Google)` });
   });
-  return { groups, sitemaps, problems };
+  return { groups, sitemaps, problems, contentSignals };
 }
 
 export function ruleMatches(rulePath, path) {
@@ -80,11 +89,12 @@ export async function robotsReport(raw, { agents } = {}) {
   let r;
   try { r = await get(`${t.origin}/robots.txt`, { ms: 8000, maxBytes: 600_000 }); } catch { throw new ToolError(`Could not reach ${t.origin}`); }
   const found = r.status === 200 && !looksHtml(r.text);
-  const parsed = found ? parseRobots(r.text) : { groups: [], sitemaps: [], problems: [] };
+  const parsed = found ? parseRobots(r.text) : { groups: [], sitemaps: [], problems: [], contentSignals: [] };
   const list = agents?.length ? agents.map((agent) => ({ agent, owner: "", purpose: "custom" })) : BOTS;
   const bots = list.map((b) => ({ ...b, ...decide(parsed.groups, b.agent, t.path) }));
   const notes = [];
   if (!found) notes.push(r.status === 404 ? "No robots.txt (404): crawlers treat this as allow-all." : `robots.txt returned HTTP ${r.status}. Google treats 4xx (except 429) as no rules and 5xx as a temporary full block.`);
+  if (parsed.contentSignals.length) notes.push("Content-Signal lines state preferences (search, ai-input, ai-train); they do not block access. Use Allow/Disallow or a firewall rule to block.");
   if (r.text.length > 500 * 1024) notes.push("robots.txt is over 500 KiB; Google ignores rules after that size.");
-  return { host: t.host, path: t.path, url: `${t.origin}/robots.txt`, status: r.status, found, sitemaps: parsed.sitemaps, problems: parsed.problems, bots, notes };
+  return { host: t.host, path: t.path, url: `${t.origin}/robots.txt`, status: r.status, found, sitemaps: parsed.sitemaps, problems: parsed.problems, contentSignals: parsed.contentSignals, bots, notes };
 }

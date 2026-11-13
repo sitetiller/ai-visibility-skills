@@ -3,7 +3,7 @@ name: core-web-vitals
 description: "Measure and improve Core Web Vitals (LCP, INP, CLS) from real-user field data using the Chrome UX Report: p75 values for phone and desktop, page versus origin fallback, good / needs improvement / poor thresholds from web.dev, and what to fix for each failing metric (LCP subparts, long tasks and input delay, layout shifts). Use when the user asks 'Core Web Vitals', 'LCP too slow', 'INP', 'CLS', 'PageSpeed Insights says...', 'is my site fast enough', 'page experience', 'why is the CrUX data missing', or 'PSI API field data'. Uses sitetiller cwv and crux-history (needs a CrUX API key; see the setup skill)."
 license: MIT
 metadata:
-  version: 0.2.0
+  version: 1.0.0
 ---
 
 # Core Web Vitals
@@ -74,6 +74,12 @@ The PageSpeed Insights API documentation says: "We plan to discontinue including
 3. Three fixes in priority order, each tied to a web.dev guidance above.
 4. When to re-measure: after the 28-day window.
 5. If no field data: say so and what was used instead.
+
+## Lab runs for many pages
+```bash
+npx sitetiller lighthouse --file key-urls.txt --strategy mobile --json
+```
+One PageSpeed Insights request per URL, 2 s apart. Output per URL: Lighthouse `scores` (performance, accessibility, bestPractices, seo, 0-100), `metrics` (lcpMs, fcpMs, tbtMs, cls, speedIndexMs) and the top 5 `opportunities` by estimated savings; plus `median` and the `worst` five. Set `PSI_API_KEY` (a Google Cloud key with the PageSpeed Insights API enabled); without a key the shared quota is often exhausted. Use this to find which templates are slow and why; pass or fail stays a field-data decision.
 
 ## Guardrails
 - Judge pass or fail only on field p75 per device; do not average phone and desktop.

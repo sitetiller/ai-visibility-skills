@@ -3,7 +3,7 @@ name: weekly-check
 description: "Run a 20-minute weekly SEO and AI visibility routine and return one short report with alerts: crawler access (robots.txt), a sitemap sample, version drift on key pages, server logs when available, Google and Bing deltas, indexing of key URLs, and AI citations. Defines exactly what counts as an alert, with objective triggers from command output and the user's own history, not folklore thresholds. Use when the user says 'weekly SEO check', 'monitor my site', 'did anything break', 'SEO routine', 'what should I check every week', 'set up SEO monitoring', or wants a repeatable status report."
 license: MIT
 metadata:
-  version: 0.1.0
+  version: 1.0.0
 ---
 
 # Weekly check: 20 minutes, one report
@@ -106,6 +106,9 @@ Next actions (max 3): <owner, due>
 
 ## Output to the user
 The filled template, saved as `week/report-YYYY-MM-DD.md`, plus the raw JSON files it came from. Every number in the report appears in one of those files.
+
+## Drift severity
+`npx sitetiller version drift <url> --json` now rates each change: `critical` (noindex added, 4xx/5xx), `high` (canonical or final URL changed, noindex removed), `medium` (title, H1, description, headings, structured data removed, large text change), `low` (the rest). `worst` gives the top level. Alert the same day on critical and high; review medium in the weekly check.
 
 ## Guardrails
 - Read-only. The routine fetches public pages and reads the user's own data. It does not edit pages, and it never runs `track --yes` or `wp` commands.

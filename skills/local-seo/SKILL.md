@@ -3,7 +3,7 @@ name: local-seo
 description: "Local SEO for businesses with a physical location or a service area: how Google says local results are ranked (relevance, distance, prominence), Google Business Profile guidelines (eligibility, real-world name, address, service areas), LocalBusiness structured data checked with the schema command, one page per location, consistent name, address and phone on the site and profiles, Bing Places, and how agencies run this for clients. Includes what is forbidden: fake or incentivized reviews, review gating, keyword-stuffed business names, virtual-office addresses. Use when the user says 'local SEO', 'Google Business Profile', 'Google Maps ranking', 'near me', 'LocalBusiness schema', 'NAP', 'Bing Places', 'multi-location SEO', 'service area business', or 'get more reviews'."
 license: MIT
 metadata:
-  version: 0.1.0
+  version: 1.0.0
 ---
 
 # Local SEO
@@ -84,6 +84,12 @@ Practical routine: send every customer the same neutral request with the Busines
 2. Location page table: URL, title, description, canonical, indexable, schema findings.
 3. NAP table with differences marked.
 4. A short action list and who does each item. No promise of ranking.
+
+## NAP consistency check
+```bash
+npx sitetiller nap https://example.com/ https://example.com/contact https://www.yelp.com/biz/example --name "Bright Teeth" --phone "+1 555 010 2000" --address "12 Main Street, Springfield" --json
+```
+Reads LocalBusiness/Organization JSON-LD, `tel:` links and visible phone numbers on each page the user names, normalises them (digits only; Street/St, Suite/Ste) and compares with the expected values. Output: `consistent`, `distinctPhones`, and `rows[]` with what each page shows and its `issues`. Listing sites often block automated fetches or render with JavaScript: check those by hand, and fetch only listings the user named.
 
 ## Guardrails
 - Never write, buy, trade or incentivize reviews, and never help gate them. Never create profiles for locations that do not exist or are not staffed.

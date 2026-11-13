@@ -1,6 +1,6 @@
 {
   "name": "sitetiller",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "SEO and AI visibility checks from the command line: AI crawlers, robots.txt, sitemaps, schema, llms.txt, Search Console and Bing data, AI bot logs, before/after measurement.",
   "type": "module",
   "bin": { "sitetiller": "bin/sitetiller.mjs" },

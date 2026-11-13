@@ -20,3 +20,10 @@
 - A vendor-documented list of which agents obey which CDN control.
 
 Re-check the Cloudflare and Google pages before changing the skill; settings and wording change.
+
+## Added in v1.0 (checked 2026-11-13)
+
+| Claim | Source |
+|---|---|
+| Content Signals Policy (robots.txt preferences for search, ai-input, ai-train) | https://blog.cloudflare.com/content-signals-policy/ |
+| Accessible names for form fields, buttons and links | https://www.w3.org/WAI/tutorials/forms/labels/ ; https://www.w3.org/WAI/ARIA/apg/ |

@@ -18,3 +18,9 @@
 - Whether NAP consistency across third-party directories affects ranking: no statement in Google's pages read; the skill does not claim it.
 - Business Profile performance data and any API for it: not read; the CLI does not use them.
 - How agencies are given access to a client's profile: Google's access-sharing help was not opened; the skill only says to use Google's own sharing, never a password.
+
+## Added in v1.0 (checked 2026-11-13)
+
+| Claim | Source |
+|---|---|
+| LocalBusiness structured data: name, address, telephone | https://developers.google.com/search/docs/appearance/structured-data/local-business |

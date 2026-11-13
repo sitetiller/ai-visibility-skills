@@ -3,7 +3,7 @@ name: backlinks
 description: "Analyse the links pointing to a site from first-party data: Search Console Links exports (top linking sites, top linked pages, top linking text) and the Bing Webmaster API (pages with inbound links, linking URLs and anchor text per page). Reports linking-site concentration, anchor mix (brand, URL, generic, other), pages that earn links, and suspicious links for manual review; explains Google's link spam policy, when the disavow tool is and is not needed, and honest ways to earn links. Use when the user asks 'backlinks', 'who links to me', 'link profile', 'toxic links', 'should I disavow', 'anchor text', 'link building', or 'referring domains'. Uses sitetiller backlinks."
 license: MIT
 metadata:
-  version: 0.2.0
+  version: 1.0.0
 ---
 
 # Backlinks
@@ -45,6 +45,14 @@ Goal: know who links to the site and to which pages, spot real problems (a manua
 3. The 10 pages that earn the most links and one idea per page to build on it.
 4. Disavow: "not needed" or the specific reason it is needed.
 5. Three link-earning actions that fit the site.
+
+## Optional paid indexes (your own keys)
+```bash
+npx sitetiller provider status --json
+npx sitetiller provider dataforseo example.com --yes --json
+npx sitetiller provider ahrefs example.com --yes --json
+```
+`status` shows which providers have credentials set (never the values). DataForSEO returns backlinks, referring domains, rank, broken backlinks and referring IPs from its Backlinks Summary endpoint; Ahrefs returns Domain Rating and Ahrefs Rank. Each call is billed by the provider, so the command refuses without `--yes`. Treat both as third-party estimates next to the first-party Search Console and Bing data.
 
 ## Guardrails
 - Never buy links, propose link exchanges at scale, or automate link creation: all are link schemes under Google's spam policies.

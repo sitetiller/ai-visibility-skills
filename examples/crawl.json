@@ -1,0 +1,374 @@
+{
+  "start": "https://sitetiller.com/",
+  "crawled": 30,
+  "discovered": 53,
+  "notCrawled": 23,
+  "blockedByRobots": [],
+  "score": {
+    "overall": 99,
+    "categories": {
+      "indexability": 100,
+      "onpage": 99,
+      "links": 100,
+      "content": 98,
+      "structured": 98
+    },
+    "weights": {
+      "indexability": 30,
+      "onpage": 25,
+      "links": 20,
+      "content": 15,
+      "structured": 10
+    },
+    "method": "Per category: 100 x (1 - severity-weighted findings per page). high=1, medium=0.5, low=0.2. Overall: weighted average. A checklist ratio, not a ranking prediction."
+  },
+  "findingCounts": {
+    "long-description": 2,
+    "no-structured-data": 3,
+    "thin": 1
+  },
+  "siteFindings": [],
+  "pages": [
+    {
+      "url": "https://sitetiller.com/",
+      "depth": 0,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [
+        {
+          "category": "onpage",
+          "severity": "low",
+          "id": "long-description",
+          "detail": "173 characters"
+        }
+      ],
+      "title": "SiteTiller: get found on Google and ChatGPT",
+      "words": 2318
+    },
+    {
+      "url": "https://sitetiller.com/check",
+      "depth": 1,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [
+        {
+          "category": "structured",
+          "severity": "low",
+          "id": "no-structured-data",
+          "detail": "No structured data"
+        }
+      ],
+      "title": "Free SEO and AI visibility check | SiteTiller",
+      "words": 201
+    },
+    {
+      "url": "https://sitetiller.com/privacy",
+      "depth": 1,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [
+        {
+          "category": "structured",
+          "severity": "low",
+          "id": "no-structured-data",
+          "detail": "No structured data"
+        }
+      ],
+      "title": "Privacy policy | SiteTiller",
+      "words": 490
+    },
+    {
+      "url": "https://sitetiller.com/tools/",
+      "depth": 1,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "Free SEO and AI Visibility Tools (No Signup)",
+      "words": 800
+    },
+    {
+      "url": "https://sitetiller.com/terms",
+      "depth": 1,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [
+        {
+          "category": "content",
+          "severity": "medium",
+          "id": "thin",
+          "detail": "178 words of main text"
+        },
+        {
+          "category": "structured",
+          "severity": "low",
+          "id": "no-structured-data",
+          "detail": "No structured data"
+        }
+      ],
+      "title": "Terms | SiteTiller",
+      "words": 178
+    },
+    {
+      "url": "https://sitetiller.com/tools/ai-crawler-checker",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "AI Crawler Checker: Can ChatGPT and Claude Reach You?",
+      "words": 1062
+    },
+    {
+      "url": "https://sitetiller.com/tools/noindex-checker",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "Noindex Checker: Is Google Allowed to Index This Page?",
+      "words": 834
+    },
+    {
+      "url": "https://sitetiller.com/tools/sitemap-checker",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "XML Sitemap Checker: Find Broken URLs in Your Sitemap",
+      "words": 745
+    },
+    {
+      "url": "https://sitetiller.com/tools/schema-checker",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "Schema Checker: Structured Data Across Up to 20 Pages",
+      "words": 841
+    },
+    {
+      "url": "https://sitetiller.com/tools/wordpress-seo-audit-tool",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "Free WordPress SEO Audit Tool, With Every Score Explained",
+      "words": 801
+    },
+    {
+      "url": "https://sitetiller.com/tools/robots-txt-tester",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [
+        {
+          "category": "onpage",
+          "severity": "low",
+          "id": "long-description",
+          "detail": "168 characters"
+        }
+      ],
+      "title": "robots.txt Tester: Test Rules Before You Publish",
+      "words": 737
+    },
+    {
+      "url": "https://sitetiller.com/tools/find-pages-missing-meta-descriptions",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "Find Pages Missing Meta Descriptions (Up to 20 Pages)",
+      "words": 770
+    },
+    {
+      "url": "https://sitetiller.com/tools/internal-link-and-orphan-page-finder",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "Orphan Page Finder: Sitemap URLs Nobody Links To",
+      "words": 752
+    },
+    {
+      "url": "https://sitetiller.com/tools/llms-txt-checker",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "llms.txt Checker and Generator (Free, No Signup)",
+      "words": 833
+    },
+    {
+      "url": "https://sitetiller.com/tools/title-meta-checker",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "Title Tag and Meta Description Checker (Live URL)",
+      "words": 841
+    },
+    {
+      "url": "https://sitetiller.com/tools/gsc-low-ctr-pages-finder",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "Find Low-CTR Pages in Your Search Console Export",
+      "words": 786
+    },
+    {
+      "url": "https://sitetiller.com/tools/branded-vs-non-branded-queries",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "Branded vs Non-Branded Queries: Split Your GSC Data",
+      "words": 738
+    },
+    {
+      "url": "https://sitetiller.com/tools/keyword-cannibalization-finder",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "Keyword Cannibalization Finder for Search Console Data",
+      "words": 784
+    },
+    {
+      "url": "https://sitetiller.com/tools/content-decay-finder",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "Content Decay Finder: Pages Losing Clicks, and Why",
+      "words": 722
+    },
+    {
+      "url": "https://sitetiller.com/tools/seo-change-before-after-calculator",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "Did My SEO Change Work? Before/After With a Control",
+      "words": 728
+    },
+    {
+      "url": "https://sitetiller.com/tools/seo-roi-calculator",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "SEO ROI Calculator: When Does SEO Pay for Itself?",
+      "words": 693
+    },
+    {
+      "url": "https://sitetiller.com/tools/ctr-calculator",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "CTR Calculator: Clicks You Gain From a Better CTR",
+      "words": 829
+    },
+    {
+      "url": "https://sitetiller.com/tools/faq-schema-generator",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "FAQ Schema Generator (and What Google Changed in 2026)",
+      "words": 866
+    },
+    {
+      "url": "https://sitetiller.com/tools/meta-description-generator",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "Meta Description Generator That Checks Its Own Facts",
+      "words": 760
+    },
+    {
+      "url": "https://sitetiller.com/tools/which-schema-type-does-my-page-need",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "Which Schema Type Does My Page Need? (2026 Picker)",
+      "words": 788
+    },
+    {
+      "url": "https://sitetiller.com/tools/is-my-page-worth-quoting",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "Is My Page Worth Quoting? AI Answer Readiness Check",
+      "words": 726
+    },
+    {
+      "url": "https://sitetiller.com/tools/ai-visibility-prompt-builder",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "AI Visibility Prompt Builder: Test What ChatGPT Says",
+      "words": 790
+    },
+    {
+      "url": "https://sitetiller.com/tools/ga4-ai-traffic-regex",
+      "depth": 2,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "GA4 Regex for ChatGPT, Perplexity and AI Traffic",
+      "words": 745
+    },
+    {
+      "url": "https://sitetiller.com/ai/cloudflare-blocks-ai-crawlers",
+      "depth": 3,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "Is Cloudflare Blocking AI Crawlers on Your Site?",
+      "words": 920
+    },
+    {
+      "url": "https://sitetiller.com/ai/chatgpt-crawlers-oai-searchbot-gptbot-chatgpt-user",
+      "depth": 3,
+      "status": 200,
+      "location": "",
+      "altMissing": 0,
+      "findings": [],
+      "title": "GPTBot vs OAI-SearchBot vs ChatGPT-User: What Each Does",
+      "words": 875
+    }
+  ]
+}

@@ -12,3 +12,9 @@
 | Cloudflare | Search / Training / Agent controls | Since 2026-09-15: three per-domain controls, "Block AI bots" and managed robots.txt deprecated, Bot Preference Sync introduced | https://blog.cloudflare.com/accountable-mixed-use-ai-crawlers/ |
 
 Re-check these pages before changing the skill; vendors add tokens and change wording.
+
+## Added in v1.0 (checked 2026-11-13)
+
+| Claim | Source |
+|---|---|
+| Content Signals Policy: search, ai-input, ai-train signals in robots.txt; managed robots.txt sets search=yes, ai-train=no and leaves ai-input unset; signals are preferences | https://blog.cloudflare.com/content-signals-policy/ ; https://developers.cloudflare.com/bots/additional-configurations/managed-robots-txt/ |

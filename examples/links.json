@@ -1,0 +1,552 @@
+{
+  "sitemapUrl": "https://sitetiller.com/sitemap.xml",
+  "listed": 105,
+  "crawled": 30,
+  "orphans": [
+    {
+      "url": "https://sitetiller.com/ai/ai-crawler-user-agents-list",
+      "linkedFrom": 0,
+      "anchors": []
+    },
+    {
+      "url": "https://sitetiller.com/ai/does-llms-txt-work",
+      "linkedFrom": 0,
+      "anchors": []
+    },
+    {
+      "url": "https://sitetiller.com/ai/is-ai-visibility-tracking-worth-it",
+      "linkedFrom": 0,
+      "anchors": []
+    },
+    {
+      "url": "https://sitetiller.com/compare/best-ai-seo-tools-for-wordpress",
+      "linkedFrom": 0,
+      "anchors": []
+    },
+    {
+      "url": "https://sitetiller.com/compare/yoast-vs-rank-math-vs-aioseo",
+      "linkedFrom": 0,
+      "anchors": []
+    },
+    {
+      "url": "https://sitetiller.com/fix/alternate-page-with-proper-canonical-tag",
+      "linkedFrom": 0,
+      "anchors": []
+    },
+    {
+      "url": "https://sitetiller.com/fix/clicks-lost-to-ai-overviews",
+      "linkedFrom": 0,
+      "anchors": []
+    },
+    {
+      "url": "https://sitetiller.com/fix/indexed-but-not-showing-in-search",
+      "linkedFrom": 0,
+      "anchors": []
+    },
+    {
+      "url": "https://sitetiller.com/fix/remove-a-page-from-google",
+      "linkedFrom": 0,
+      "anchors": []
+    },
+    {
+      "url": "https://sitetiller.com/fix/search-console-indexing-request-quota-exceeded",
+      "linkedFrom": 0,
+      "anchors": []
+    },
+    {
+      "url": "https://sitetiller.com/fix/search-console-not-showing-data",
+      "linkedFrom": 0,
+      "anchors": []
+    },
+    {
+      "url": "https://sitetiller.com/fix/soft-404-search-console",
+      "linkedFrom": 0,
+      "anchors": []
+    },
+    {
+      "url": "https://sitetiller.com/fix/wordpress-sitemap-404",
+      "linkedFrom": 0,
+      "anchors": []
+    },
+    {
+      "url": "https://sitetiller.com/tools/find-pages-missing-meta-descriptions",
+      "linkedFrom": 0,
+      "anchors": []
+    },
+    {
+      "url": "https://sitetiller.com/tools/internal-link-and-orphan-page-finder",
+      "linkedFrom": 0,
+      "anchors": []
+    },
+    {
+      "url": "https://sitetiller.com/tools/is-my-page-worth-quoting",
+      "linkedFrom": 0,
+      "anchors": []
+    },
+    {
+      "url": "https://sitetiller.com/tools/keyword-cannibalization-finder",
+      "linkedFrom": 0,
+      "anchors": []
+    },
+    {
+      "url": "https://sitetiller.com/tools/meta-description-generator",
+      "linkedFrom": 0,
+      "anchors": []
+    },
+    {
+      "url": "https://sitetiller.com/tools/robots-txt-tester",
+      "linkedFrom": 0,
+      "anchors": []
+    },
+    {
+      "url": "https://sitetiller.com/tools/seo-roi-calculator",
+      "linkedFrom": 0,
+      "anchors": []
+    }
+  ],
+  "weak": [
+    {
+      "url": "https://sitetiller.com/ai/cloudflare-blocks-ai-crawlers",
+      "linkedFrom": 1,
+      "anchors": [
+        "Cloudflare and AI crawlers"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/ai/does-schema-markup-help-ai-search",
+      "linkedFrom": 1,
+      "anchors": [
+        "whether schema helps"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/ai/faq-schema-after-google-removed-rich-results",
+      "linkedFrom": 1,
+      "anchors": [
+        "FAQ timeline"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/compare/wordpress-seo-plugin-pricing",
+      "linkedFrom": 1,
+      "anchors": [
+        "pricing comparison"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/fix/blocked-by-robots-txt",
+      "linkedFrom": 1,
+      "anchors": [
+        "Blocked by robots.txt Not indexed vs indexed, though blocked"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/fix/crawled-currently-not-indexed",
+      "linkedFrom": 1,
+      "anchors": [
+        "crawled but not indexed"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/fix/discovered-currently-not-indexed",
+      "linkedFrom": 1,
+      "anchors": [
+        "that fix guide"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/fix/duplicate-without-user-selected-canonical",
+      "linkedFrom": 1,
+      "anchors": [
+        "duplicate without user-selected canonical"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/fix/google-shows-different-meta-description",
+      "linkedFrom": 1,
+      "anchors": [
+        "snippet guide"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/fix/new-wordpress-site-not-on-google",
+      "linkedFrom": 1,
+      "anchors": [
+        "new site not on Google"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/fix/noindex-stuck-after-turning-it-off",
+      "linkedFrom": 1,
+      "anchors": [
+        "noindex stuck after turning it off"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/fix/page-with-redirect-search-console",
+      "linkedFrom": 1,
+      "anchors": [
+        "page with redirect"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/fix/traffic-dropped-suddenly",
+      "linkedFrom": 1,
+      "anchors": [
+        "a traffic drop"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/fix/yoast-seo-removing-meta-titles",
+      "linkedFrom": 1,
+      "anchors": [
+        "Yoast meta titles Templates, variables and theme support"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/for/",
+      "linkedFrom": 1,
+      "anchors": [
+        "Who it&#x27;s for"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/for/seo-agencies",
+      "linkedFrom": 1,
+      "anchors": [
+        "SEO agencies Per-client data, versions, reports"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/for/web-design-agencies",
+      "linkedFrom": 1,
+      "anchors": [
+        "agency page"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/average-position-in-search-console",
+      "linkedFrom": 1,
+      "anchors": [
+        "Search Console Average position, explained Google's own definition and why the average misleads."
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/crawling-vs-indexing",
+      "linkedFrom": 1,
+      "anchors": [
+        "foundations Crawling vs indexing The stages from discovery to results, and which Search Console statuses belong to which"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/nextjs/sitemap-robots-search-console-nextjs",
+      "linkedFrom": 1,
+      "anchors": [
+        "Next.js"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/rich-results-which-still-show",
+      "linkedFrom": 1,
+      "anchors": [
+        "markup Which rich results still show Google's current gallery and the features removed, with dates."
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/saas/alternatives-and-comparison-pages",
+      "linkedFrom": 1,
+      "anchors": [
+        "SaaS Comparison and alternatives pages How to build them honestly, with sources and disclosure."
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/search-console-api-bigquery-mcp",
+      "linkedFrom": 1,
+      "anchors": [
+        "Search Console API, BigQuery export and MCP Three ways to get your data out, with limits."
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/search-console-domain-vs-url-prefix-property",
+      "linkedFrom": 1,
+      "anchors": [
+        "Search Console Domain vs URL-prefix property What each one covers and which to pick."
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/subdomain-vs-subfolder-seo",
+      "linkedFrom": 1,
+      "anchors": [
+        "site structure Subdomain vs subfolder What Google has said, and when each one is the practical choice."
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/title-tag-vs-meta-title-vs-h1",
+      "linkedFrom": 1,
+      "anchors": [
+        "titles Title tag vs meta title vs H1 Three names, two elements, and how Google uses each."
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/webflow/webflow-seo-without-yoast",
+      "linkedFrom": 1,
+      "anchors": [
+        "Webflow"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/wordpress/",
+      "linkedFrom": 1,
+      "anchors": [
+        "WordPress SEO checklist"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/wordpress/301-redirects-wordpress-seo",
+      "linkedFrom": 1,
+      "anchors": [
+        "301 redirects"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/wordpress/bulk-edit-seo-titles-meta-descriptions",
+      "linkedFrom": 1,
+      "anchors": [
+        "in bulk"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/wordpress/change-seo-title-wordpress",
+      "linkedFrom": 1,
+      "anchors": [
+        "One page"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/wordpress/fix-duplicate-schema-theme-yoast",
+      "linkedFrom": 1,
+      "anchors": [
+        "duplicate schema"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/wordpress/link-search-console-to-ga4",
+      "linkedFrom": 1,
+      "anchors": [
+        "Search Console + GA4"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/wordpress/noindex-page-wordpress",
+      "linkedFrom": 1,
+      "anchors": [
+        "Guide"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/wordpress/set-up-bing-webmaster-tools-wordpress",
+      "linkedFrom": 1,
+      "anchors": [
+        "Bing"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/wordpress/wordpress-sitemap-xml",
+      "linkedFrom": 1,
+      "anchors": [
+        "Guide"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/wordpress/yoast-seo-score-does-it-matter",
+      "linkedFrom": 1,
+      "anchors": [
+        "Yoast score"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/tools/ai-visibility-prompt-builder",
+      "linkedFrom": 1,
+      "anchors": [
+        "Prompt builder"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/tools/branded-vs-non-branded-queries",
+      "linkedFrom": 1,
+      "anchors": [
+        "branded split"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/tools/content-decay-finder",
+      "linkedFrom": 1,
+      "anchors": [
+        "content decay finder"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/tools/faq-schema-generator",
+      "linkedFrom": 1,
+      "anchors": [
+        "FAQ schema generator"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/tools/seo-change-before-after-calculator",
+      "linkedFrom": 1,
+      "anchors": [
+        "before and after calculator"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/ai/chatgpt-crawlers-oai-searchbot-gptbot-chatgpt-user",
+      "linkedFrom": 2,
+      "anchors": [
+        "how OpenAI's crawlers differ",
+        "OpenAI&#x27;s crawlers Four bots, four separate settings"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/ai/get-cited-by-chatgpt",
+      "linkedFrom": 2,
+      "anchors": [
+        "the ChatGPT checklist",
+        "ChatGPT citation guide"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/ai/search-console-generative-ai-report",
+      "linkedFrom": 2,
+      "anchors": [
+        "Search Console AI report",
+        "Generative AI report guide"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/ai/why-chatgpt-recommends-your-competitor",
+      "linkedFrom": 2,
+      "anchors": [
+        "why assistants recommend a competitor",
+        "competitor guide"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/compare/",
+      "linkedFrom": 2,
+      "anchors": [
+        "Compare"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/fix/google-deindexed-my-site",
+      "linkedFrom": 2,
+      "anchors": [
+        "site dropped out of Google",
+        "Google deindexed my site Triage tree, in the order to check"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/fix/impressions-up-clicks-down",
+      "linkedFrom": 2,
+      "anchors": [
+        "impressions up, clicks down",
+        "Impressions up, clicks down Position, CTR, query mix or device?"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/fix/search-console-sitemap-could-not-fetch",
+      "linkedFrom": 2,
+      "anchors": [
+        "Sitemap couldn&#x27;t fetch Couldn&#x27;t fetch vs Has errors, decoded",
+        "sitemap could not fetch"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/fix/traffic-dropped-after-redesign-or-migration",
+      "linkedFrom": 2,
+      "anchors": [
+        "traffic after a redesign or migration",
+        "traffic dropped after a redesign or migration"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/for/saas-blogs",
+      "linkedFrom": 2,
+      "anchors": [
+        "SaaS sites Comparison, use-case and tool pages"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/google-search-console-url-inspection-tool",
+      "linkedFrom": 2,
+      "anchors": [
+        "Search Console URL Inspection, section by section Indexed vs live versions, and where each status leads.",
+        "URL Inspection tool Every section of the result and where to go next"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/meta-description-examples",
+      "linkedFrom": 2,
+      "anchors": [
+        "original data Meta description examples from 99 pricing pages Only 10 of 93 named a price. Patterns and templates.",
+        "meta description examples"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/structured-data-vs-schema-markup",
+      "linkedFrom": 2,
+      "anchors": [
+        "markup Structured data vs schema markup The terms, the formats and the features Google retired.",
+        "structured data versus schema markup"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/title-tag-examples",
+      "linkedFrom": 2,
+      "anchors": [
+        "original data Title tag examples from 94 pricing pages Length, brand position and what the few informative titles add.",
+        "title tag examples"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/learn/wordpress/enable-indexnow-wordpress",
+      "linkedFrom": 2,
+      "anchors": [
+        "Enable IndexNow A ping to Bing and others, not to Google",
+        "IndexNow"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/tools/ga4-ai-traffic-regex",
+      "linkedFrom": 2,
+      "anchors": [
+        "GA4 AI traffic regex"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/tools/llms-txt-checker",
+      "linkedFrom": 2,
+      "anchors": [
+        "llms.txt checker Validate the format and test every link",
+        "llms.txt checker"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/tools/which-schema-type-does-my-page-need",
+      "linkedFrom": 2,
+      "anchors": [
+        "Type picker",
+        "type picker"
+      ]
+    },
+    {
+      "url": "https://sitetiller.com/tools/wordpress-seo-audit-tool",
+      "linkedFrom": 2,
+      "anchors": [
+        "WordPress SEO audit tool"
+      ]
+    }
+  ],
+  "note": "Orphan means not linked from the crawled sample. Increase --pages for more coverage."
+}

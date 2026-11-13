@@ -30,7 +30,10 @@ Two capabilities none of the READMEs of the repositories compared below mention 
 
 And one we share: **Google + Bing side by side** (queries only one engine shows you for, biggest position gaps). search-console-mcp offers this as an MCP tool (`compare_engines`) and claude-seo connects to Bing Webmaster Tools; here it is a CLI command plus a skill that turns the gaps into actions.
 
-Also included: a polite site crawler with per-page findings, image and content-quality audits, JSON-LD generation that never invents ratings, CrUX history with LCP subparts, backlinks from Search Console and Bing (no paid index needed), publishing to WordPress, Ghost and GitHub-backed static sites with the same ownership ledger, AI answer tracking with your own API keys (mentions, citations, cited domains), section-level quotability signals, a programmatic SEO quality gate (thin pages, near-duplicates after removing template text, missing sources), Google-required structured data lint, Core Web Vitals from CrUX, IndexNow, sitemap and llms.txt validation.
+Also included: agent-readiness checks (accessible names, landmarks, server-rendered text, Content-Signal), Lighthouse runs across many pages, NAP consistency for local businesses, optional paid indexes with your own keys (DataForSEO, Ahrefs; refused without `--yes`), drift alerts rated by severity, a polite site crawler with per-page findings, image and content-quality audits, JSON-LD generation that never invents ratings, CrUX history with LCP subparts, backlinks from Search Console and Bing (no paid index needed), publishing to WordPress, Ghost and GitHub-backed static sites with the same ownership ledger, AI answer tracking with your own API keys (mentions, citations, cited domains), section-level quotability signals, a programmatic SEO quality gate (thin pages, near-duplicates after removing template text, missing sources), Google-required structured data lint, Core Web Vitals from CrUX, IndexNow, sitemap and llms.txt validation.
+
+## Example outputs
+`examples/` holds unedited `--json` output from real runs on sitetiller.com (crawl, agent, quality, citability, links and more), so you can see what each command returns before installing.
 
 ## Skills
 44 skills; see `AGENTS.md` for the full index. Groups:

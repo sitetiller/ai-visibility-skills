@@ -3,7 +3,7 @@ name: ai-crawlers
 description: "Check and fix which search and AI crawlers can reach a site: OAI-SearchBot, GPTBot, ChatGPT-User, Claude-SearchBot, ClaudeBot, PerplexityBot, Google-Extended, Bingbot and more, grouped by purpose (search, user fetch, training). Use when the user asks 'can ChatGPT/Claude/Perplexity see my site', 'should I block GPTBot', 'why isn't my site cited by AI', 'write my robots.txt for AI', 'is Cloudflare blocking AI bots', or wants to test a robots.txt draft. Uses the sitetiller CLI against the live robots.txt or a local draft."
 license: MIT
 metadata:
-  version: 0.1.0
+  version: 1.0.0
 ---
 
 # AI crawler access
@@ -44,6 +44,9 @@ Goal: tell the user exactly which crawlers can read their site, which rule decid
 2. A table: crawler, owner, purpose, allowed/blocked, deciding rule and line.
 3. The exact robots.txt lines to change, as a diff, tested with `robots-test`.
 4. What this check cannot see (CDN rules, actual visits).
+
+## Content-Signal lines
+Cloudflare's Content Signals Policy adds `Content-Signal: search=yes, ai-input=yes, ai-train=no` style lines to robots.txt. `npx sitetiller crawlers <url>` prints them with their line and group, and flags values other than yes or no. They state a preference about how content may be used (search index, AI answers grounded on the page, model training); they do not block anything and compliance is voluntary. To block a bot, use Disallow or a firewall rule. Cloudflare's managed robots.txt adds `search=yes, ai-train=no` and leaves `ai-input` unset.
 
 ## Guardrails
 - Never recommend blocking search crawlers unless the user asks for it; explain the visibility cost.

@@ -1,0 +1,84 @@
+{
+  "host": "sitetiller.com",
+  "origin": "https://sitetiller.com",
+  "sitemapUrl": "https://sitetiller.com/sitemap.xml",
+  "kind": "urlset",
+  "inRobots": true,
+  "robotsSitemaps": [
+    "https://sitetiller.com/sitemap.xml"
+  ],
+  "lastmod": 105,
+  "children": [],
+  "tried": [
+    {
+      "url": "https://sitetiller.com/sitemap.xml",
+      "status": 200,
+      "kind": "urlset"
+    }
+  ],
+  "found": true,
+  "urlCount": 105,
+  "issues": [],
+  "sample": [
+    {
+      "url": "https://sitetiller.com/",
+      "status": 200,
+      "noindex": false,
+      "redirectedTo": ""
+    },
+    {
+      "url": "https://sitetiller.com/ai/does-llms-txt-work",
+      "status": 200,
+      "noindex": false,
+      "redirectedTo": ""
+    },
+    {
+      "url": "https://sitetiller.com/compare/yoast-vs-rank-math-vs-aioseo",
+      "status": 200,
+      "noindex": false,
+      "redirectedTo": ""
+    },
+    {
+      "url": "https://sitetiller.com/fix/google-shows-different-meta-description",
+      "status": 200,
+      "noindex": false,
+      "redirectedTo": ""
+    },
+    {
+      "url": "https://sitetiller.com/fix/traffic-dropped-after-redesign-or-migration",
+      "status": 200,
+      "noindex": false,
+      "redirectedTo": ""
+    },
+    {
+      "url": "https://sitetiller.com/learn/crawling-vs-indexing",
+      "status": 200,
+      "noindex": false,
+      "redirectedTo": ""
+    },
+    {
+      "url": "https://sitetiller.com/learn/title-tag-examples",
+      "status": 200,
+      "noindex": false,
+      "redirectedTo": ""
+    },
+    {
+      "url": "https://sitetiller.com/learn/wordpress/enable-indexnow-wordpress",
+      "status": 200,
+      "noindex": false,
+      "redirectedTo": ""
+    },
+    {
+      "url": "https://sitetiller.com/tools/branded-vs-non-branded-queries",
+      "status": 200,
+      "noindex": false,
+      "redirectedTo": ""
+    },
+    {
+      "url": "https://sitetiller.com/tools/llms-txt-checker",
+      "status": 200,
+      "noindex": false,
+      "redirectedTo": ""
+    }
+  ]
+}
