@@ -1,5 +1,5 @@
 // Minimal, polite HTTP helpers. Read-only: GET requests only, size-capped, with a clear user agent.
-export const UA = "SiteTillerCLI/0.1 (+https://github.com/sitetiller/seo-skills)";
+export const UA = "SiteTillerCLI/0.2 (+https://github.com/sitetiller/seo-skills)";
 
 export class ToolError extends Error {}
 
@@ -49,4 +49,17 @@ export function target(raw) {
   return { host, origin: `${u.protocol}//${u.hostname}${u.port ? ":" + u.port : ""}`, path: (u.pathname || "/") + (u.search || "") };
 }
 
-export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+/** True for a public http(s) URL: no IP literals, no localhost-style names, no credentials, default or common web ports.
+ * Used on every hop a crawler follows, so a public page cannot redirect or link the tool into a private network. */
+export function isPublicUrl(raw) {
+  let u;
+  try { u = new URL(raw); } catch { return false; }
+  if (!/^https?:$/.test(u.protocol) || u.username || u.password) return false;
+  if (u.port && !["80", "443", "8080", "8443"].includes(u.port)) return false;
+  const host = u.hostname.toLowerCase().replace(/\.$/, "");
+  if (host.startsWith("[") || /^[\d.]+$/.test(host) || /^0x/i.test(host)) return false; // IPv6 / IPv4 / hex literals
+  if (!/^([a-z0-9-]+\.)+[a-z]{2,}$/.test(host)) return false;
+  return !/(^|\.)(localhost|local|internal|lan|home|corp|intranet|localdomain|home\.arpa)$/.test(host);
+}
+
+export const sleep =(ms) => new Promise((r) => setTimeout(r, ms));

@@ -19,11 +19,19 @@ import { lintSchema } from "../lib/schema-lint.mjs";
 import { citability } from "../lib/citability.mjs";
 import { track } from "../lib/tracker.mjs";
 import { wpCreate, wpUpdate, wpUnpublish, readLedger } from "../lib/wordpress.mjs";
-import { get } from "../lib/http.mjs";
+import { get, target } from "../lib/http.mjs";
+import { crawlSite } from "../lib/crawl.mjs";
+import { ghostCreate, ghostUpdate, ghostUnpublish } from "../lib/ghost.mjs";
+import { githubPut, githubDelete } from "../lib/github-publish.mjs";
+import { imageAudit, imageSizes } from "../lib/images.mjs";
+import { contentQuality } from "../lib/quality.mjs";
+import { generateSchema } from "../lib/schema-gen.mjs";
+import { cruxHistory } from "../lib/perf.mjs";
+import { gscLinksCsv, anchorMix, concentration, bingLinkCounts, bingUrlLinks } from "../lib/backlinks.mjs";
 import { readdir } from "node:fs/promises";
 import { join, extname } from "node:path";
 
-const VERSION = "0.1.0";
+const VERSION = "0.2.0";
 const HELP = `sitetiller ${VERSION}: SEO and AI visibility checks
 
 Site checks (public pages only):
@@ -34,6 +42,10 @@ Site checks (public pages only):
   llms <url>                         Validate /llms.txt against llmstxt.org and test its links
   pages <url> [--pages 20]           Titles, descriptions, H1, schema, noindex across sitemap pages
   links <url> [--pages 50]           Orphan and weakly linked pages (sitemap vs internal links)
+  crawl <url> [--max 50] [--delay 1000]   Polite same-site crawl: findings per page, site score with the arithmetic
+  images <url> [--sizes 20]          Image alt, dimensions, lazy LCP image, formats, srcset, file names (+ byte sizes)
+  quality <url>                      Readability, author/date/sources/first-hand signals, filler phrases (checklist)
+  schema-gen <type> [--name ... --url ...]   JSON-LD for organization|website|article|product|software|localbusiness|breadcrumb|event|person, linted
 
 Search Console / Bing / GA4 (your credentials, read-only):
   gsc <site> --start YYYY-MM-DD --end YYYY-MM-DD [--dims query,page] [--out file.csv]
@@ -45,6 +57,8 @@ Search Console / Bing / GA4 (your credentials, read-only):
   cite <url>                         Section-by-section quotability signals (answer first, numbers, tables, sources)
   schema <url>                       JSON-LD lint: Google-required properties, removed features, duplicates
   cwv <url> [--origin] [--form PHONE|DESKTOP]   Core Web Vitals p75 from CrUX (CRUX_API_KEY)
+  crux-history <url> [--origin] [--form PHONE] [--periods 25]   Weekly CWV trend + LCP subparts (CrUX History API)
+  backlinks <links.csv> [--brand a,b] | backlinks --bing <siteUrl> [--page <url>]   Search Console links export or Bing links
   indexnow <url...> [--file urls.txt]   Submit changed URLs to IndexNow (INDEXNOW_KEY, key file on site)
   gate <folder>                      pSEO quality gate on .html/.md drafts: thin, duplicates, sources, AI tells
 
@@ -61,6 +75,11 @@ Exports and logs (local files):
   logs <access.log...> [--no-verify] AI and search bot hits, verified against published IP ranges
   measure --changed-before N --changed-after N [--control-before N --control-after N]
   measure --daily file.csv           (columns: group,period,clicks with group=changed|control, period=before|after)
+
+Publish pages you own (ledger in ./.sitetiller/owned.json; existing pages are never edited):
+  wp create|update|unpublish|owned <https://site> [--type posts|pages] [--title --content-file --slug --status --id]   (WP_USER, WP_APP_PASSWORD)
+  ghost create|update|unpublish <https://admin-site> [--type posts|pages] [--title --html-file --slug --meta-title --meta-description --canonical --id]   (GHOST_ADMIN_API_KEY)
+  github put|delete <owner/repo> --dir content/sitetiller --file x.md [--content-file local.md] [--branch main]   (GITHUB_TOKEN)
 
 Versions of pages you own (stored in ./.sitetiller/):
   version snapshot <url> [--label x] | list <url> | diff <url> [a b] | drift <url> | rollback <url> [--to n]
@@ -87,6 +106,7 @@ function table(head, rows) {
   const line = (r) => "| " + r.map((c, i) => String(c ?? "").padEnd(w[i])).join(" | ") + " |";
   return [line(head), "|" + w.map((x) => "-".repeat(x + 2)).join("|") + "|", ...rows.map(line)].join("\n");
 }
+async function fetchPage(raw) { const t = target(raw); return get(`${t.origin}${t.path}`, { ms: 10000, maxBytes: 3_000_000 }); }
 async function readLines(files) {
   const out = [];
   for (const f of files) { const rl = createInterface({ input: createReadStream(f), crlfDelay: Infinity }); for await (const l of rl) out.push(l); }
@@ -140,8 +160,19 @@ async function main() {
       out = compareEngines(g, b); if (!opt.json) { const t = out.totals; console.log(`Google: ${n0(t.googleClicks)} clicks / ${n0(t.googleImpressions)} impressions. Bing: ${n0(t.bingClicks)} / ${n0(t.bingImpressions)}.\n\nOnly in Bing (top 15):\n` + table(["Query", "Bing impr.", "Bing pos."], out.onlyBing.slice(0, 15).map((r) => [r.key, r.bingImpressions, r.bingPosition?.toFixed(1)])) + "\n\nOnly in Google (top 15):\n" + table(["Query", "Google impr.", "Google pos."], out.onlyGoogle.slice(0, 15).map((r) => [r.key, r.googleImpressions, r.googlePosition?.toFixed(1)]))); return; }
       break;
     }
-    case "cite": { const r = await get(pos[0].startsWith("http") ? pos[0] : "https://" + pos[0], { ms: 10000, maxBytes: 3_000_000 }); out = { url: r.url, status: r.status, ...citability(r.text) }; break; }
-    case "schema": { const r = await get(pos[0].startsWith("http") ? pos[0] : "https://" + pos[0], { ms: 10000, maxBytes: 3_000_000 }); out = { url: r.url, status: r.status, ...lintSchema(r.text) }; break; }
+    case "cite": { const r = await fetchPage(pos[0]); out = { url: r.url, status: r.status, ...citability(r.text) }; break; }
+    case "schema": { const r = await fetchPage(pos[0]); out = { url: r.url, status: r.status, ...lintSchema(r.text) }; break; }
+    case "crawl": out = await crawlSite(pos[0], { max: Number(opt.max) || 50, delayMs: opt.delay != null ? Number(opt.delay) : 1000 }); break;
+    case "images": { const r = await fetchPage(pos[0]); out = { url: r.url, status: r.status, ...imageAudit(r.text, { url: r.url }) }; if (opt.sizes) out.sizes = await imageSizes(out.list, { n: Number(opt.sizes) || 20 }); break; }
+    case "quality": { const r = await fetchPage(pos[0]); out = { status: r.status, ...contentQuality(r.text, { url: r.url }) }; break; }
+    case "schema-gen": { const { json, ...data } = opt; out = generateSchema(pos[0], data); if (!opt.json) { console.log(out.html + "\n\n" + (out.lint.findings.length ? table(["Level", "Type", "Message"], out.lint.findings.map((f) => [f.level, f.type, f.message])) : "Lint: no findings.") + (out.notes.length ? "\n\n" + out.notes.join("\n") : "")); return; } break; }
+    case "crux-history": out = await cruxHistory(pos[0], { origin: !!opt.origin, formFactor: (opt.form || "PHONE").toUpperCase(), periods: opt.periods }); break;
+    case "backlinks": {
+      if (opt.bing) { out = opt.page ? await bingUrlLinks(opt.bing, opt.page) : { pages: await bingLinkCounts(opt.bing) }; if (opt.page) out.anchors = anchorMix(out.links.map((l) => l.anchor), { brand: list(opt.brand) || [] }); break; }
+      const c = gscLinksCsv(await readFile(pos[0], "utf8"));
+      out = c.kind === "linking-sites" ? { kind: c.kind, ...concentration(c.rows) } : c.kind === "anchors" ? { kind: c.kind, ...anchorMix(c.rows.map((r) => r.anchor), { brand: list(opt.brand) || [] }) } : { kind: c.kind, pages: c.rows.sort((a, b) => b.links - a.links).slice(0, 100) };
+      break;
+    }
     case "cwv": out = await cwv(pos[0], { origin: !!opt.origin, formFactor: (opt.form || "PHONE").toUpperCase() }); break;
     case "indexnow": { const urls = opt.file ? (await readFile(opt.file, "utf8")).split(/\r?\n/).map((x) => x.trim()).filter(Boolean) : pos; out = await indexNow(urls); break; }
     case "striking": out = strikingDistance(gscRows(await readFile(pos[0], "utf8")), { minImp: Number(opt["min-imp"]) || 100 }).slice(0, 100); break;
@@ -176,6 +207,22 @@ async function main() {
       else if (sub === "unpublish") out = await wpUnpublish(site, { type, id: opt.id });
       else if (sub === "owned") out = await readLedger();
       else throw new Error("wp needs: create | update | unpublish | owned");
+      break;
+    }
+    case "ghost": {
+      const sub = pos.shift(); const site = pos[0]; const type = opt.type || "posts";
+      const fields = { title: opt.title, html: opt["html-file"] ? await readFile(opt["html-file"], "utf8") : undefined, slug: opt.slug, status: opt.status, custom_excerpt: opt.excerpt, meta_title: opt["meta-title"], meta_description: opt["meta-description"], canonical_url: opt.canonical, og_image: opt["og-image"], codeinjection_head: opt["head-file"] ? await readFile(opt["head-file"], "utf8") : undefined };
+      if (sub === "create") out = await ghostCreate(site, { type, ...fields });
+      else if (sub === "update") out = await ghostUpdate(site, { type, id: opt.id, ...fields });
+      else if (sub === "unpublish") out = await ghostUnpublish(site, { type, id: opt.id });
+      else throw new Error("ghost needs: create | update | unpublish");
+      break;
+    }
+    case "github": {
+      const sub = pos.shift();
+      if (sub === "put") out = await githubPut(pos[0], { dir: opt.dir, file: opt.file, content: await readFile(opt["content-file"], "utf8"), message: opt.message }, { branch: opt.branch });
+      else if (sub === "delete") out = await githubDelete(pos[0], { dir: opt.dir, file: opt.file, message: opt.message }, { branch: opt.branch });
+      else throw new Error("github needs: put | delete");
       break;
     }
     case "ga4-ai": out = await ga4AiSessions(pos[0], { start: opt.start, end: opt.end, keyFile: opt.key }); break;

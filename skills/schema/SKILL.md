@@ -1,9 +1,9 @@
 ---
 name: schema
-description: "Lint and plan structured data (JSON-LD) for a page: checks Google's required properties, flags Software application markup without aggregateRating or review, notes that FAQ rich results ended on 2026-05-07 and that HowTo is not in Google's gallery, picks types per page type, shows a valid @graph example, and ends with the Rich Results Test. Uses the schema command. Use when the user says 'structured data', 'schema markup', 'JSON-LD', 'rich results', 'add schema', 'FAQ schema', 'SoftwareApplication schema', 'why no stars in Google'."
+description: "Lint and plan structured data (JSON-LD) for a page: checks Google's required properties, flags Software application markup without aggregateRating or review, notes that FAQ rich results ended on 2026-05-07 and that HowTo is not in Google's gallery, picks types per page type, shows a valid @graph example, and ends with the Rich Results Test. Uses the schema and schema-gen commands. Use when the user says 'structured data', 'schema markup', 'JSON-LD', 'rich results', 'add schema', 'FAQ schema', 'SoftwareApplication schema', 'why no stars in Google'."
 license: MIT
 metadata:
-  version: 0.1.0
+  version: 0.2.0
 ---
 
 # Structured data: only what Google documents, only what is on the page
@@ -61,6 +61,13 @@ Google says structured data does not guarantee a rich result, and the markup mus
    }
    </script>
    ```
+   To start from the user's facts instead of hand-writing, generate and lint in one step:
+   ```bash
+   npx sitetiller schema-gen article --headline "Invoice template with payment terms" --url https://example.com/guides/invoice-template --datePublished 2026-10-01T09:00:00+00:00 --author "Jane Doe" --publisher "Example Inc." --image https://example.com/img/invoice.png
+   npx sitetiller schema-gen software --name "Example" --price 0 --currency USD --category BusinessApplication --os Web
+   npx sitetiller schema-gen breadcrumb --items "Guides|https://example.com/guides,Invoice template|https://example.com/guides/invoice-template"
+   ```
+   Types: organization, website, article, product, software, localbusiness, breadcrumb, event, person. Empty inputs are left out, never filled with placeholders; the lint under the output lists what is still required or recommended. Ratings and reviews are never generated: `--rating` and similar inputs are ignored with a note, because they must come from real reviews visible on the page.
    Put `Organization` and `WebSite` on the pages where they belong (homepage or all pages, one source), not as multiple copies.
 5. Re-run the lint after editing. Then run Google's Rich Results Test on the URL (https://search.google.com/test/rich-results) and look at Search Console enhancement reports after Google recrawls. The lint is not a replacement for the test: it checks only the properties listed in this skill, not every Google rule.
 

@@ -14,6 +14,7 @@
 | CrUX API: POST `records:queryRecord`, `url` or `origin`, `formFactor` DESKTOP, PHONE or TABLET, p75 in `percentiles`, 28-day rolling window, updated daily about 04:00 UTC (best effort, no SLA), about two days behind, no redirect following, 150 queries per minute per project, free | https://developer.chrome.com/docs/crux/api |
 | PSI API: "We plan to discontinue including real-world data from the Chrome User Experience Report in this API."; recommends the CrUX API or CrUX History API; no date | https://developers.google.com/speed/docs/insights/v5/get-started |
 | PSI field data is CrUX (28-day); falls back to origin data; release notes through 2025-10-20 (Lighthouse 13.0) show no removal | https://developers.google.com/speed/docs/insights/v5/about and https://developers.google.com/speed/docs/insights/release_notes |
+| CrUX History API: `queryHistoryRecord`, `collectionPeriodCount` 1-40 (default 25), p75s per weekly period, LCP image subpart metrics (time_to_first_byte, resource_load_delay, resource_load_duration, element_render_delay) | https://developer.chrome.com/docs/crux/history-api (checked 2026-11-13) |
 
 ## Tool behaviour
 - `cwv` source (cli/lib/extras.mjs): calls the CrUX API with `url` or `origin`, `formFactor` (default PHONE), metrics `largest_contentful_paint`, `interaction_to_next_paint`, `cumulative_layout_shift`; rates p75 as good at or below 2500 / 200 / 0.1 and poor above 4000 / 500 / 0.25; returns `available: false` with a note when the API answers an error. Matches the web.dev thresholds above.

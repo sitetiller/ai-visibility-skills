@@ -1,5 +1,5 @@
 // Read what a crawler sees on one page: status chain, title, description, robots, canonical, H1s, schema types, text.
-import { get, looksHtml, target, ToolError, UA } from "./http.mjs";
+import { get, isPublicUrl, looksHtml, target, ToolError, UA } from "./http.mjs";
 import { decide, parseRobots } from "./robots.mjs";
 
 const dec = (s) => String(s).replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#0?39;|&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&nbsp;|&#160;/g, " ").replace(/\s+/g, " ").trim();
@@ -19,7 +19,9 @@ export function readable(html) {
 export function analyzeHtml(html, { url = "", headers = new Headers(), host = "" } = {}) {
   const head = html.slice(0, 250_000);
   const metaBy = (n) => (head.match(new RegExp(`<meta[^>]+(?:name|property)\\s*=\\s*["']${n}["'][^>]*>`, "gi")) || []).map((m) => dec(attr(m, "content")));
-  const titles = [...head.matchAll(/<title[^>]*>([\s\S]*?)<\/title>/gi)].map((m) => dec(m[1]));
+  // Only <title> in the document head; <svg><title> inside the body is an accessible name for an icon, not a page title.
+  const headOnly = (head.match(/^[\s\S]*?<\/head>/i) || [head.replace(/<svg\b[\s\S]*?<\/svg>/gi, "")])[0];
+  const titles = [...headOnly.matchAll(/<title[^>]*>([\s\S]*?)<\/title>/gi)].map((m) => dec(m[1]));
   const desc = metaBy("description");
   const robotsMeta = [...metaBy("robots"), ...metaBy("googlebot")];
   const xRobots = headers.get?.("x-robots-tag") || "";
@@ -76,7 +78,11 @@ export async function pageReport(raw) {
     catch { throw new ToolError(`Could not reach ${url}`); } finally { clearTimeout(timer); }
     chain.push({ url, status: res.status });
     const loc = res.headers.get("location");
-    if (res.status >= 300 && res.status < 400 && loc) { url = new URL(loc, url).toString(); continue; }
+    if (res.status >= 300 && res.status < 400 && loc) {
+      url = new URL(loc, url).toString();
+      if (!isPublicUrl(url)) throw new ToolError(`Redirect to a non-public address was not followed: ${url}`);
+      continue;
+    }
     break;
   }
   const html = res.status < 400 ? (await res.text()).slice(0, 2_000_000) : "";

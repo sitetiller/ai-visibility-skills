@@ -1,9 +1,9 @@
 ---
 name: core-web-vitals
-description: "Measure and improve Core Web Vitals (LCP, INP, CLS) from real-user field data using the Chrome UX Report: p75 values for phone and desktop, page versus origin fallback, good / needs improvement / poor thresholds from web.dev, and what to fix for each failing metric (LCP subparts, long tasks and input delay, layout shifts). Use when the user asks 'Core Web Vitals', 'LCP too slow', 'INP', 'CLS', 'PageSpeed Insights says...', 'is my site fast enough', 'page experience', 'why is the CrUX data missing', or 'PSI API field data'. Uses sitetiller cwv (needs a CrUX API key; see the setup skill)."
+description: "Measure and improve Core Web Vitals (LCP, INP, CLS) from real-user field data using the Chrome UX Report: p75 values for phone and desktop, page versus origin fallback, good / needs improvement / poor thresholds from web.dev, and what to fix for each failing metric (LCP subparts, long tasks and input delay, layout shifts). Use when the user asks 'Core Web Vitals', 'LCP too slow', 'INP', 'CLS', 'PageSpeed Insights says...', 'is my site fast enough', 'page experience', 'why is the CrUX data missing', or 'PSI API field data'. Uses sitetiller cwv and crux-history (needs a CrUX API key; see the setup skill)."
 license: MIT
 metadata:
-  version: 0.1.0
+  version: 0.2.0
 ---
 
 # Core Web Vitals
@@ -33,8 +33,14 @@ A page passes when all three are good at p75. FID is retired; INP is the respons
    ```
    Output: `target`, `formFactor`, `available`, `collectionPeriod`, `metrics[]` (`metric`, `p75`, `rating`) and `passes`. `p75` is in milliseconds for LCP and INP and a unitless score for CLS. `rating` is `good`, `needs improvement` or `poor` using the table above. The CrUX data is a 28-day rolling window, updated daily, about two days behind.
 2. If `available` is false, the URL has too little Chrome traffic for CrUX to report it. Try `--origin`. The CrUX docs describe a URL query as data for that exact URL only and an origin query as data for all pages in the origin; the API does not follow redirects, so test the final URL (check with `page`). Say "no field data" and move to lab data: it is not a failing score.
-3. Pick the failing metric and device. Fix the worst first; fixes below. Re-measure after the 28-day window rolls: field data cannot confirm a fix the next day.
-4. Use lab tools to find causes, not to grade. Google's web.dev says field data is what you should use to prioritise, while lab runs (Lighthouse, PageSpeed Insights lab section) load a page once under fixed conditions and can miss INP problems because Total Blocking Time ignores tap delay. Run Lighthouse or Chrome DevTools on the failing page and compare.
+3. See the trend and where LCP time goes (CrUX History API, weekly points, up to 40 periods):
+   ```bash
+   npx sitetiller crux-history https://example.com/pricing --json
+   npx sitetiller crux-history https://example.com/ --origin --periods 40 --json
+   ```
+   Output: `periods` (end date of each weekly collection period), `metrics` per Core Web Vital (`series` of p75s, `latest`, `latestRating`, `change4w` in % of the last 4 points against the 4 before, `trend` better/worse/flat), `lcpBreakdown` (p75 of TTFB, resource load delay, resource load duration and element render delay, each with its share), `biggestLcpPart` and `advice`. Subparts are separate p75s, so they need not add up to the LCP p75. Use the trend to date a regression (a deploy, a new script) and the breakdown to pick the LCP fix below.
+4. Pick the failing metric and device. Fix the worst first; fixes below. Re-measure after the 28-day window rolls: field data cannot confirm a fix the next day.
+5. Use lab tools to find causes, not to grade. Google's web.dev says field data is what you should use to prioritise, while lab runs (Lighthouse, PageSpeed Insights lab section) load a page once under fixed conditions and can miss INP problems because Total Blocking Time ignores tap delay. Run Lighthouse or Chrome DevTools on the failing page and compare.
 
 ## Fixes by metric (web.dev)
 

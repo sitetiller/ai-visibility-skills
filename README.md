@@ -5,7 +5,8 @@ Agent skills and a zero-dependency CLI for SEO and AI search visibility, built o
 Every skill cites the documentation it relies on, with the date it was checked. Nothing here promises rankings or citations.
 
 ```bash
-npx sitetiller crawlers example.com         # which search and AI crawlers robots.txt lets in, and the rule that decides
+npx sitetiller crawl example.com             # polite site crawl: findings per page and a score with its arithmetic
+npx sitetiller crawlers example.com          # which search and AI crawlers robots.txt lets in, and the rule that decides
 npx sitetiller logs access.log              # real AI bot visits, verified against OpenAI/Google/Bing/Perplexity IP lists
 npx sitetiller engines example.com https://example.com/ --start 2026-10-01 --end 2026-11-05   # Google vs Bing by query
 npx sitetiller version snapshot https://example.com/page --label "v2 new title"                 # then measure and roll back
@@ -29,15 +30,16 @@ Two capabilities none of the READMEs of the repositories compared below mention 
 
 And one we share: **Google + Bing side by side** (queries only one engine shows you for, biggest position gaps). search-console-mcp offers this as an MCP tool (`compare_engines`) and claude-seo connects to Bing Webmaster Tools; here it is a CLI command plus a skill that turns the gaps into actions.
 
-Also included: AI answer tracking with your own API keys (mentions, citations, cited domains), section-level quotability signals, a programmatic SEO quality gate (thin pages, near-duplicates after removing template text, missing sources), Google-required structured data lint, Core Web Vitals from CrUX, IndexNow, sitemap and llms.txt validation.
+Also included: a polite site crawler with per-page findings, image and content-quality audits, JSON-LD generation that never invents ratings, CrUX history with LCP subparts, backlinks from Search Console and Bing (no paid index needed), publishing to WordPress, Ghost and GitHub-backed static sites with the same ownership ledger, AI answer tracking with your own API keys (mentions, citations, cited domains), section-level quotability signals, a programmatic SEO quality gate (thin pages, near-duplicates after removing template text, missing sources), Google-required structured data lint, Core Web Vitals from CrUX, IndexNow, sitemap and llms.txt validation.
 
 ## Skills
-See `AGENTS.md` for the full index. Groups:
-- **Data:** setup, gsc-bing, ga4-ai, quick-wins, weekly-check, seo-report
-- **Technical:** tech-audit, sitemaps, indexing, redirects-migration, canonicals, hreflang, core-web-vitals
-- **Content:** onpage, titles-meta, content-brief, topic-clusters, cannibalization, content-decay, internal-links, schema, comparison-pages, competitors
+44 skills; see `AGENTS.md` for the full index. Groups:
+- **Data and planning:** setup, gsc-bing, ga4-ai, quick-wins, weekly-check, seo-report, seo-plan
+- **Technical:** tech-audit, site-architecture, sitemaps, indexing, redirects-migration, canonicals, hreflang, core-web-vitals, images
+- **Content:** onpage, titles-meta, content-brief, content-quality, sxo, topic-clusters, cannibalization, content-decay, internal-links, schema, comparison-pages, competitors
+- **Links:** backlinks
 - **AI visibility:** ai-crawlers, ai-logs, citability, ai-tracker, llms-txt, ai-citations, agent-ready
-- **Measurement and publishing:** measure-rollback, pseo-quality-gate, wordpress-publish
+- **Measurement and publishing:** measure-rollback, pseo-quality-gate, wordpress-publish, ghost-publish, static-site-publish, platforms
 - **Verticals:** local-seo, ecommerce-seo
 
 ## Comparison (generated, not hand-written)

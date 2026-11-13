@@ -1,9 +1,9 @@
 ---
 name: tech-audit
-description: "Run a full technical SEO audit of a public site and return a prioritised findings table (impact by effort): crawl access, robots.txt, sitemap, status codes and redirects, indexability (noindex, canonical), titles and descriptions, headings, internal links and orphans, structured data, mobile parity, and Core Web Vitals. Use when the user asks for a 'technical SEO audit', 'site audit', 'SEO health check', 'what is wrong with my site', 'audit this URL', or 'why is my site not ranking' and wants evidence, not guesses. Uses the sitetiller CLI pages, page, sitemap, links, crawlers, schema and cwv commands."
+description: "Run a full technical SEO audit of a public site and return a prioritised findings table (impact by effort): crawl access, robots.txt, sitemap, status codes and redirects, indexability (noindex, canonical), titles and descriptions, headings, internal links and orphans, structured data, mobile parity, and Core Web Vitals. Use when the user asks for a 'technical SEO audit', 'site audit', 'SEO health check', 'what is wrong with my site', 'audit this URL', or 'why is my site not ranking' and wants evidence, not guesses. Uses the sitetiller CLI crawl, pages, page, sitemap, links, crawlers, schema, images and cwv commands."
 license: MIT
 metadata:
-  version: 0.1.0
+  version: 0.2.0
 ---
 
 # Technical SEO audit
@@ -13,6 +13,12 @@ Goal: a short, ranked list of problems that are real, shown with the evidence (a
 ## Inputs
 - A domain or homepage URL, and optionally 3 to 5 key templates (home, a category, an article or product, a landing page).
 - Optional: Search Console access (see the `setup` skill). Without it, the audit covers what a crawler sees, not what Google has indexed.
+
+## Start with a crawl
+```bash
+npx sitetiller crawl https://example.com --max 100 --json
+```
+One request at a time (1 s apart by default), robots.txt respected, same host only. Output: `score` (`overall` and `categories` for indexability, onpage, links, content, structured, with the arithmetic in `method`), `findingCounts`, `siteFindings` (duplicate titles and descriptions, broken internal links with the pages that hold them, links to redirects) and `pages[]` with each page's `status`, `depth` and `findings`. The score is a checklist ratio for tracking progress between audits, not a Google measure; report the findings, not the number alone. Use the steps below to confirm and explain what the crawl found.
 
 ## Order of work
 Run in this order. A blocker at an early step makes later steps moot, so fix it first.

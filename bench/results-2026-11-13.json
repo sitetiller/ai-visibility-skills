@@ -1,0 +1,87 @@
+{
+  "date": "2026-11-13",
+  "method": "GitHub REST API: repos/{repo} and git/trees/{branch}?recursive=1; counts by file path",
+  "rows": [
+    {
+      "repo": "sitetiller/seo-skills (this repo)",
+      "stars": null,
+      "license": "MIT",
+      "pushed": "2026-11-13",
+      "skills": 44,
+      "testFiles": 6,
+      "testCases": 131,
+      "scripts": 35,
+      "truncated": false
+    },
+    {
+      "repo": "coreyhaines31/marketingskills",
+      "stars": 59974,
+      "license": "MIT",
+      "pushed": "2026-11-11",
+      "skills": 53,
+      "testFiles": 152,
+      "scripts": 103,
+      "truncated": false
+    },
+    {
+      "repo": "AgriciDaniel/claude-seo",
+      "stars": 28690,
+      "license": "MIT",
+      "pushed": "2026-11-11",
+      "skills": 35,
+      "testFiles": 111,
+      "scripts": 92,
+      "truncated": false
+    },
+    {
+      "repo": "zubair-trabzada/geo-seo-claude",
+      "stars": 11647,
+      "license": "MIT",
+      "pushed": "2026-11-12",
+      "skills": 16,
+      "testFiles": 3,
+      "scripts": 11,
+      "truncated": false
+    },
+    {
+      "repo": "Ryze-AI-Adgent/open-seo-mcp-skills",
+      "stars": 9427,
+      "license": "MIT",
+      "pushed": "2026-10-27",
+      "skills": 8,
+      "testFiles": 0,
+      "scripts": 1,
+      "truncated": false
+    },
+    {
+      "repo": "kostja94/marketing-skills",
+      "stars": 1099,
+      "license": "MIT",
+      "pushed": "2026-11-06",
+      "skills": 177,
+      "testFiles": 0,
+      "scripts": 0,
+      "truncated": false
+    },
+    {
+      "repo": "iannuttall/seo",
+      "stars": 622,
+      "license": "Apache-2.0",
+      "pushed": "2026-11-12",
+      "skills": 2,
+      "testFiles": 176,
+      "scripts": 659,
+      "truncated": false
+    },
+    {
+      "repo": "saurabhsharma2u/search-console-mcp",
+      "stars": 322,
+      "license": "MIT",
+      "pushed": "2026-10-21",
+      "skills": 1,
+      "testFiles": 97,
+      "scripts": 108,
+      "truncated": false
+    }
+  ]
+}
