@@ -101,4 +101,5 @@ No platform-specific claims are made here: they were not verified against each p
 - The Search Console API submits sitemaps only with the write scope; this repo's read-only setup does not use it, so submission is a manual UI step.
 
 ## References
+- `examples/sitemap.json`: real output of this skill's command on sitetiller.com (2026-11-13), see `examples/README.md`.
 - `references/sources.md`: Google, Bing and sitemaps.org documentation, checked 2026-11-12.

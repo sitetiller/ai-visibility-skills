@@ -40,7 +40,7 @@ async function local() {
   const root = new URL("..", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1");
   const files = (await walk(root)).map((p) => p.slice(root.replace(/\\/g, "/").length).replace(/^\//, ""));
   const testsSrc = await Promise.all(files.filter((p) => p.startsWith("tests/")).map((p) => readFile(join(root, p), "utf8")));
-  return { repo: "sitetiller/seo-skills (this repo)", stars: null, license: "MIT", pushed: new Date().toISOString().slice(0, 10), skills: files.filter((p) => /(^|\/)SKILL\.md$/.test(p)).length, testFiles: files.filter(isTest).length, testCases: testsSrc.reduce((n, s) => n + (s.match(/^test\(/gm) || []).length, 0), scripts: files.filter(isScript).length, truncated: false };
+  return { repo: "sitetiller/ai-visibility-skills (this repo)", stars: null, license: "MIT", pushed: new Date().toISOString().slice(0, 10), skills: files.filter((p) => /(^|\/)SKILL\.md$/.test(p)).length, testFiles: files.filter(isTest).length, testCases: testsSrc.reduce((n, s) => n + (s.match(/^test\(/gm) || []).length, 0), scripts: files.filter(isScript).length, truncated: false };
 }
 
 const rows = [await local()];

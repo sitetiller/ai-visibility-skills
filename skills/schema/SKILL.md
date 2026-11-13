@@ -90,4 +90,5 @@ Google says structured data does not guarantee a rich result, and the markup mus
 - Edit only pages the user owns.
 
 ## References
+- `examples/schema.json`, `examples/schema-gen.json`: real output of this skill's command on sitetiller.com (2026-11-13), see `examples/README.md`.
 - `references/sources.md`

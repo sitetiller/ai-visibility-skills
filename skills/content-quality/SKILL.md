@@ -48,4 +48,5 @@ Reputation (what others say about the site or author), accuracy of facts, and wh
 - Flesch reading ease is calibrated for English; skip it for other languages.
 
 ## References
+- `examples/quality.json`: real output of this skill's command on sitetiller.com (2026-11-13), see `examples/README.md`.
 - `references/sources.md`: Google helpful content guidance and quality rater guidelines, checked 2026-11-13.

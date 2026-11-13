@@ -12,7 +12,7 @@
 ## Tool behaviour (sitetiller 0.1.0, read-only single fetch of https://wordpress.org/news/ on 2026-11-12)
 - `page` returned `requested`, `finalUrl`, `status`, `chain[]`, `contentType`, `robotsTxtGooglebot` (`allowed`, `group`, `rule`, `line`), `title`, `titleCount`, `description`, `descriptionCount`, `robotsMeta[]`, `xRobots`, `noindex`, `canonical`, `canonicalCount`, `hreflang[]`, `h1[]`, `headings[]` (`level`, `text`), and more. `robotsTxtGooglebot` tests only Googlebot's rules, not the CLI's own user agent.
 - `cite` on the same URL returned `sections: []` and a zeroed `summary`: the page had no section of 25 or more words under h1 to h4 headings after the tool removed navigation and similar blocks. An empty result means the tool found nothing to measure.
-- `cli/lib/http.mjs`: user agent `SiteTillerCLI/0.1 (+https://github.com/sitetiller/seo-skills)`, GET only, timeout and byte caps, and `target()` rejects private hostnames. `links` and `pages` wait 300 ms between pages by default. None of the fetch commands checks robots.txt rules for the CLI's own user agent (`sitemap` reads robots.txt only to find Sitemap lines).
+- `cli/lib/http.mjs`: user agent `SiteTillerCLI/1.0 (+https://github.com/sitetiller/ai-visibility-skills)`, GET only, timeout and byte caps, and `target()` rejects private hostnames. `links` and `pages` wait 300 ms between pages by default. None of the fetch commands checks robots.txt rules for the CLI's own user agent (`sitemap` reads robots.txt only to find Sitemap lines).
 
 ## Not verified
 - That following robots.txt `User-agent: *` rules is sufficient for every site's terms of service. The skill limits itself to public pages, few requests and no copying; the user remains responsible for a site's terms.

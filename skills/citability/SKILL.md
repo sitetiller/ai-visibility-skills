@@ -81,5 +81,6 @@ Never report a before/after on one page as proof; AI answers vary from run to ru
 - Edit only pages the user owns and named.
 
 ## References
+- `examples/cite.json`: real output of this skill's command on sitetiller.com (2026-11-13), see `examples/README.md`.
 - `references/sources.md`: vendor quotes with URLs and access dates.
 - `references/signals.md`: what each `cite` field counts and its known failure modes.

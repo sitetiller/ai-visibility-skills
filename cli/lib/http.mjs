@@ -1,5 +1,5 @@
 // Minimal, polite HTTP helpers. Read-only: GET requests only, size-capped, with a clear user agent.
-export const UA = "SiteTillerCLI/1.0 (+https://github.com/sitetiller/seo-skills)";
+export const UA = "SiteTillerCLI/1.0 (+https://github.com/sitetiller/ai-visibility-skills)";
 
 export class ToolError extends Error {}
 

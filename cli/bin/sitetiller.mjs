@@ -97,7 +97,7 @@ Versions of pages you own (stored in ./.sitetiller/):
 Other:
   llms-build --name X --summary Y --pages pages.csv   (columns: section,url,title,note)
 
-Add --json to any command for machine-readable output. Docs: https://github.com/sitetiller/seo-skills`;
+Add --json to any command for machine-readable output. Docs: https://github.com/sitetiller/ai-visibility-skills`;
 
 function args(argv) {
   const pos = []; const opt = {};

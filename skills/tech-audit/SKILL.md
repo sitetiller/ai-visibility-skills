@@ -116,4 +116,5 @@ Score impact (H/M/L) by effort (H/M/L). Order: high impact and low effort first.
 - Do not call something a penalty. Google documents manual actions separately; a missing ranking is not evidence of one.
 
 ## References
+- `examples/pages.json`, `examples/crawl.json`: real output of this skill's command on sitetiller.com (2026-11-13), see `examples/README.md`.
 - `references/sources.md`: Google, web.dev and protocol documents behind each check, with access dates.

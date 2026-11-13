@@ -41,4 +41,5 @@ Goal: every important page is reachable through plain links in a few clicks, URL
 - Do not hide links from Google with JavaScript-only navigation or `nofollow` on internal links to "sculpt" PageRank.
 
 ## References
+- `examples/crawl.json`, `examples/links.json`: real output of this skill's command on sitetiller.com (2026-11-13), see `examples/README.md`.
 - `references/sources.md`: Google URL structure, crawlable links, breadcrumbs, faceted navigation, site moves, checked 2026-11-13.

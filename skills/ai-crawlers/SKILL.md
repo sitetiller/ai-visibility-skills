@@ -54,5 +54,6 @@ Cloudflare's Content Signals Policy adds `Content-Signal: search=yes, ai-input=y
 - Do not state any vendor behaviour that is not in `references/sources.md`; if unsure, say so.
 
 ## References
+- `examples/crawlers.json`: real output of this skill's command on sitetiller.com (2026-11-13), see `examples/README.md`.
 - `references/sources.md`: vendor documentation for every crawler, with access dates.
 - `references/policies.md`: ready-made robots.txt policies.

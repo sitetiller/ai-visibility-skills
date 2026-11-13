@@ -47,4 +47,5 @@ Goal: every content image can be found, understood and loaded fast; every page h
 - HEAD requests are one at a time and only to public hosts; do not raise `--sizes` above what the user needs.
 
 ## References
+- `examples/images.json`: real output of this skill's command on sitetiller.com (2026-11-13), see `examples/README.md`.
 - `references/sources.md`: Google image SEO best practices, web.dev LCP and CLS guidance, checked 2026-11-13.

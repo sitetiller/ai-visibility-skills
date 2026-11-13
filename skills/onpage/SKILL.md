@@ -74,5 +74,6 @@ To see what Google shows, search the exact query in a logged-out browser window 
 - Do not copy a competitor's title or text. Use competitors to find gaps, not wording.
 
 ## References
+- `examples/page.json`: real output of this skill's command on sitetiller.com (2026-11-13), see `examples/README.md`.
 - `references/checklist.md` (content questions from Google's helpful content guidance)
 - `references/sources.md`

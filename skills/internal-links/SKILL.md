@@ -67,4 +67,5 @@ Google's documented position: every important page should be linked from at leas
 - Treat orphan results as sampling output until confirmed with a larger crawl or the user's own CMS data.
 
 ## References
+- `examples/links.json`: real output of this skill's command on sitetiller.com (2026-11-13), see `examples/README.md`.
 - `references/sources.md`
