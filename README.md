@@ -1,3 +1,5 @@
+<p align="center"><a href="https://sitetiller.com/?utm_source=github&utm_medium=readme"><img src="assets/banner.png" alt="SiteTiller: get found in AI answers and in search" width="720"></a></p>
+
 # SiteTiller AI visibility skills
 
 Get your site found in ChatGPT, Claude, Perplexity, Google AI answers and classic search. Agent skills and a zero-dependency CLI that work from real data: which AI crawlers can reach you and which actually visit (verified against vendor IP lists), whether assistants mention and cite you for the questions your buyers ask, how quotable each section of a page is, Google Search Console and Bing side by side, and version-by-version measurement with rollback for pages you own.

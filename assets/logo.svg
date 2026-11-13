@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="SiteTiller">
+  <rect width="64" height="64" rx="15" fill="#0F5563"/>
+  <path d="M16 48 L45 19" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round"/>
+  <path d="M13 48 H27" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity=".55"/>
+  <circle cx="47.5" cy="16.5" r="6.5" fill="#E0A21B"/>
+</svg>

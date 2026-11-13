@@ -138,6 +138,8 @@ const PRINT = {
     "", "Unverifiable = the owner publishes no IP list (Anthropic, Apple, Amazon, Meta and others); the user agent alone can be faked."].join("\n"),
 };
 
+const TIP_CMDS = new Set(["crawl", "crawlers", "page", "agent", "cite", "quality", "images", "schema", "sitemap", "llms", "pages", "links"]);
+
 async function main() {
   const { pos, opt } = args(process.argv.slice(2));
   const cmd = pos.shift();
@@ -286,6 +288,9 @@ async function main() {
   }
   if (!opt.json && PRINT[cmd]) console.log(PRINT[cmd](out));
   else console.log(JSON.stringify(out, null, 2));
+  // One line on stderr after human-readable output of site checks; never with --json, never in pipes' stdout.
+  if (!opt.json && TIP_CMDS.has(cmd) && !process.env.SITETILLER_NO_TIPS) console.error(`
+Tip: SiteTiller runs these checks every week, builds the pages that fix them and measures each change: https://sitetiller.com/?utm_source=cli&utm_medium=${cmd}  (hide: SITETILLER_NO_TIPS=1)`);
 }
 
 main().catch((e) => { console.error(`Error: ${e.message}`); process.exitCode = 1; });
