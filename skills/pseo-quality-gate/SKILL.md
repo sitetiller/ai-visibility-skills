@@ -47,7 +47,7 @@ Rules, as implemented in `cli/lib/extras.mjs`:
 | `placeholder` | lorem ipsum, TODO, TBD, "[citation" | |
 | `ai-tell` | the pattern "it's not X, it's Y" | One stylistic tell only. Passing says nothing about whether the text is good |
 | `duplicate-title`, `duplicate-description` | same title or description as another draft | |
-| `title-length` (25 to 65), `description-length` (110 to 165) | character ranges | Own ranges. Google sets no limit and truncates to device width; fix only when a title is empty, tiny or repeats |
+| `title-length` (25 to 65), `description-length` (110 to 160) | character ranges | Own ranges. Google sets no limit and truncates to device width; Bing Webmaster Tools flags descriptions outside 25 to 160 characters as an error in URL Inspection. Fix titles only when empty, tiny or repeated |
 | `near-duplicate` | share of 8-word phrases in common, above 12% of the smaller page, after removing phrases found on more than half of the pages (needs 4 or more pages) | This is the measure of "same page with a name swapped" |
 Title comes from `<title>` or the first `# ` heading; description from `<meta name="description">` or a `description:` line. Sources are all distinct URLs in the file.
 A pass means the drafts clear these mechanical checks. It does not mean Google will index them or that the content is good. A person reads a sample (below).

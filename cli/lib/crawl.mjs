@@ -42,7 +42,7 @@ export function pageFindings(p) {
     if (x.title.length < 15) add("onpage", "low", "short-title", `${x.title.length} characters`);
   }
   if (!x.description) add("onpage", "medium", "no-description", "Missing meta description");
-  else if (x.description.length > 165) add("onpage", "low", "long-description", `${x.description.length} characters`);
+  else if (x.description.length > 160) add("onpage", "low", "long-description", `${x.description.length} characters (Bing flags over 160)`);
   if (x.h1.length === 0) add("onpage", "medium", "no-h1", "No H1");
   else if (x.h1.length > 1) add("onpage", "low", "multiple-h1", `${x.h1.length} H1 headings`);
   if (!x.lang) add("onpage", "low", "no-lang", "No lang attribute on <html>");

@@ -77,7 +77,7 @@ export function pseoGate(pages, { minWords = 600, maxShared = 0.12, minSources =
       seen[k].set(v, p.id);
     }
     if (p.title && (p.title.length < 25 || p.title.length > 65)) errs.push({ id: p.id, rule: "title-length", detail: `${p.title.length} chars (25-65)` });
-    if (p.description && (p.description.length < 110 || p.description.length > 165)) errs.push({ id: p.id, rule: "description-length", detail: `${p.description.length} chars (110-165)` });
+    if (p.description && (p.description.length < 110 || p.description.length > 160)) errs.push({ id: p.id, rule: "description-length", detail: `${p.description.length} chars (110-160; Bing flags over 160)` });
     sh.set(p.id, shingles(t));
   }
   // Remove template text: phrases present on more than half the pages (navigation, footer, shared CTA).
