@@ -25,7 +25,7 @@ npx sitetiller version snapshot https://example.com/page --label "v2 new title" 
 ```
 **Codex, Cursor and other agents:** copy `skills/*` into your agent's skills folder (for example `.agents/skills/`) and keep `AGENTS.md` at the repo root.
 
-**CLI only:** `npx sitetiller help` (Node 18.17 or newer, no dependencies).
+**CLI only:** `npx sitetiller help` (Node 18.17 or newer, no dependencies). Package: [npmjs.com/package/sitetiller](https://www.npmjs.com/package/sitetiller).
 
 ## What makes it different
 Two capabilities none of the READMEs of the repositories compared below mention (keyword scan of each README on 2026-11-12):

@@ -143,8 +143,8 @@ const TIP_CMDS = new Set(["crawl", "crawlers", "page", "agent", "cite", "quality
 async function main() {
   const { pos, opt } = args(process.argv.slice(2));
   const cmd = pos.shift();
+  if (opt.version || cmd === "version" && !pos.length) { console.log(VERSION); return; }
   if (!cmd || cmd === "help" || opt.help) { console.log(HELP); return; }
-  if (cmd === "--version" || opt.version) { console.log(VERSION); return; }
   let out;
   switch (cmd) {
     case "crawlers": out = await robotsReport(pos[0], { agents: list(opt.agents) }); break;
