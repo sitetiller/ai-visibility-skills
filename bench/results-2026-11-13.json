@@ -3,7 +3,7 @@
   "method": "GitHub REST API: repos/{repo} and git/trees/{branch}?recursive=1; counts by file path",
   "rows": [
     {
-      "repo": "sitetiller/seo-skills (this repo)",
+      "repo": "sitetiller/ai-visibility-skills (this repo)",
       "stars": null,
       "license": "MIT",
       "pushed": "2026-11-13",
@@ -15,7 +15,7 @@
     },
     {
       "repo": "coreyhaines31/marketingskills",
-      "stars": 60037,
+      "stars": 60158,
       "license": "MIT",
       "pushed": "2026-11-11",
       "skills": 53,
@@ -25,7 +25,7 @@
     },
     {
       "repo": "AgriciDaniel/claude-seo",
-      "stars": 28821,
+      "stars": 29029,
       "license": "MIT",
       "pushed": "2026-11-11",
       "skills": 35,
@@ -35,7 +35,7 @@
     },
     {
       "repo": "zubair-trabzada/geo-seo-claude",
-      "stars": 11654,
+      "stars": 11665,
       "license": "MIT",
       "pushed": "2026-11-13",
       "skills": 16,
@@ -45,7 +45,7 @@
     },
     {
       "repo": "Ryze-AI-Adgent/open-seo-mcp-skills",
-      "stars": 9445,
+      "stars": 9495,
       "license": "MIT",
       "pushed": "2026-10-27",
       "skills": 8,
@@ -55,7 +55,7 @@
     },
     {
       "repo": "kostja94/marketing-skills",
-      "stars": 1101,
+      "stars": 1103,
       "license": "MIT",
       "pushed": "2026-11-06",
       "skills": 177,
@@ -65,12 +65,12 @@
     },
     {
       "repo": "iannuttall/seo",
-      "stars": 622,
+      "stars": 627,
       "license": "Apache-2.0",
-      "pushed": "2026-11-12",
+      "pushed": "2026-11-13",
       "skills": 2,
-      "testFiles": 176,
-      "scripts": 659,
+      "testFiles": 177,
+      "scripts": 674,
       "truncated": false
     },
     {
