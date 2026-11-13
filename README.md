@@ -57,13 +57,13 @@ These skills are free and stay free. [SiteTiller](https://sitetiller.com/?utm_so
 
 | Repository | Stars | License | Last push | SKILL.md files | Test files | Scripts |
 |---|---|---|---|---|---|---|
-| sitetiller/ai-visibility-skills (this repo) | - | MIT | 2026-11-12 | see bench | see bench | see bench |
-| coreyhaines31/marketingskills | 59949 | MIT | 2026-11-11 | 53 | 152 | 103 |
-| AgriciDaniel/claude-seo | 28612 | MIT | 2026-11-11 | 35 | 111 | 92 |
-| zubair-trabzada/geo-seo-claude | 11643 | MIT | 2026-11-12 | 16 | 3 | 11 |
-| Ryze-AI-Adgent/open-seo-mcp-skills | 9418 | MIT | 2026-10-27 | 8 | 0 | 1 |
-| kostja94/marketing-skills | 1099 | MIT | 2026-11-06 | 177 | 0 | 0 |
-| iannuttall/seo | 622 | Apache-2.0 | 2026-11-12 | 2 | 176 | 658 |
+| sitetiller/ai-visibility-skills (this repo) | - | MIT | 2026-11-13 | 44 | 7 (153 cases) | 39 |
+| coreyhaines31/marketingskills | 60158 | MIT | 2026-11-11 | 53 | 152 | 103 |
+| AgriciDaniel/claude-seo | 29029 | MIT | 2026-11-11 | 35 | 111 | 92 |
+| zubair-trabzada/geo-seo-claude | 11665 | MIT | 2026-11-13 | 16 | 3 | 11 |
+| Ryze-AI-Adgent/open-seo-mcp-skills | 9495 | MIT | 2026-10-27 | 8 | 0 | 1 |
+| kostja94/marketing-skills | 1103 | MIT | 2026-11-06 | 177 | 0 | 0 |
+| iannuttall/seo | 627 | Apache-2.0 | 2026-11-13 | 2 | 177 | 674 |
 | saurabhsharma2u/search-console-mcp | 322 | MIT | 2026-10-21 | 1 | 97 | 108 |
 
 Those projects cover different ground: marketingskills is broad marketing, claude-seo is a classic SEO audit set, iannuttall/seo and search-console-mcp are data connectors. This repository is centred on AI visibility with measured, reversible changes.
