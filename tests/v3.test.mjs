@@ -194,3 +194,11 @@ test("summarizeHistory: empty record gives no metrics and no advice", () => {
   assert.equal(s.lcpBreakdown, null);
   assert.equal(s.advice, null);
 });
+
+import { analyzeHtml as analyze2 } from "../cli/lib/page.mjs";
+test("analyzeHtml: apostrophes inside double-quoted attributes and numeric entities are read correctly", () => {
+  const f = analyze2(`<html><head><title>It&#x27;s fine</title><meta name="description" content="What Couldn't fetch means &#x27;here&#39; &amp; now"><link rel="canonical" href="https://e.com/a"></head><body><h1>x</h1></body></html>`);
+  assert.equal(f.title, "It's fine");
+  assert.equal(f.description, "What Couldn't fetch means 'here' & now");
+  assert.equal(f.canonical, "https://e.com/a");
+});

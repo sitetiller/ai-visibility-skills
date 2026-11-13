@@ -2,8 +2,14 @@
 import { get, isPublicUrl, looksHtml, target, ToolError, UA } from "./http.mjs";
 import { decide, parseRobots } from "./robots.mjs";
 
-const dec = (s) => String(s).replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#0?39;|&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&nbsp;|&#160;/g, " ").replace(/\s+/g, " ").trim();
-const attr = (tag, n) => (tag.match(new RegExp(`${n}\\s*=\\s*["']([^"']*)["']`, "i")) || [])[1] || "";
+// Decode named and numeric (decimal and hex) entities so lengths match what search engines count.
+const dec = (s) => String(s)
+  .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+  .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d)))
+  .replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&nbsp;/g, " ")
+  .replace(/&amp;/g, "&").replace(/ /g, " ").replace(/\s+/g, " ").trim();
+// Attribute value in double or single quotes; an apostrophe inside a double-quoted value is part of the value.
+const attr = (tag, n) => { const m = tag.match(new RegExp(`\\s${n}\\s*=\\s*(?:"([^"]*)"|'([^']*)')`, "i")); return m ? (m[1] ?? m[2] ?? "") : ""; };
 const strip = (s) => s.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<noscript[\s\S]*?<\/noscript>/gi, " ");
 
 /** Visible, readable text with headings marked as #, ## ... */
@@ -60,7 +66,7 @@ export function analyzeHtml(html, { url = "", headers = new Headers(), host = ""
     ogTitle: metaBy("og:title")[0] || "", ogDescription: metaBy("og:description")[0] || "",
     lang: (head.match(/<html[^>]+lang\s*=\s*["']([^"']+)["']/i) || [])[1] || "",
     words, tables: (body.match(/<table\b/gi) || []).length,
-    images: imgs.length, imagesWithoutAlt: imgs.filter((t) => !/\balt\s*=\s*["'][^"']+["']/i.test(t)).length,
+    images: imgs.length, imagesWithoutAlt: imgs.filter((t) => !/\balt\s*=\s*("[^"]+"|'[^']+')/i.test(t)).length,
     links, internalLinks: links.filter((l) => l.internal).length, text,
   };
 }
