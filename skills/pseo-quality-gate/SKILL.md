@@ -60,7 +60,15 @@ A pass means the drafts clear these mechanical checks. It does not mean Google w
 4. **Claim density.** Roughly one sourced claim per 180 words (minimum 5). Three claims on a 1,000-word page means most statements are unsupported.
 5. **Unsupported sentences.** A second, cheap model pass lists factual sentences no claim backs. More than 2: send back for one rewrite with the list; more than 8: reject.
 6. **A page people can skim.** Require a short-answer box, 3-5 key points, a table, numbered steps or a worked example, one visual drawn from cited data (a bar chart where every bar cites a claim, or a decision flow), 3+ FAQs, and paragraphs under ~110 words. Let the model return chart data, never SVG or images, and draw the visual yourself. Our second real draft passed every source check yet was still a wall of text until this rule existed.
-7. **One revision, then a person.** Rewrite once with the failed checks as feedback, re-run the gate, and send anything still failing to a human instead of looping.
+7. **Read pages, not snippets.** Search results show snippets, so a model asked for verbatim quotes keeps searching and runs out of its search budget (we saw 0-3 usable facts per run until it could fetch pages). Give the researcher a page-fetch tool and ask it to read the 3-5 best pages, official ones first. Treat search errors from rate limits as "retry later", not as a bad answer.
+8. **Vendor blogs are not official sources.** A plugin or tool company is official for its own product, not for search engines. Our first passing draft had 8 of 14 claims from an SEO plugin's blog counted as "official" until we fixed the list.
+9. **A short answer that is not the intro again.** The answer box holds 1-2 sentences the intro does not already say; our first preview repeated the intro word for word.
+10. **Check the site before proposing a page.** Compare the topic with the site's own sitemap. If a page already covers it (our proposed "WordPress SEO audit" overlapped an existing audit tool and a 12-step checklist), either improve that page or write a clearly different angle, say how it differs, and link both ways.
+11. **Link into the site.** Give the writer the site's related pages from the sitemap and require 3-6 internal links with descriptive anchors; check that every one exists.
+12. **One revision, then a person.** Rewrite once with the failed checks as feedback (for length: expand from the notes, never shorten), re-run the gate, and send anything still failing to a human instead of looping.
+
+### Step 3c: Check the live page, not only the draft
+After publishing, fetch the page as a crawler: HTTP 200 without redirect chains, the expected title, a self canonical, no noindex (meta or `X-Robots-Tag`), JSON-LD that parses with an Article/WebPage type, every internal link answering 200, and enough words in the served HTML. Draw diagrams with colours set inline on each SVG text element: a site's CSS can override SVG text colour, and ours made step numbers dark on dark circles until we caught it on the live page.
 These are this skill's own rules, not Google requirements. They exist because Google tells publishers to fact-check generated content, and a page with a wrong "quote" is worse than no page.
 
 ## Step 4: Human sample
