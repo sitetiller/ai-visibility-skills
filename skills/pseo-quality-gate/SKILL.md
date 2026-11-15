@@ -52,6 +52,16 @@ Rules, as implemented in `cli/lib/extras.mjs`:
 Title comes from `<title>` or the first `# ` heading; description from `<meta name="description">` or a `description:` line. Sources are all distinct URLs in the file.
 A pass means the drafts clear these mechanical checks. It does not mean Google will index them or that the content is good. A person reads a sample (below).
 
+### Step 3b: Source chain for AI-written drafts
+`unsourced` only counts URLs. When a model writes the drafts, check what the sources actually say. What we learned running our own pipeline on 2026-11-16 (two real drafts): one draft cited 12 quotes and 5 were not on the cited page (the model paraphrased "quotes"); the other passed every rule above with only 3 claims, backed by an SEO blog and a tweet, and no official documentation.
+1. **Verify before writing.** Research returns each fact with its URL and a verbatim quote. Fetch every URL and keep only facts whose quote is in the page text (normalize whitespace, curly quotes and dashes). The writer gets only verified facts. If fewer than 4 survive, do not write the page.
+2. **Claims reuse notes exactly.** Every number, date, limit or product behavior in the page maps to a claim whose URL and quote are copied from a verified note. Drop any claim that does not match a note.
+3. **Primary sources.** At least one claim, and at least a third of them, from official documentation of the company or standard the page is about (Google Search Central, Bing Webmaster docs, OpenAI, Anthropic, Cloudflare, WordPress, W3C/IETF). Social posts and blogs that repeat others do not count.
+4. **Claim density.** Roughly one sourced claim per 180 words (minimum 5). Three claims on a 1,000-word page means most statements are unsupported.
+5. **Unsupported sentences.** A second, cheap model pass lists factual sentences no claim backs. More than 2: send back for one rewrite with the list; more than 8: reject.
+6. **One revision, then a person.** Rewrite once with the failed checks as feedback, re-run the gate, and send anything still failing to a human instead of looping.
+These are this skill's own rules, not Google requirements. They exist because Google tells publishers to fact-check generated content, and a page with a wrong "quote" is worse than no page.
+
 ## Step 4: Human sample
 Read at least 10 pages, or 10% of the set, whichever is larger, picked at random, with the data open. For each: is every number right and sourced, does it say something the template alone could not, would you send this page to a customer? Fix the template when two sampled pages share a flaw. Google tells publishers to fact-check generated content before publishing; do it.
 
