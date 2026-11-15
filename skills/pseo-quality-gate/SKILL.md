@@ -59,7 +59,8 @@ A pass means the drafts clear these mechanical checks. It does not mean Google w
 3. **Primary sources.** At least one claim, and at least a third of them, from official documentation of the company or standard the page is about (Google Search Central, Bing Webmaster docs, OpenAI, Anthropic, Cloudflare, WordPress, W3C/IETF). Social posts and blogs that repeat others do not count.
 4. **Claim density.** Roughly one sourced claim per 180 words (minimum 5). Three claims on a 1,000-word page means most statements are unsupported.
 5. **Unsupported sentences.** A second, cheap model pass lists factual sentences no claim backs. More than 2: send back for one rewrite with the list; more than 8: reject.
-6. **One revision, then a person.** Rewrite once with the failed checks as feedback, re-run the gate, and send anything still failing to a human instead of looping.
+6. **A page people can skim.** Require a short-answer box, 3-5 key points, a table, numbered steps or a worked example, one visual drawn from cited data (a bar chart where every bar cites a claim, or a decision flow), 3+ FAQs, and paragraphs under ~110 words. Let the model return chart data, never SVG or images, and draw the visual yourself. Our second real draft passed every source check yet was still a wall of text until this rule existed.
+7. **One revision, then a person.** Rewrite once with the failed checks as feedback, re-run the gate, and send anything still failing to a human instead of looping.
 These are this skill's own rules, not Google requirements. They exist because Google tells publishers to fact-check generated content, and a page with a wrong "quote" is worse than no page.
 
 ## Step 4: Human sample
