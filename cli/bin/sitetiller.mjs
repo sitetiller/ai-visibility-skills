@@ -32,6 +32,8 @@ import { lighthouseBatch } from "../lib/lighthouse.mjs";
 import { napReport } from "../lib/nap.mjs";
 import { providerStatus, dataforseoSummary, ahrefsDomainRating } from "../lib/providers.mjs";
 import { agentReport } from "../lib/agent.mjs";
+import { runStudy, makeFetcher, makeLimiter, summarize, summaryMarkdown, rowsToCsv, loadSites, parseOptout, requestsPerSite, DEFAULT_UA_BOTS, BOT_UA, MIN_GAP_MS, SUFFIX } from "../lib/study.mjs";
+import { mkdir, appendFile } from "node:fs/promises";
 import { readdir } from "node:fs/promises";
 import { join, extname } from "node:path";
 
@@ -50,6 +52,8 @@ Site checks (public pages only):
   images <url> [--sizes 20]          Image alt, dimensions, lazy LCP image, formats, srcset, file names (+ byte sizes)
   quality <url>                      Readability, author/date/sources/first-hand signals, filler phrases (checklist)
   schema-gen <type> [--name ... --url ...]   JSON-LD for organization|website|article|product|software|localbusiness|breadcrumb|event|person, linted
+  study <sites.csv> --out dir [--limit N] [--optout file] [--ua-bots A,B] [--concurrency 3] [--dry-run] | study --summarize results.json
+                                     Data study scanner for a list of sites: robots.txt rules for 14 AI bots, homepage text without JS, server answer to AI-bot user-agent strings, llms.txt, sitemap, title/canonical/noindex. UA-string test, not IP-verified. One GET per check, 2 s per host, identifies itself, honors an opt-out list
   agent <url>                        Agent readiness: crawler access, Content-Signal, server text, landmarks, accessible names, llms.txt
   lighthouse <url...> [--file urls.txt] [--strategy mobile|desktop]   Lab scores for many pages via PageSpeed Insights, one at a time
   nap <url...> --name X --phone Y [--address Z]   Name/address/phone consistency across your pages and listings you name
@@ -179,6 +183,39 @@ async function main() {
     case "images": { const r = await fetchPage(pos[0]); out = { url: r.url, status: r.status, ...imageAudit(r.text, { url: r.url }) }; if (opt.sizes) out.sizes = await imageSizes(out.list, { n: Number(opt.sizes) || 20 }); break; }
     case "quality": { const r = await fetchPage(pos[0]); out = { status: r.status, ...contentQuality(r.text, { url: r.url }) }; break; }
     case "schema-gen": { const { json, ...data } = opt; out = generateSchema(pos[0], data); if (!opt.json) { console.log(out.html + "\n\n" + (out.lint.findings.length ? table(["Level", "Type", "Message"], out.lint.findings.map((f) => [f.level, f.type, f.message])) : "Lint: no findings.") + (out.notes.length ? "\n\n" + out.notes.join("\n") : "")); return; } break; }
+    case "study": {
+      const bots = list(opt["ua-bots"]) || DEFAULT_UA_BOTS;
+      const bad = bots.filter((b) => !BOT_UA[b]);
+      if (bad.length) throw new Error(`No published user-agent string for: ${bad.join(", ")}. Known: ${Object.keys(BOT_UA).join(", ")}`);
+      if (opt.summarize) {
+        const rows = JSON.parse(await readFile(opt.summarize, "utf8")).rows;
+        const s = summarize(rows, { uaBots: bots, optedOut: Number(opt["opted-out"] || 0) });
+        if (opt.json) out = s; else { console.log(summaryMarkdown(s)); return; }
+        break;
+      }
+      if (!pos[0]) throw new Error("study needs a sites CSV (column: host). See docs in the study guide.");
+      let sites = loadSites(await readFile(pos[0], "utf8"));
+      if (opt.limit) sites = sites.slice(0, Number(opt.limit));
+      const optout = opt.optout ? parseOptout(await readFile(opt.optout, "utf8")) : [];
+      const dir = typeof opt.out === "string" ? opt.out : "study-out";
+      const gap = Math.max(MIN_GAP_MS, Number(opt.gap || MIN_GAP_MS));
+      const conc = Number(opt.concurrency || 3);
+      if (opt["dry-run"]) { out = { sites: sites.length, requests_per_site_max: requestsPerSite(bots), requests_total_max: sites.length * requestsPerSite(bots), min_gap_ms_per_host: gap, concurrency: conc, ua_suffix: SUFFIX, ua_bots: bots, opt_out_entries: optout.length }; break; }
+      await mkdir(dir, { recursive: true });
+      const jl = join(dir, "results.jsonl");
+      const done = new Set();
+      try { for (const l of (await readFile(jl, "utf8")).split("\n").filter(Boolean)) done.add(JSON.parse(l).host); } catch { /* fresh run */ }
+      const fetcher = makeFetcher({ limiter: makeLimiter(gap) });
+      let n = 0;
+      const res = await runStudy(sites, { fetcher, uaBots: bots, optout, concurrency: conc, skip: done, onRow: async (r) => { await appendFile(jl, JSON.stringify(r) + "\n"); console.error(`[${++n}] ${r.host} home=${r.home_status ?? "-"} mismatch=${r.mismatch_bots || "none"}`); } });
+      const rows = (await readFile(jl, "utf8")).split("\n").filter(Boolean).map((l) => JSON.parse(l)).filter((r) => sites.some((s) => s.host.toLowerCase().replace(/^www\./, "") === r.host));
+      const s = summarize(rows, { uaBots: bots, optedOut: res.optedOut });
+      await writeFile(join(dir, "results.json"), JSON.stringify({ method: "UA-string test, not IP-verified", ua_suffix: SUFFIX, rows }, null, 2));
+      await writeFile(join(dir, "results.csv"), rowsToCsv(rows, bots));
+      await writeFile(join(dir, "summary.json"), JSON.stringify(s, null, 2));
+      await writeFile(join(dir, "summary.md"), summaryMarkdown(s));
+      console.log(summaryMarkdown(s)); console.log(`Wrote ${dir}/results.csv, results.json, summary.json, summary.md`); return;
+    }
     case "agent": out = await agentReport(pos[0]); break;
     case "lighthouse": { const urls = opt.file ? (await readFile(opt.file, "utf8")).split(/\r?\n/).map((x) => x.trim()).filter(Boolean) : pos; out = await lighthouseBatch(urls, { strategy: opt.strategy === "desktop" ? "desktop" : "mobile", delayMs: opt.delay != null ? Number(opt.delay) : 2000 }); break; }
     case "nap": out = await napReport(pos, { name: opt.name, address: opt.address, phone: opt.phone }); break;
