@@ -93,15 +93,27 @@ export function detectCms(html, h) {
 }
 
 /** Homepage text without JavaScript. js_empty = nothing the crawler could read; js_thin = under 150 words. */
+/** Every word a reader without JavaScript can see in the body: scripts, styles, svg and templates removed, noscript kept. */
+export function visibleWords(html) {
+  const body = (String(html).match(/<body[\s\S]*$/i) || [String(html)])[0];
+  const t = body.replace(/<(script|style|svg|template)\b[\s\S]*?<\/\1>/gi, " ").replace(/<!--[\s\S]*?-->/g, " ").replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;|&#160;/g, " ").replace(/&[a-z]+;|&#\d+;/gi, " ");
+  return t.split(/\s+/).filter((w) => /[\p{L}\p{N}]/u.test(w)).length;
+}
+
 export function textFacts(html, finalUrl) {
   const a = agentChecks(html, { url: finalUrl });
   const f = analyzeHtml(html, { url: finalUrl, host: (() => { try { return new URL(finalUrl).hostname; } catch { return ""; } })() });
   const words = a.words;
+  // "Is there text without JavaScript" must count everything a non-JS reader gets, including the hero in <header>,
+  // nav labels and <noscript> fallbacks. a.words is the main-content count (nav/header/footer removed) and undercounts
+  // landing pages: the pilot flagged 41 sites, hand check confirmed 22 (2026-11-16).
+  const visible = visibleWords(html);
   const jsHint = a.appShell || /<noscript[^>]*>[^<]*(enable|requires?)[^<]*javascript/i.test(html);
   return {
-    words, scripts: a.scripts, appShell: a.appShell,
+    words, visibleWords: visible, scripts: a.scripts, appShell: a.appShell,
     textClass: words >= 150 ? "ok" : words >= 50 ? "thin" : "empty",
-    jsOnly: words < 50 && (a.scripts > 0 || jsHint),
+    jsOnly: visible < 50 && (a.scripts > 0 || jsHint),
     title: f.title, titleLen: f.title.length, canonical: f.canonical, noindex: f.noindex, h1: f.h1.length, schema: f.schemaTypes.length > 0,
   };
 }
@@ -208,7 +220,7 @@ export async function scanSite(site, { fetcher, uaBots = DEFAULT_UA_BOTS, now = 
   const isHtml = control.status === 200 && looksHtml(control.text);
   if (isHtml) {
     const f = textFacts(control.text, control.url);
-    Object.assign(row, { home_words: f.words, home_scripts: f.scripts, app_shell: f.appShell, text_class: f.textClass, js_only: f.jsOnly, title: f.title, title_len: f.titleLen, canonical: f.canonical, noindex: f.noindex, h1_count: f.h1, schema: f.schema });
+    Object.assign(row, { home_words: f.words, home_visible_words: f.visibleWords, home_scripts: f.scripts, app_shell: f.appShell, text_class: f.textClass, js_only: f.jsOnly, title: f.title, title_len: f.titleLen, canonical: f.canonical, noindex: f.noindex, h1_count: f.h1, schema: f.schema });
     row.canonical_cross_host = !!f.canonical && hostOf(f.canonical) !== hostOf(control.url);
     row.cms = detectCms(control.text, control.headers);
   } else { row.cms = "unknown"; }

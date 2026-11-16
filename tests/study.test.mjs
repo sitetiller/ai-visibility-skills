@@ -225,3 +225,13 @@ test("sample: mechanical exclusions, one row per host, deterministic order from 
   assert.notEqual(rankKey("s1", "a.dev"), rankKey("s2", "a.dev"));
   assert.equal(pick(hosts, "seed-1", 1).length, 1);
 });
+
+test("textFacts: hero text in <header> and <noscript> fallbacks count, so a landing page is not called JS-only", async () => {
+  const { textFacts } = await import("../cli/lib/study.mjs");
+  const hero = `<html><body><header><h1>Fast invoices for freelancers</h1><p>${"Send, track and get paid without chasing clients. ".repeat(8)}</p></header><div id="root"></div><script src="/a.js"></script></body></html>`;
+  assert.equal(textFacts(hero, "https://x.test/").jsOnly, false);
+  const nos = `<html><body><div id="root"></div><noscript>${"This page lists every board and how to wire it up. ".repeat(6)}</noscript><script src="/a.js"></script></body></html>`;
+  assert.equal(textFacts(nos, "https://x.test/").jsOnly, false);
+  const shell = `<html><body><div id="root"></div><script>${"var a = 1; ".repeat(200)}</script><style>${"p{color:red} ".repeat(50)}</style></body></html>`;
+  assert.equal(textFacts(shell, "https://x.test/").jsOnly, true);
+});
