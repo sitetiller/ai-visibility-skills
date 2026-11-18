@@ -34,6 +34,7 @@ Google's documented position: every important page should be linked from at leas
    - is not a repeated exact-match keyword.
    Example: instead of `click here`, write `see the <a href="/guides/invoice-template">invoice template with payment terms</a>`.
 6. Add navigation links where structure calls for them: breadcrumbs, hub page lists, related-pages blocks written by hand or from data, not by keyword string match.
+   Check the hubs as targets too. A hub that links down to its guides can still be weakly linked itself: on our own site, sampled topic hubs had 0 to 4 incoming links until the main section page listed them and each guide linked back to its hub.
 7. Re-run `links` after the edits. Orphans should drop to zero for the pages touched. Track the effect with `measure-rollback`: pages that gained links against matched pages that did not, 28 days.
 
 ## Anchor review table

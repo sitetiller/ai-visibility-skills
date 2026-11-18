@@ -50,7 +50,7 @@ Most SEO work reads Google only. Bing's index also feeds Copilot answers, and th
 - Bing's data is weekly; never compare a Bing week with a Google day.
 - Do not claim Bing rankings decide Copilot citations. Microsoft says Copilot answers ground on Bing; citation data is only in Bing's AI Performance report (see `ai-citations`).
 - Read-only. Never request write scopes.
-- Bing can answer `ThrottleIP` for a valid key or OAuth token when calls come from shared cloud IPs (we saw it from Cloudflare Workers for about an hour on 2026-11-14/15, while the same key worked from a home connection; a fake key from the same IP got `InvalidApiKey`). Treat `ThrottleIP`/`ThrottleUser` as "retry later" with backoff, keep the credential, and try the other API host (`ssl.bing.com` and `www.bing.com` both serve `/webmaster/api.svc/json/`). Never report it to the user as a bad key.
+- Bing can answer `ThrottleIP` for a valid key or OAuth token when calls come from shared cloud IPs (we saw it from Cloudflare Workers on 2026-11-14/15 and again on every daily sync from 2026-11-16 to 2026-11-18, while the same key worked from a home connection; a fake key from the same IP got `InvalidApiKey`). Treat `ThrottleIP`/`ThrottleUser` as "retry later" with backoff, keep the credential, and try the other API host (`ssl.bing.com` and `www.bing.com` both serve `/webmaster/api.svc/json/`). Never report it to the user as a bad key.
 - Bing also supports OAuth 2.0 with the `webmaster.read` scope (Settings → API Access → OAuth Client), which spares users from copying keys; see Microsoft's "Accessing Bing Webmaster APIs using OAuth 2.0".
 
 ## References
