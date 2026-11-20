@@ -20,7 +20,8 @@ Goal: tell the user exactly which crawlers can read their site, which rule decid
    npx sitetiller crawlers example.com --json
    npx sitetiller crawlers example.com/docs/ --json
    ```
-2. Read each bot's `allowed`, `rule`, `line`, `group` and `purpose`. Group findings by purpose:
+   Never judge a site from the homepage alone. Also run the sections that matter (for example `/blog/`, `/pricing`, `/docs/`, `/help/`). In a 192-site scan on 2026-11-19, one site's named groups had `Allow: /$` above `Disallow: /`: OAI-SearchBot, Claude-SearchBot and PerplexityBot could fetch the homepage and nothing else, so a homepage-only check called them allowed.
+2. Read each bot's `allowed`, `rule`, `line`, `group` and `purpose`. Call a bot **allowed** only when the homepage and every section you tested are open, **partly blocked** when some are closed, **blocked** when all are closed. A section closed to Googlebot as well (for example `Disallow: /docs` covering private user documents) is general housekeeping, not an AI decision; report it apart from AI blocks. Group findings by purpose:
    - **search**: Googlebot, Bingbot, OAI-SearchBot, Claude-SearchBot, PerplexityBot. Blocked = cannot be cited in that engine's answers.
    - **user**: ChatGPT-User, Claude-User, Perplexity-User. Fetches a person asked for. OpenAI and Perplexity say robots.txt may not apply.
    - **training**: GPTBot, ClaudeBot, CCBot, Google-Extended and Applebot-Extended (tokens, not crawlers). Blocking does not remove the site from those vendors' search features.

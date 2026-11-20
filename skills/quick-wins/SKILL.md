@@ -48,7 +48,12 @@ Goal: a ranked list of 10 actions the user can do this month, each with the evid
    node skills/quick-wins/references/rank-actions.mjs --queries queries.csv --pages pages.csv --pages-before pages-before.csv --terms "acme,acme.com" --target 3
    ```
    `--target` is the position used for the striking-distance scenario (default 3).
-7. Fill the action list (below). Verify each top row on the live page (`page`, and a logged-out search for the query) before recommending a change.
+7. Long questions (8+ words). These are close to what people ask ChatGPT, and the page that already ranks for them is the cheapest place to answer them. In Search Console: Performance → Search results → add a Query filter → Custom (regex) → `^(?:\S+\s+){7,}\S+$`, then click a query to see its page. From the CSV (pull `--dims query,page` if you need the page):
+   ```bash
+   npx sitetiller gsc example.com --start 2026-08-12 --end 2026-11-09 --dims query,page --out query-page.csv
+   ```
+   Keep rows with high impressions and few clicks. For each one, check whether the ranking page answers that exact question in its first paragraph; if not, add a short direct answer at the top. Do not rewrite the page around one query. If the longest rows have only a handful of impressions (a new site often shows 1-7), say the list is too thin to act on yet and repeat it in 2-4 weeks.
+8. Fill the action list (below). Verify each top row on the live page (`page`, and a logged-out search for the query) before recommending a change.
 
 ## The estimates, with arithmetic
 Use one of two formulas and print every term. Both come from the site's own `curve`.
