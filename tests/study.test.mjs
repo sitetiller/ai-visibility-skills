@@ -63,6 +63,7 @@ test("verdict: same, blocked, status-diff, content-diff, control-failed", () => 
   const ok = res(200, page(long));
   assert.equal(verdict(ok, res(200, page(long))), "same");
   assert.equal(verdict(ok, res(403)), "blocked");
+  assert.equal(verdict(ok, res(403, '<!DOCTYPE html><title>Checking search engine crawler...</title><script src="/__challenge/probes.js?v=1"></script>')), "verify-challenge");
   assert.equal(verdict(ok, res(200, "<title>Just a moment...</title>")), "blocked");
   assert.equal(verdict(ok, res(404)), "status-diff");
   assert.equal(verdict(ok, res(200, page("<p>tiny</p>"))), "content-diff");

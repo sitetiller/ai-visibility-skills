@@ -52,6 +52,14 @@ export const stdHeaders = (ua) => ({ "user-agent": ua, from: FROM });
 /** Challenge or block pages that answer HTTP 200, and the usual block statuses. */
 const BLOCK_STATUS = new Set([401, 403, 406, 429, 451, 503]);
 const CHALLENGE = /just a moment\.\.\.|cf-chl|attention required! \| cloudflare|checking your browser|enable javascript and cookies to continue|px-captcha|pardon our interruption|access denied|request blocked|you have been blocked|verify you are human|ddos protection by/i;
+/** Crawler verification pages (e.g. "Checking search engine crawler...", hashcash probes): the server checks whether a
+ * request that claims to be a known bot comes from that bot's IP ranges. A UA-string test from our IP cannot pass them,
+ * but the real bot usually does, so they are not evidence of a block. */
+const CRAWLER_VERIFY = /checking search engine crawler|__challenge\/probes\.js|HASHCASH_CONFIG/i;
+export function isCrawlerVerify(r) {
+  return !!(r && r.status && r.text && CRAWLER_VERIFY.test(r.text.slice(0, 20_000)));
+}
+
 export function isBlocked(r) {
   if (!r || !r.status) return false;
   if (BLOCK_STATUS.has(r.status)) return true;
@@ -123,6 +131,7 @@ export function verdict(control, bot, wordsOf = (t) => textFacts(t, "").words) {
   if (!bot || !bot.status) return "error";
   if (!control || !control.status) return "no-control";
   if (isBlocked(control) || control.status >= 400) return "control-failed";
+  if (isCrawlerVerify(bot)) return "verify-challenge";
   if (isBlocked(bot)) return "blocked";
   if (bot.status >= 400) return "status-diff";
   if (bot.status !== control.status && Math.floor(bot.status / 100) !== Math.floor(control.status / 100)) return "status-diff";
@@ -315,6 +324,7 @@ export function summarize(rows, { uaBots = DEFAULT_UA_BOTS, optedOut = 0 } = {})
     js_only: wilson(htmlRows.filter((r) => t(r.js_only)).length, htmlRows.length),
     text_empty: wilson(htmlRows.filter((r) => r.text_class === "empty").length, htmlRows.length),
     text_thin_or_empty: wilson(htmlRows.filter((r) => r.text_class !== "ok").length, htmlRows.length),
+    ua_verify_challenge_sites: rows.filter((r) => uaBots.some((b) => r[`ua_${slug(b)}_verdict`] === "verify-challenge")).length,
     ua_test: { per_bot: perBotUa, sites_tested: testedAny.length, mismatch_any: mismatch, mismatch_blocked: mismatchBlocked, by_cdn: byCdn },
     llms_txt: wilson(rows.filter((r) => t(r.llms_txt)).length, reached.length),
     sitemap: wilson(rows.filter((r) => t(r.sitemap)).length, reached.length),
@@ -344,7 +354,7 @@ export function summaryMarkdown(s) {
   L.push("| Bot | Purpose | Blocked in robots.txt |", "|---|---|---|", ...s.robots_blocked_by_bot.map((b) => `| ${b.bot} | ${b.purpose} | ${P(b)} |`), "");
   L.push("## Server answer with AI-bot user-agent strings", "", `Sites with at least one bot request sent: ${s.ua_test.sites_tested}. Bots are tested only where robots.txt allows them.`, "");
   L.push("| Bot UA | Tested | Same | Blocked | Status differs | Content differs | Mismatch |", "|---|---|---|---|---|---|---|", ...s.ua_test.per_bot.map((b) => `| ${b.bot} | ${b.tested} | ${b.same} | ${b.blocked} | ${b["status-diff"]} | ${b["content-diff"]} | ${P(b.mismatch)} |`), "");
-  L.push(`- Any tested bot got a different answer than the browser: ${P(s.ua_test.mismatch_any)}`, `- Any tested bot was blocked (4xx/5xx block status or challenge page): ${P(s.ua_test.mismatch_blocked)}`, `- Robots.txt allows every tested bot but the server differs: ${P(s.ua_test.robots_allows_all_tested_but_server_differs)}`, "");
+  L.push(`- Any tested bot got a different answer than the browser: ${P(s.ua_test.mismatch_any)}`, `- Any tested bot was blocked (4xx/5xx block status or challenge page): ${P(s.ua_test.mismatch_blocked)}`, `- Robots.txt allows every tested bot but the server differs: ${P(s.ua_test.robots_allows_all_tested_but_server_differs)}`, `- Sites answering bot UA strings with a crawler verification page (IP check; real bots usually pass, so not counted as blocked): ${s.ua_verify_challenge_sites ?? 0}`, "");
   L.push("| CDN | Sites | With mismatch |", "|---|---|---|", ...Object.entries(s.ua_test.by_cdn).sort((a, b) => b[1].n - a[1].n).map(([k, v]) => `| ${k} | ${v.n} | ${v.mismatch} |`), "");
   L.push("## Homepage without JavaScript", "", `- Under 50 words of readable text: ${P(s.text_empty)}`, `- JS-only (under 50 words and scripts or a no-JS notice present): ${P(s.js_only)}`, `- Under 150 words: ${P(s.text_thin_or_empty)}`, "");
   L.push("| CMS or framework | Sites | JS-only | Empty text |", "|---|---|---|---|", ...Object.entries(s.by_cms).sort((a, b) => b[1].n - a[1].n).map(([k, v]) => `| ${k} | ${v.n} | ${v.jsOnly} | ${v.empty} |`), "");
