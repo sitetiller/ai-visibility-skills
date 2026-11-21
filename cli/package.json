@@ -1,6 +1,6 @@
 {
   "name": "sitetiller",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "AI visibility and SEO checks from the command line: AI crawler access, verified AI bot visits, citability, agent readiness, Search Console + Bing, measured and reversible changes.",
   "type": "module",
   "bin": {
