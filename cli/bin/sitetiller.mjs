@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // SiteTiller CLI: SEO and AI visibility checks. Read-only except `version snapshot` (writes ./.sitetiller/).
+import { readFileSync } from "node:fs";
 import { readFile, writeFile } from "node:fs/promises";
 import { createReadStream } from "node:fs";
 import { createInterface } from "node:readline";
@@ -37,7 +38,7 @@ import { mkdir, appendFile } from "node:fs/promises";
 import { readdir } from "node:fs/promises";
 import { join, extname } from "node:path";
 
-const VERSION = "1.0.1";
+const VERSION = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8")).version;
 const HELP = `sitetiller ${VERSION}: SEO and AI visibility checks
 
 Site checks (public pages only):
