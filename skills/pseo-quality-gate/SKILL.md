@@ -28,6 +28,17 @@ For the set, answer in writing. Any "no" means do not build the set as planned.
 5. **Can you maintain it?** Name who updates the data and how often. A stale page with a visible date is worse than no page.
 If only some groups pass (for example 40 of 400), build those 40.
 
+### What it cost us to skip this step (sitetiller.com, 2026-11-22)
+We built 347 pages, one per well-known website, about which AI crawlers its robots.txt allowed. Every page had measured facts of its own, so question 1 passed, and the copy check passed because the numbers differed. Question 2 was never answered: nobody searches "does <site> allow GPTBot". We also published all of them at once instead of in Step 5 batches.
+- **Google:** in 28 days the 347 pages earned 74 impressions in total. In the same period our 99 hand-made guides earned 2,233.
+- **Bing:** the whole domain sat at zero indexed pages, with every URL "Discovered but not crawled", although crawling returned 200 and nothing was blocked. We cannot prove the template pages caused it, but it is the pattern Bing's guidelines describe as automatically generated content.
+- **Fix:** we deleted the pages and 301-redirected them to one study page that holds the full table.
+
+Three checks this adds:
+1. **Demand per page, not per set.** For question 2, write down the query each planned page answers and its source: a Search Console query, a Keyword Planner export, or autocomplete. "The topic is popular" is not evidence for a page about one instance of it.
+2. **Outline check.** Count how many pages share the same H2 outline once the page's own name is removed. More than about a dozen identical outlines reads as a mass template to search engines, even when the numbers differ. This is our own threshold, not a published one.
+3. **Step 5 is not optional.** Publish the first 10 to 20 pages and wait for Search Console and Bing Webmaster data before building the rest.
+
 ## Step 2: Page design for the set
 Each page carries what a person needs, built from page-specific data: a real answer first, a table or chart made from this page's data, a source for each claim, a visible "last checked" date, and links to the parent and sibling pages. Add a tool, calculator, image or example only if it runs on or shows this page's data. Markup describes visible content only (`schema`).
 
