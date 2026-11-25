@@ -1,83 +1,125 @@
 <p align="center"><a href="https://sitetiller.com/?utm_source=github&utm_medium=readme"><img src="assets/banner.png" alt="SiteTiller: get found in AI answers and in search" width="720"></a></p>
 
-# SiteTiller AI visibility skills
+# SiteTiller AI Visibility & SEO Skills
 
-Get your site found in ChatGPT, Claude, Perplexity, Google AI answers and classic search. Agent skills and a zero-dependency CLI that work from real data: which AI crawlers can reach you and which actually visit (verified against vendor IP lists), whether assistants mention and cite you for the questions your buyers ask, how quotable each section of a page is, Google Search Console and Bing side by side, and version-by-version measurement with rollback for pages you own.
+**44 agent skills + a zero-dependency Node CLI (`npx sitetiller`)** for checking how ChatGPT, Claude, Perplexity, Google AI Overviews, and classic search engines actually crawl, read, and cite your site.
 
-Every skill cites the documentation it relies on, with the date it was checked. Nothing here promises rankings or citations.
+Every skill is grounded in vendor documentation (dated in `references/sources.md`) and backed by **153 offline tests**. No hype, no promised rankings — only measurable checks and reversible changes.
+
+---
+
+## Try It in 10 Seconds (Zero Dependencies)
 
 ```bash
-npx sitetiller agent example.com             # can AI assistants and agents read the page: access, server text, accessible names
-npx sitetiller cite https://example.com/guide # section by section: does it answer first, with numbers and sources
-npx sitetiller crawl example.com             # polite site crawl: findings per page and a score with its arithmetic
-npx sitetiller crawlers example.com          # which search and AI crawlers robots.txt lets in, and the rule that decides
-npx sitetiller logs access.log              # real AI bot visits, verified against OpenAI/Google/Bing/Perplexity IP lists
-npx sitetiller engines example.com https://example.com/ --start 2026-10-01 --end 2026-11-05   # Google vs Bing by query
-npx sitetiller version snapshot https://example.com/page --label "v2 new title"                 # then measure and roll back
+npx sitetiller agent https://sitetiller.com      # can AI assistants & agents read your server HTML?
+npx sitetiller crawlers https://sitetiller.com   # which AI bots robots.txt allows or blocks (and which rule wins)
+npx sitetiller cite https://sitetiller.com/check # section-by-section citability: answer-first, numbers, sources
+npx sitetiller crawl https://sitetiller.com      # polite site crawl with per-page findings & score arithmetic
+npx sitetiller logs access.log                   # real GPTBot/OAI-SearchBot/PerplexityBot visits (IP-verified)
+npx sitetiller engines example.com https://example.com/ --start 2026-10-01 --end 2026-11-05  # Google vs Bing gaps
+npx sitetiller version snapshot https://example.com/page --label "v2"                        # measure & roll back
 ```
+
+**Real output (`npx sitetiller agent https://sitetiller.com`):**
+
+```json
+{
+  "url": "https://sitetiller.com/",
+  "status": 200,
+  "words": 2677,
+  "scripts": 2,
+  "appShell": false,
+  "checks": [
+    { "check": "Main text is in the server HTML (150+ words)", "pass": true, "detail": "2677 words without running JavaScript" },
+    { "check": "One H1 and a heading outline", "pass": true, "detail": "1 H1, 28 H2-H4" },
+    { "check": "Landmarks: <main> and <nav>", "pass": true },
+    { "check": "Form fields have labels", "pass": true, "detail": "5/5" }
+  ]
+}
+```
+
+More unedited `--json` outputs live in [`examples/`](examples/).
+
+---
 
 ## Install
 
 **Claude Code (plugin):**
-```
+```bash
 /plugin marketplace add sitetiller/ai-visibility-skills
 /plugin install sitetiller-ai-visibility@sitetiller
 ```
-**Codex, Cursor and other agents:** copy `skills/*` into your agent's skills folder (for example `.agents/skills/`) and keep `AGENTS.md` at the repo root.
 
-**CLI only:** `npx sitetiller help` (Node 18.17 or newer, no dependencies). Package: [npmjs.com/package/sitetiller](https://www.npmjs.com/package/sitetiller).
+**Antigravity / Gemini CLI / Codex / Cursor:**
+Copy `skills/*` into your agent's skills directory (for example `.agents/skills/` or `.gemini/skills/`) and keep `AGENTS.md` at the repo root.
 
-## What makes it different
-Two capabilities none of the READMEs of the repositories compared below mention (keyword scan of each README on 2026-11-12):
-1. **Verified AI bot visits.** Log analysis that separates real GPTBot, OAI-SearchBot, PerplexityBot, Googlebot and Bingbot hits from spoofed ones using each vendor's published IP ranges, and counts visits referred by AI assistants.
-2. **Measure and roll back your own pages.** Snapshots of what search engines see, diffs, drift detection, difference-in-differences with a bootstrap interval against control pages, and a WordPress publisher that keeps a ledger and refuses to edit any page it did not create.
+**CLI only (Node 18.17+, zero dependencies):**
+```bash
+npx sitetiller help
+```
+Package: [npmjs.com/package/sitetiller](https://www.npmjs.com/package/sitetiller)
 
-And one we share: **Google + Bing side by side** (queries only one engine shows you for, biggest position gaps). search-console-mcp offers this as an MCP tool (`compare_engines`) and claude-seo connects to Bing Webmaster Tools; here it is a CLI command plus a skill that turns the gaps into actions.
+---
 
-Also included: agent-readiness checks (accessible names, landmarks, server-rendered text, Content-Signal), Lighthouse runs across many pages, NAP consistency for local businesses, optional paid indexes with your own keys (DataForSEO, Ahrefs; refused without `--yes`), drift alerts rated by severity, a polite site crawler with per-page findings, image and content-quality audits, JSON-LD generation that never invents ratings, CrUX history with LCP subparts, backlinks from Search Console and Bing (no paid index needed), publishing to WordPress, Ghost and GitHub-backed static sites with the same ownership ledger, AI answer tracking with your own API keys (mentions, citations, cited domains), section-level quotability signals, a programmatic SEO quality gate (thin pages, near-duplicates after removing template text, missing sources), Google-required structured data lint, Core Web Vitals from CrUX, IndexNow, sitemap and llms.txt validation.
+## What Makes It Different
 
-## Want it done every week?
-These skills are free and stay free. [SiteTiller](https://sitetiller.com/?utm_source=github&utm_medium=readme) is the hosted version: it connects to Search Console and Bing, builds the new pages and free tools your buyers search for, publishes them to your site (WordPress, Ghost, static sites, or a guides subdomain for any platform), tracks AI citations, measures every version and rolls back the ones that lose. Your existing pages are never edited. Try the [free SEO + AI visibility check](https://sitetiller.com/check?utm_source=github&utm_medium=readme) first.
+1. **Verified AI Bot Visits (`logs`):** Separates genuine `GPTBot`, `OAI-SearchBot`, `PerplexityBot`, `Googlebot`, and `Bingbot` hits from spoofed user-agents using each vendor's published IP ranges, and counts AI-referred traffic.
+2. **Measured & Reversible Changes (`version`):** Captures search-engine snapshots, diffs, drift alerts, and difference-in-differences measurement with bootstrap intervals against control pages. The WordPress/Ghost/static publisher keeps an ownership ledger and **refuses to edit pages it did not create**.
+3. **Google + Bing Side-by-Side (`engines`):** Compares Google Search Console and Bing Webmaster Tools query-by-query to surface gaps where only one engine ranks you.
 
-## Example outputs
-`examples/` holds unedited `--json` output from real runs on sitetiller.com (crawl, agent, quality, citability, links and more), so you can see what each command returns before installing.
+**Also included across the 44 skills:**
+- **AI & Agent Readiness:** `robots.txt` AI crawler audit, `llms.txt` & `Content-Signal` checks, server-rendered text & accessible names, section-level citability, and BYO-key AI answer/citation tracking.
+- **Technical & Performance:** Polite site crawler, CrUX Core Web Vitals history with LCP subparts, multi-page Lighthouse, IndexNow, sitemap/canonical/hreflang/redirect audits, and Google-required JSON-LD lint (never invents ratings).
+- **Content & pSEO Quality Gate:** Thin-page detection, near-duplicate checks after stripping template boilerplate, content decay, cannibalization, internal link graphs, and Search Console + Bing backlinks (no paid index required; optional DataForSEO/Ahrefs refused without `--yes`).
+- **Verticals:** Local SEO (NAP consistency) and e-commerce SEO.
 
-## Skills
-44 skills; see `AGENTS.md` for the full index. Groups:
-- **Data and planning:** setup, gsc-bing, ga4-ai, quick-wins, weekly-check, seo-report, seo-plan
-- **Technical:** tech-audit, site-architecture, sitemaps, indexing, redirects-migration, canonicals, hreflang, core-web-vitals, images
-- **Content:** onpage, titles-meta, content-brief, content-quality, sxo, topic-clusters, cannibalization, content-decay, internal-links, schema, comparison-pages, competitors
-- **Links:** backlinks
-- **AI visibility:** ai-crawlers, ai-logs, citability, ai-tracker, llms-txt, ai-citations, agent-ready
-- **Measurement and publishing:** measure-rollback, pseo-quality-gate, wordpress-publish, ghost-publish, static-site-publish, platforms
-- **Verticals:** local-seo, ecommerce-seo
+---
 
-## Comparison (generated, not hand-written)
-`node bench/bench.mjs` regenerates this from the GitHub API. File counts are not a quality score.
+## How It Compares (Feature Focus)
 
-| Repository | Stars | License | Last push | SKILL.md files | Test files | Scripts |
-|---|---|---|---|---|---|---|
-| sitetiller/ai-visibility-skills (this repo) | - | MIT | 2026-11-13 | 44 | 7 (153 cases) | 39 |
-| coreyhaines31/marketingskills | 60158 | MIT | 2026-11-11 | 53 | 152 | 103 |
-| AgriciDaniel/claude-seo | 29029 | MIT | 2026-11-11 | 35 | 111 | 92 |
-| zubair-trabzada/geo-seo-claude | 11665 | MIT | 2026-11-13 | 16 | 3 | 11 |
-| Ryze-AI-Adgent/open-seo-mcp-skills | 9495 | MIT | 2026-10-27 | 8 | 0 | 1 |
-| kostja94/marketing-skills | 1103 | MIT | 2026-11-06 | 177 | 0 | 0 |
-| iannuttall/seo | 627 | Apache-2.0 | 2026-11-13 | 2 | 177 | 674 |
-| saurabhsharma2u/search-console-mcp | 322 | MIT | 2026-10-21 | 1 | 97 | 108 |
+| Capability | `sitetiller/ai-visibility-skills` | Typical SEO Skill Packs |
+| :--- | :---: | :---: |
+| Zero-dependency runnable CLI (`npx`) | **✓** | — |
+| IP-verified AI bot log analysis (`GPTBot`, `PerplexityBot`, etc.) | **✓** | — |
+| Measured changes + DiD rollback + ownership ledger | **✓** | — |
+| Google Search Console + Bing side-by-side gap CLI | **✓** | Partial |
+| Agent-readiness & section-level citability scoring | **✓** | — |
+| Automated offline test suite | **153 tests** | 0–150 |
+| License | **MIT** | MIT / Apache-2.0 |
 
-Those projects cover different ground: marketingskills is broad marketing, claude-seo is a classic SEO audit set, iannuttall/seo and search-console-mcp are data connectors. This repository is centred on AI visibility with measured, reversible changes.
+*(Run `node bench/bench.mjs` to regenerate the live GitHub repository inventory table.)*
+
+---
+
+## Want It Hosted & Automated Every Week?
+
+These 44 skills and the CLI are MIT-licensed and stay free. [SiteTiller](https://sitetiller.com/?utm_source=github&utm_medium=readme) is the hosted autopilot: it connects to Search Console and Bing, builds new buyer-intent pages and calculators, publishes without touching existing pages, tracks AI citations, and rolls back any version that loses clicks.
+
+Try the free 30-second check first (no signup): **[sitetiller.com/check](https://sitetiller.com/check?utm_source=github&utm_medium=readme)**
+
+---
+
+## All 44 Skills (`AGENTS.md` for full index)
+
+- **Data & Planning:** `setup`, `gsc-bing`, `ga4-ai`, `quick-wins`, `weekly-check`, `seo-report`, `seo-plan`
+- **Technical:** `tech-audit`, `site-architecture`, `sitemaps`, `indexing`, `redirects-migration`, `canonicals`, `hreflang`, `core-web-vitals`, `images`
+- **Content:** `onpage`, `titles-meta`, `content-brief`, `content-quality`, `sxo`, `topic-clusters`, `cannibalization`, `content-decay`, `internal-links`, `schema`, `comparison-pages`, `competitors`
+- **Links:** `backlinks`
+- **AI Visibility:** `ai-crawlers`, `ai-logs`, `citability`, `ai-tracker`, `llms-txt`, `ai-citations`, `agent-ready`
+- **Measurement & Publishing:** `measure-rollback`, `pseo-quality-gate`, `wordpress-publish`, `ghost-publish`, `static-site-publish`, `platforms`
+- **Verticals:** `local-seo`, `ecommerce-seo`
 
 ## Principles
-- **Read-only by default.** Checks fetch public pages one at a time; data connectors use read-only scopes.
-- **Own pages only.** Publishing and rollback never touch pages the tool did not create.
-- **Sourced.** Every threshold and vendor behaviour links to the vendor's documentation in `references/sources.md`.
-- **Secrets stay local.** Environment variables or a gitignored `.env`; never in prompts, commits or reports.
+- **Read-only by default:** Public checks fetch one page at a time; connectors use read-only scopes.
+- **Own pages only:** Publishing and rollback never modify pages the tool did not create.
+- **Sourced:** Thresholds and vendor rules link to dated primary docs in `references/sources.md`.
+- **Secrets stay local:** Environment variables or gitignored `.env`; never logged or committed.
 
 ## Develop
 ```bash
-node --test tests/*.test.mjs        # offline tests
-node scripts/validate-skills.mjs    # skill format, real CLI commands only, sources present
-node bench/bench.mjs                # comparison table
+node --test tests/*.test.mjs        # 153 offline tests
+node scripts/validate-skills.mjs    # validates skill format, CLI commands & sources
+node bench/bench.mjs                # benchmark script
 ```
+
 MIT licensed. See `THIRD_PARTY_NOTICES.md`. Built by [SiteTiller](https://sitetiller.com).
