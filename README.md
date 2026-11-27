@@ -4,7 +4,7 @@
 
 **44 agent skills + a zero-dependency Node CLI (`npx sitetiller`)** for checking how ChatGPT, Claude, Perplexity, Google AI Overviews, and classic search engines actually crawl, read, and cite your site.
 
-Every skill is grounded in vendor documentation (dated in `references/sources.md`) and backed by **153 offline tests**. No hype, no promised rankings — only measurable checks and reversible changes.
+Every skill is grounded in vendor documentation (dated in `references/sources.md`) and backed by **153 offline tests**. No hype, no promised rankings: only measurable checks and reversible changes.
 
 ---
 
@@ -79,11 +79,11 @@ Package: [npmjs.com/package/sitetiller](https://www.npmjs.com/package/sitetiller
 
 | Capability | `sitetiller/ai-visibility-skills` | Typical SEO Skill Packs |
 | :--- | :---: | :---: |
-| Zero-dependency runnable CLI (`npx`) | **✓** | — |
-| IP-verified AI bot log analysis (`GPTBot`, `PerplexityBot`, etc.) | **✓** | — |
-| Measured changes + DiD rollback + ownership ledger | **✓** | — |
+| Zero-dependency runnable CLI (`npx`) | **✓** | No |
+| IP-verified AI bot log analysis (`GPTBot`, `PerplexityBot`, etc.) | **✓** | No |
+| Measured changes + DiD rollback + ownership ledger | **✓** | No |
 | Google Search Console + Bing side-by-side gap CLI | **✓** | Partial |
-| Agent-readiness & section-level citability scoring | **✓** | — |
+| Agent-readiness & section-level citability scoring | **✓** | No |
 | Automated offline test suite | **153 tests** | 0–150 |
 | License | **MIT** | MIT / Apache-2.0 |
 
